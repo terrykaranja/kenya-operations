@@ -8,7 +8,11 @@ sqlalchemy==2.0.36
 alembic==1.14.0
 
 # Authentication
+# bcrypt is pinned below 4.1: passlib 1.7.4's backend self-test calls bcrypt
+# with a >72 byte password expecting silent truncation (the pre-4.1 bcrypt
+# behavior); bcrypt>=4.1 raises ValueError instead, which breaks every login.
 passlib[bcrypt]==1.7.4
+bcrypt==4.0.1
 python-jose[cryptography]==3.3.0
 python-multipart==0.0.20
 

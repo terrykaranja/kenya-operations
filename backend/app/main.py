@@ -8,27 +8,33 @@ should live in the top-level `/resources` folder and be loaded through
 `app.resources.resource_path()` so the whole team uses one consistent location.
 """
 
+import os
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.routers import example
+from app.routers import admin, auth
 
 app = FastAPI(
-    title="AMEX Healthcare Hackathon API",
-    description="Starter FastAPI backend for the AMEX Healthcare hackathon template.",
+    title="SEZ Ledger Automation API",
+    description="Kenya Operations SEZ stock ledger automation backend.",
     version="0.1.0",
 )
 
-# Allow the local Vite dev server (and any preview host) to call this API.
+# Cookie-based auth needs an explicit origin list (not "*") so the browser
+# will actually send/accept the session cookie cross-origin in dev.
+_cors_origins = os.getenv("CORS_ORIGINS", "http://localhost:5173").split(",")
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=_cors_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-app.include_router(example.router)
+app.include_router(auth.router)
+app.include_router(admin.router)
 
 
 @app.get("/health", tags=["system"])

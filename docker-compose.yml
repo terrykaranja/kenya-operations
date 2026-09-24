@@ -13,6 +13,8 @@ services:
     volumes:
       # Mount backend code for hot reload
       - ./backend/app:/app/app
+      - ./backend/alembic:/app/alembic
+      - ./backend/alembic.ini:/app/alembic.ini
       # Mount resources directory for data files
       - ./resources:/app/resources
       # Preserve installed packages

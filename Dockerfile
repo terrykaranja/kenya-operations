@@ -32,6 +32,8 @@ RUN pip install --upgrade pip && \
 
 # Copy application code
 COPY backend/app /app/app
+COPY backend/alembic /app/alembic
+COPY backend/alembic.ini /app/alembic.ini
 
 # Create resources directory mount point
 RUN mkdir -p /app/resources
@@ -56,6 +58,8 @@ RUN pip install --upgrade pip && \
 
 # Copy application code
 COPY backend/app /app/app
+COPY backend/alembic /app/alembic
+COPY backend/alembic.ini /app/alembic.ini
 
 # Create resources directory
 RUN mkdir -p /app/resources
