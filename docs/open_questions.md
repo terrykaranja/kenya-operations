@@ -36,13 +36,20 @@ Updated as each phase of the [project plan](../README.md) progresses.
 
 ## PDF Extraction (Phase 4)
 
-- **No sample import/export PDFs** exist in `/resources` yet. The extraction
-  layer includes both a real Claude API extractor (`app/extraction/extractor.py`)
-  and a mock extractor for development/testing. The mock extractor can be
-  triggered via `?use_mock=true` on extraction endpoints. Real Claude-extraction
-  accuracy can't be validated until sample PDFs are provided.
-- **Claude model** defaults to `claude-sonnet-4-20250514` but is configurable
-  via `ANTHROPIC_MODEL` in `.env`.
+- Real sample import/export PDFs now live in `resources/sample_pdfs/`. The
+  extraction layer includes both a real Claude API extractor
+  (`app/extraction/extractor.py`) and a mock extractor for development/testing.
+  The mock extractor can be triggered via `?use_mock=true` on extraction
+  endpoints.
+- **Claude model** defaults to `claude-sonnet-5` (`extractor.DEFAULT_MODEL`).
+  `claude-sonnet-4-20250514`, the previous default, reached end-of-life and now
+  404s — hit this live via the Admin > Settings model dropdown, which also
+  offered dead `-20250514`-dated models. Resolution order is: `app_settings`
+  table (key `model`, set via Admin > Settings) → `ANTHROPIC_MODEL` env var →
+  `claude-sonnet-5`. Previously the `model` app_setting was written by the
+  Admin UI but never read back by the extractor, so "Save Model" silently did
+  nothing; `extractor.get_model()` now mirrors `get_api_key()` and actually
+  reads it.
 
 ## Proration logic (Phase 6)
 

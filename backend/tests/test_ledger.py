@@ -60,9 +60,9 @@ class TestImportConfirm:
         assert resp.status_code == 200
         data = resp.json()
         assert len(data) == 1
-        assert data[0]["quantity_imported"] == 500
-        assert data[0]["balance_quantity"] == 500  # no exports yet
-        assert data[0]["balance_customs_value"] == 250000
+        assert Decimal(data[0]["quantity_imported"]) == 500
+        assert Decimal(data[0]["balance_quantity"]) == 500  # no exports yet
+        assert Decimal(data[0]["balance_customs_value"]) == 250000
 
     def test_multi_item_import(self, client, db_session, admin_user):
         login(client, "admin", "adminpass123")
@@ -95,9 +95,9 @@ class TestExportConfirm:
         assert resp.status_code == 200
         data = resp.json()
         assert len(data) == 1
-        assert data[0]["quantity_exported"] == 1000
+        assert Decimal(data[0]["quantity_exported"]) == 1000
         # Prorated: U = K * T/J = 50000 * 1000/1000 = 50000
-        assert data[0]["customs_value_exported"] == 50000
+        assert Decimal(data[0]["customs_value_exported"]) == 50000
 
         # Check balance is zero
         db_session.expire_all()
@@ -118,9 +118,9 @@ class TestExportConfirm:
         assert resp.status_code == 200
         data = resp.json()
         # U = 50000 * 250/1000 = 12500
-        assert data[0]["customs_value_exported"] == 12500
+        assert Decimal(data[0]["customs_value_exported"]) == 12500
         # V = 10000 * 250/1000 = 2500
-        assert data[0]["bif_value_exported"] == 2500
+        assert Decimal(data[0]["bif_value_exported"]) == 2500
 
         db_session.expire_all()
         db_imp = db_session.get(ImportLine, imp.id)
@@ -247,9 +247,9 @@ class TestProrationPreview:
         resp = client.post(f"/api/export/preview-proration?import_line_id={imp.id}&quantity_exported=500")
         assert resp.status_code == 200
         data = resp.json()
-        assert data["prorated_customs_value"] == 25000  # 50000 * 500/1000
-        assert data["prorated_bif_value"] == 5000
-        assert data["remaining_quantity"] == 500
+        assert Decimal(data["prorated_customs_value"]) == 25000  # 50000 * 500/1000
+        assert Decimal(data["prorated_bif_value"]) == 5000
+        assert Decimal(data["remaining_quantity"]) == 500
         assert data["overdraft"] is False
 
     def test_preview_detects_overdraft(self, client, db_session, admin_user):
@@ -260,7 +260,7 @@ class TestProrationPreview:
         assert resp.status_code == 200
         data = resp.json()
         assert data["overdraft"] is True
-        assert data["remaining_quantity"] == -50
+        assert Decimal(data["remaining_quantity"]) == -50
 
 
 # --- Search ---
@@ -381,3 +381,27 @@ class TestDownload:
         assert resp.status_code == 200
         assert "spreadsheetml" in resp.headers["content-type"]
         assert len(resp.content) > 100  # has actual content
+
+
+class TestExportEntriesCsv:
+    def test_requires_admin(self, client, db_session, regular_user):
+        login(client, "alice", "alicepass123")
+        resp = client.get("/api/ledger/entries/export")
+        assert resp.status_code == 403
+
+    def test_exports_import_and_export_rows(self, client, db_session, admin_user):
+        imp = _create_import_line(db_session)
+        login(client, "admin", "adminpass123")
+        client.post("/api/export/confirm", json=[{
+            "import_line_id": imp.id,
+            "customer_name": "BUYER A",
+            "quantity_exported": 400,
+        }])
+
+        resp = client.get("/api/ledger/entries/export")
+        assert resp.status_code == 200
+        assert "text/csv" in resp.headers["content-type"]
+        body = resp.text
+        assert "IMPORT ENTRIES" in body
+        assert "EXPORT ENTRIES" in body
+        assert "BUYER A" in body

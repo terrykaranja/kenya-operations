@@ -50,8 +50,14 @@ async def upload_import_pdf(
 
     file_hash = hashlib.sha256(content).hexdigest()
 
-    # Check for duplicate
-    existing = db.query(SourceDocument).filter(SourceDocument.file_hash == file_hash).first()
+    # Check for duplicate (scoped to doc_type: the same PDF bytes can
+    # legitimately be uploaded once as an import doc and once as an export
+    # doc, e.g. after correcting a mis-classified upload)
+    existing = (
+        db.query(SourceDocument)
+        .filter(SourceDocument.file_hash == file_hash, SourceDocument.doc_type == "import")
+        .first()
+    )
     if existing:
         return UploadResponse(
             document_id=existing.id,

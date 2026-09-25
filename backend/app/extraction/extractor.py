@@ -320,6 +320,36 @@ def get_api_key() -> Optional[str]:
     return None
 
 
+DEFAULT_MODEL = "claude-sonnet-5"
+
+
+def get_model() -> str:
+    """Resolve the Claude model to use for extraction.
+
+    Checks the same sources as ``get_api_key`` (app_settings table, key
+    'model', then ANTHROPIC_MODEL) so the Admin > Settings "Save Model"
+    control actually takes effect instead of being silently ignored.
+    """
+    try:
+        from app.db import SessionLocal
+        from app.models.config import AppSetting
+
+        db = SessionLocal()
+        try:
+            setting = db.query(AppSetting).filter(AppSetting.key == "model").first()
+            if setting and setting.value:
+                return setting.value
+        finally:
+            db.close()
+    except Exception:
+        logger.debug(
+            "Could not load model from database (model/table may not exist); "
+            "falling back to environment variable"
+        )
+
+    return os.getenv("ANTHROPIC_MODEL", DEFAULT_MODEL)
+
+
 # ---------------------------------------------------------------------------
 # PDF extraction via Claude API
 # ---------------------------------------------------------------------------
@@ -335,7 +365,7 @@ def extract_from_pdf(pdf_path: Path, doc_type: str) -> ExtractionResult:
         ExtractionResult with extracted entries and confidence scores.
     """
     api_key = get_api_key()
-    model = os.getenv("ANTHROPIC_MODEL", "claude-sonnet-4-20250514")
+    model = get_model()
 
     if not api_key:
         return ExtractionResult(
@@ -380,7 +410,15 @@ def extract_from_pdf(pdf_path: Path, doc_type: str) -> ExtractionResult:
             ],
         )
 
-        response_text = message.content[0].text
+        # message.content[0] isn't reliably the answer: some models emit a
+        # ThinkingBlock (no .text attribute) before the TextBlock, so find
+        # the first actual text block instead of indexing blindly.
+        response_text = next(
+            (block.text for block in message.content if getattr(block, "type", None) == "text"),
+            None,
+        )
+        if response_text is None:
+            raise ValueError("Claude response contained no text block")
 
         # Parse JSON from response (handle markdown code blocks)
         json_text = response_text

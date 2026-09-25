@@ -21,7 +21,7 @@ services:
       - backend_venv:/usr/local/lib/python3.11/site-packages
     environment:
       - DATABASE_URL=sqlite:///resources/sez_ledger.db
-      - ANTHROPIC_MODEL=claude-3-5-sonnet-20241022
+      - ANTHROPIC_MODEL=claude-sonnet-5
       - SECRET_KEY=dev-secret-key-change-in-production
       - ENVIRONMENT=development
     env_file:

@@ -182,6 +182,77 @@ def export_audit_csv(
     )
 
 
+# --- Raw entries CSV export ---
+
+@router.get("/entries/export")
+def export_entries_csv(
+    db: Session = Depends(get_db),
+    user: User = Depends(require_admin),
+):
+    """Export every uploaded import and export entry as CSV. Admin only.
+
+    Unlike /download (which renders the formatted SEZ ledger workbook),
+    this is a flat dump of every ImportLine and ExportLine row, useful for
+    ad-hoc reporting/auditing of everything that's been uploaded so far.
+    """
+    import_lines = db.query(ImportLine).order_by(ImportLine.id).all()
+    export_lines = (
+        db.query(ExportLine)
+        .options(joinedload(ExportLine.import_line))
+        .order_by(ExportLine.id)
+        .all()
+    )
+
+    output = io.StringIO()
+    writer = csv.writer(output)
+
+    writer.writerow(["IMPORT ENTRIES"])
+    writer.writerow([
+        "ID", "Legacy", "Consignor/Exporter", "Description", "File Number",
+        "Entry Date", "Entry Number", "HS Code", "Country", "Supplementary Units",
+        "Unit", "Qty Imported", "Customs Value (KES)", "BIF Value (KES)",
+        "Balance Qty", "Balance Customs Value", "Balance BIF Value",
+        "Balance Supplementary Units", "Uploaded At",
+    ])
+    for line in import_lines:
+        writer.writerow([
+            line.id, line.is_legacy, line.consignor_exporter, line.description,
+            line.import_file_number,
+            line.import_entry_date.isoformat() if line.import_entry_date else None,
+            line.import_entry_number, line.hs_code, line.country,
+            line.supplementary_units, line.unit, line.quantity_imported,
+            line.customs_value_kes, line.bif_value_kes, line.balance_quantity,
+            line.balance_customs_value, line.balance_bif_value,
+            line.balance_supplementary_units, line.created_at.isoformat(),
+        ])
+
+    writer.writerow([])
+    writer.writerow(["EXPORT ENTRIES"])
+    writer.writerow([
+        "ID", "Import Line ID", "Legacy", "Customer Name", "File Number",
+        "Entry Date", "Entry Number", "PPB Permit", "Supplementary Units",
+        "Unit", "Qty Exported", "Customs Value Exported", "BIF Value Exported",
+        "Uploaded At",
+    ])
+    for line in export_lines:
+        writer.writerow([
+            line.id, line.import_line_id, line.is_legacy, line.customer_name,
+            line.export_file_number,
+            line.export_entry_date.isoformat() if line.export_entry_date else None,
+            line.export_entry_number, line.ppb_permit,
+            line.supplementary_units_exported, line.unit, line.quantity_exported,
+            line.customs_value_exported, line.bif_value_exported,
+            line.created_at.isoformat(),
+        ])
+
+    output.seek(0)
+    return StreamingResponse(
+        iter([output.getvalue()]),
+        media_type="text/csv",
+        headers={"Content-Disposition": "attachment; filename=sez_ledger_entries.csv"},
+    )
+
+
 # --- Excel Download ---
 
 @router.get("/download")

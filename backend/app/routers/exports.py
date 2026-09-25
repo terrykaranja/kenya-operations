@@ -52,7 +52,12 @@ async def upload_export_pdf(
 
     file_hash = hashlib.sha256(content).hexdigest()
 
-    existing = db.query(SourceDocument).filter(SourceDocument.file_hash == file_hash).first()
+    # Check for duplicate (scoped to doc_type: see imports.py for why)
+    existing = (
+        db.query(SourceDocument)
+        .filter(SourceDocument.file_hash == file_hash, SourceDocument.doc_type == "export")
+        .first()
+    )
     if existing:
         return UploadResponse(
             document_id=existing.id,
