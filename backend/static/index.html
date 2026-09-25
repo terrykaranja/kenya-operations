@@ -9,606 +9,2488 @@
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Merriweather:wght@300;400;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
 <noscript><link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Merriweather:wght@300;400;700&display=swap" rel="stylesheet"></noscript>
 <style>
-:root{--oxblood:#941612;--oxblood-dark:#6e0f0c;--charcoal:#575656;--brand-white:#fefdfd;--air-force-blue:#5e8197;--cool-steel:#9db2bf;--dusty-olive:#7e9478}
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Montserrat',system-ui,sans-serif;color:var(--charcoal);background:var(--brand-white)}
-h1,h2,h3{font-family:'Merriweather',Georgia,serif}
-.header{border-bottom:1px solid rgba(157,178,191,.3);background:#fff;position:sticky;top:0;z-index:40}
-.header-inner{max-width:1152px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:12px 24px}
-.header-left{display:flex;align-items:center;gap:24px}
-.logo{height:28px}
-nav{display:flex;gap:4px}
-nav button{padding:6px 12px;border:none;border-radius:6px;font-family:'Montserrat',sans-serif;font-size:13px;cursor:pointer;background:transparent;color:rgba(87,86,86,.7);transition:.15s}
-nav button:hover{color:var(--charcoal);background:rgba(157,178,191,.1)}
-nav button.active{background:rgba(148,22,18,.1);color:var(--oxblood);font-weight:500}
-.header-right{display:flex;align-items:center;gap:16px;font-size:13px}
-.header-right .user{color:rgba(87,86,86,.6)}
-.header-right .logout{color:var(--oxblood);cursor:pointer;border:none;background:none;font-family:inherit;font-size:13px}
-.logout:hover{text-decoration:underline}
-main{max-width:1152px;margin:0 auto;padding:32px 24px}
-footer{border-top:1px solid rgba(157,178,191,.2);padding:16px;margin-top:32px;text-align:center;font-size:11px;color:rgba(87,86,86,.4)}
-.card{background:#fff;border:1px solid rgba(157,178,191,.3);border-radius:12px;padding:20px}
-.btn{padding:10px 20px;border:none;border-radius:8px;font-family:'Montserrat',sans-serif;font-size:13px;font-weight:500;cursor:pointer;transition:.15s}
-.btn-primary{background:var(--oxblood);color:#fff}.btn-primary:hover{background:var(--oxblood-dark)}
-.btn-blue{background:var(--air-force-blue);color:#fff}.btn-blue:hover{opacity:.85}
-.btn-gray{background:rgba(87,86,86,.1);color:var(--charcoal)}.btn-gray:hover{background:rgba(87,86,86,.2)}
-.btn-outline{background:transparent;border:1px solid rgba(157,178,191,.4);color:var(--charcoal)}.btn-outline:hover{background:rgba(157,178,191,.1)}
-.btn:disabled{opacity:.5;cursor:default}
-input,select,textarea{padding:8px 12px;border:1px solid rgba(157,178,191,.4);border-radius:8px;font-family:'Montserrat',sans-serif;font-size:13px;outline:none;transition:.15s}
-input:focus,select:focus{border-color:var(--air-force-blue);box-shadow:0 0 0 3px rgba(94,129,151,.15)}
-label{display:block;font-size:11px;font-weight:500;color:rgba(87,86,86,.7);margin-bottom:4px;text-transform:uppercase}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
-.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
-.stat-card .dot{width:8px;height:8px;border-radius:50%;margin-bottom:12px}
-.stat-card .val{font-size:28px;font-weight:300}
-.stat-card .lbl{font-size:10px;text-transform:uppercase;letter-spacing:1px;color:rgba(87,86,86,.6);margin-top:4px}
-table{width:100%;font-size:13px;border-collapse:collapse}
-th{text-align:left;padding:12px 16px;font-size:11px;font-weight:500;text-transform:uppercase;color:rgba(87,86,86,.7);background:rgba(157,178,191,.1)}
-td{padding:8px 16px;border-top:1px solid rgba(157,178,191,.1)}
-tr.clickable:hover{background:rgba(94,129,151,.05);cursor:pointer}
-.badge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:500}
-.badge-green{background:rgba(126,148,120,.1);color:var(--dusty-olive)}
-.badge-red{background:rgba(148,22,18,.1);color:var(--oxblood)}
-.badge-blue{background:rgba(94,129,151,.1);color:var(--air-force-blue)}
-.badge-yellow{background:rgba(255,200,0,.15);color:#856404}
-.error{padding:12px 16px;background:rgba(148,22,18,.1);color:var(--oxblood);border-radius:8px;font-size:13px;margin:8px 0}
-.success{padding:12px 16px;background:rgba(126,148,120,.1);color:var(--dusty-olive);border-radius:8px;font-size:13px;margin:8px 0}
-.toast{position:fixed;top:16px;right:16px;z-index:50;padding:12px 20px;border-radius:8px;color:#fff;font-size:13px;display:flex;align-items:center;gap:12px;box-shadow:0 4px 12px rgba(0,0,0,.15);animation:slideIn .3s}
-.toast-success{background:var(--dusty-olive)}.toast-error{background:var(--oxblood)}.toast-info{background:var(--air-force-blue)}
-@keyframes slideIn{from{transform:translateX(100%);opacity:0}to{transform:translateX(0);opacity:1}}
-.dropzone{border:2px dashed rgba(157,178,191,.4);border-radius:12px;padding:48px;text-align:center;transition:.15s;background:#fff}
-.dropzone.over{border-color:var(--air-force-blue);background:rgba(94,129,151,.05)}
-.conf-ring{box-shadow:0 0 0 2px #e6b800 inset}.conf-ring-low{box-shadow:0 0 0 2px var(--oxblood) inset}
-.hidden{display:none}
-.mb4{margin-bottom:16px}.mb6{margin-bottom:24px}.mb8{margin-bottom:32px}
-.mt4{margin-top:16px}.mt6{margin-top:24px}
-.flex{display:flex}.gap2{gap:8px}.gap3{gap:12px}.gap4{gap:16px}
-.items-center{align-items:center}.justify-between{justify-content:space-between}
-.flex1{flex:1}.text-right{text-align:right}
-.truncate{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:200px}
-.text-muted{color:rgba(87,86,86,.6)}.text-sm{font-size:13px}.text-xs{font-size:11px}
-.login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center}
-.login-box{width:100%;max-width:380px}
-.login-box h1{text-align:center;font-size:28px;color:var(--charcoal)}
-.login-box .sub{text-align:center;font-size:13px;color:rgba(87,86,86,.7);margin-top:8px;margin-bottom:32px}
-.login-form{padding:32px}
-.login-form input{width:100%;margin-bottom:4px}
-.field{margin-bottom:16px}
-.detail-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
-.detail-grid .dlbl{font-size:10px;text-transform:uppercase;color:rgba(87,86,86,.6)}
-.detail-grid .dval{font-size:13px;margin-top:2px}
-@media(max-width:768px){.grid3,.grid4,.detail-grid{grid-template-columns:1fr 1fr}.grid2{grid-template-columns:1fr}}
+/* ===== RESET & ROOT ===== */
+:root {
+  --oxblood: #941612;
+  --oxblood-dark: #6e0f0c;
+  --oxblood-light: rgba(148,22,18,.08);
+  --charcoal: #575656;
+  --brand-white: #fefdfd;
+  --air-force-blue: #5e8197;
+  --cool-steel: #9db2bf;
+  --dusty-olive: #7e9478;
+  --sidebar-width: 260px;
+  --sidebar-collapsed: 64px;
+  --header-height: 60px;
+  --success: #2e7d32;
+  --success-bg: rgba(46,125,50,.08);
+  --warning: #e6a100;
+  --warning-bg: rgba(230,161,0,.08);
+  --error: #c62828;
+  --error-bg: rgba(198,40,40,.08);
+  --info: #5e8197;
+  --info-bg: rgba(94,129,151,.08);
+  --radius: 10px;
+  --radius-lg: 14px;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,.06), 0 1px 2px rgba(0,0,0,.04);
+  --shadow-md: 0 4px 12px rgba(0,0,0,.08), 0 2px 4px rgba(0,0,0,.04);
+  --shadow-lg: 0 12px 40px rgba(0,0,0,.12), 0 4px 12px rgba(0,0,0,.06);
+  --transition: .2s ease;
+}
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { height: 100%; }
+body {
+  font-family: 'Montserrat', system-ui, -apple-system, sans-serif;
+  color: var(--charcoal);
+  background: #f4f5f7;
+  height: 100%;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+h1, h2, h3, h4 {
+  font-family: 'Merriweather', Georgia, serif;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(87,86,86,.2); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(87,86,86,.35); }
+
+/* ===== LOGIN ===== */
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #6e0f0c 0%, #941612 40%, #5e8197 100%);
+  position: relative;
+  overflow: hidden;
+}
+.login-page::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 100%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,255,255,.05) 0%, transparent 60%);
+  animation: loginGlow 8s ease-in-out infinite alternate;
+}
+@keyframes loginGlow {
+  0% { transform: translate(0, 0); }
+  100% { transform: translate(-10%, 5%); }
+}
+.login-card {
+  background: #fff;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  width: 100%;
+  max-width: 420px;
+  padding: 48px 40px 40px;
+  position: relative;
+  z-index: 2;
+  animation: loginSlideUp .5s ease-out;
+}
+@keyframes loginSlideUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.login-logo {
+  display: block;
+  margin: 0 auto 24px;
+  height: 44px;
+}
+.login-title {
+  text-align: center;
+  font-size: 24px;
+  color: var(--oxblood);
+  margin-bottom: 4px;
+}
+.login-subtitle {
+  text-align: center;
+  font-size: 13px;
+  color: rgba(87,86,86,.6);
+  margin-bottom: 32px;
+  font-weight: 400;
+}
+.login-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(157,178,191,.3), transparent);
+  margin-bottom: 28px;
+}
+
+/* ===== LAYOUT SHELL ===== */
+.app-shell {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* ===== SIDEBAR ===== */
+.sidebar {
+  width: var(--sidebar-width);
+  background: linear-gradient(180deg, #1a1a1a 0%, #2d2d2d 100%);
+  color: #fff;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  transition: width var(--transition);
+  overflow: hidden;
+}
+.sidebar.collapsed {
+  width: var(--sidebar-collapsed);
+}
+.sidebar-brand {
+  padding: 20px 20px 16px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  border-bottom: 1px solid rgba(255,255,255,.08);
+  min-height: 64px;
+  flex-shrink: 0;
+}
+.sidebar-brand img {
+  height: 30px;
+  flex-shrink: 0;
+}
+.sidebar-brand-text {
+  white-space: nowrap;
+  overflow: hidden;
+}
+.sidebar-brand-text h4 {
+  font-family: 'Merriweather', Georgia, serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.2;
+}
+.sidebar-brand-text span {
+  font-size: 10px;
+  color: rgba(255,255,255,.45);
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+}
+.sidebar.collapsed .sidebar-brand-text { display: none; }
+
+.sidebar-nav {
+  flex: 1;
+  padding: 12px 10px;
+  overflow-y: auto;
+}
+.sidebar-nav-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: rgba(255,255,255,.3);
+  padding: 16px 12px 6px;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.sidebar.collapsed .sidebar-nav-label { display: none; }
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(255,255,255,.65);
+  transition: all var(--transition);
+  white-space: nowrap;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+  font-family: inherit;
+  margin-bottom: 2px;
+}
+.nav-item:hover {
+  background: rgba(255,255,255,.08);
+  color: #fff;
+}
+.nav-item.active {
+  background: var(--oxblood);
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(148,22,18,.4);
+}
+.nav-item svg {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.sidebar.collapsed .nav-item span { display: none; }
+.sidebar.collapsed .nav-item { justify-content: center; padding: 10px; }
+
+.sidebar-toggle {
+  padding: 14px;
+  border-top: 1px solid rgba(255,255,255,.08);
+  flex-shrink: 0;
+}
+.sidebar-toggle button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 8px;
+  border: none;
+  border-radius: 6px;
+  background: rgba(255,255,255,.06);
+  color: rgba(255,255,255,.5);
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 12px;
+  transition: all var(--transition);
+}
+.sidebar-toggle button:hover { background: rgba(255,255,255,.12); color: #fff; }
+.sidebar-toggle button svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.sidebar.collapsed .sidebar-toggle button span { display: none; }
+
+/* ===== MAIN CONTENT AREA ===== */
+.main-area {
+  flex: 1;
+  margin-left: var(--sidebar-width);
+  transition: margin-left var(--transition);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+.sidebar.collapsed ~ .main-area,
+.main-area.sidebar-collapsed {
+  margin-left: var(--sidebar-collapsed);
+}
+
+/* ===== TOP HEADER BAR ===== */
+.top-header {
+  height: var(--header-height);
+  background: #fff;
+  border-bottom: 1px solid rgba(157,178,191,.15);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 32px;
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  box-shadow: 0 1px 3px rgba(0,0,0,.03);
+}
+.top-header-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.top-header-left h2 {
+  font-size: 18px;
+  font-weight: 700;
+}
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: rgba(87,86,86,.5);
+}
+.breadcrumb a {
+  color: var(--air-force-blue);
+  text-decoration: none;
+  cursor: pointer;
+}
+.breadcrumb a:hover { text-decoration: underline; }
+.breadcrumb-sep { color: rgba(87,86,86,.3); }
+.top-header-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.user-badge {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.user-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--oxblood), var(--air-force-blue));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+}
+.user-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--charcoal);
+}
+.user-role {
+  font-size: 10px;
+  color: rgba(87,86,86,.5);
+  text-transform: uppercase;
+  letter-spacing: .5px;
+}
+.signout-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border: 1px solid rgba(157,178,191,.3);
+  border-radius: 6px;
+  background: none;
+  color: var(--charcoal);
+  font-family: inherit;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+.signout-btn:hover { border-color: var(--oxblood); color: var(--oxblood); }
+.signout-btn svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+/* ===== CONTENT ===== */
+.content {
+  flex: 1;
+  padding: 32px;
+  max-width: 1280px;
+  width: 100%;
+}
+.content-footer {
+  border-top: 1px solid rgba(157,178,191,.12);
+  padding: 16px 32px;
+  text-align: center;
+  font-size: 11px;
+  color: rgba(87,86,86,.35);
+}
+
+/* ===== CARDS ===== */
+.card {
+  background: #fff;
+  border: 1px solid rgba(157,178,191,.15);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow var(--transition);
+}
+.card:hover { box-shadow: var(--shadow-md); }
+.card-flat { box-shadow: none; }
+.card-flat:hover { box-shadow: none; }
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(157,178,191,.1);
+}
+.card-header h3 {
+  font-size: 16px;
+}
+.card-np { padding: 0; }
+
+/* ===== STAT CARDS ===== */
+.stat-card {
+  position: relative;
+  overflow: hidden;
+}
+.stat-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  opacity: .06;
+  transform: translate(20px, -20px);
+}
+.stat-card-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+.stat-card-icon svg {
+  width: 22px;
+  height: 22px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.stat-val {
+  font-size: 32px;
+  font-weight: 300;
+  line-height: 1;
+  margin-bottom: 4px;
+  font-family: 'Montserrat', sans-serif;
+}
+.stat-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: rgba(87,86,86,.55);
+  font-weight: 500;
+}
+
+/* ===== BUTTONS ===== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition);
+  text-decoration: none;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+.btn svg {
+  width: 16px;
+  height: 16px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.btn-primary { background: var(--oxblood); color: #fff; }
+.btn-primary:hover { background: var(--oxblood-dark); box-shadow: 0 4px 12px rgba(148,22,18,.3); }
+.btn-blue { background: var(--air-force-blue); color: #fff; }
+.btn-blue:hover { background: #4d7085; box-shadow: 0 4px 12px rgba(94,129,151,.3); }
+.btn-green { background: var(--dusty-olive); color: #fff; }
+.btn-green:hover { background: #6a8063; }
+.btn-gray { background: #f0f1f3; color: var(--charcoal); }
+.btn-gray:hover { background: #e4e5e7; }
+.btn-outline { background: transparent; border: 1px solid rgba(157,178,191,.35); color: var(--charcoal); }
+.btn-outline:hover { background: rgba(157,178,191,.08); border-color: rgba(157,178,191,.5); }
+.btn-danger { background: transparent; border: 1px solid rgba(198,40,40,.2); color: var(--error); }
+.btn-danger:hover { background: var(--error-bg); }
+.btn-sm { padding: 6px 14px; font-size: 12px; border-radius: 6px; }
+.btn-lg { padding: 14px 28px; font-size: 14px; }
+.btn:disabled { opacity: .45; cursor: not-allowed; pointer-events: none; }
+.btn-icon { padding: 8px; border-radius: 8px; background: none; border: none; color: var(--charcoal); cursor: pointer; display: inline-flex; align-items: center; justify-content: center; }
+.btn-icon:hover { background: rgba(157,178,191,.1); }
+.btn-icon svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 2; }
+
+/* ===== FORM ELEMENTS ===== */
+.form-group { margin-bottom: 16px; }
+.form-label {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  color: rgba(87,86,86,.65);
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+}
+.form-input {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid rgba(157,178,191,.35);
+  border-radius: 8px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 13px;
+  color: var(--charcoal);
+  background: #fff;
+  outline: none;
+  transition: all var(--transition);
+}
+.form-input:focus {
+  border-color: var(--air-force-blue);
+  box-shadow: 0 0 0 3px rgba(94,129,151,.12);
+}
+.form-input:disabled {
+  background: #f8f8f8;
+  color: rgba(87,86,86,.5);
+}
+.form-input-error {
+  border-color: var(--error);
+}
+.form-input-error:focus {
+  box-shadow: 0 0 0 3px rgba(198,40,40,.1);
+}
+select.form-input {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L5 5L9 1' stroke='%23575656' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 36px;
+}
+.form-check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  cursor: pointer;
+}
+.form-check input[type="checkbox"],
+.form-check input[type="radio"] {
+  accent-color: var(--oxblood);
+  width: 16px;
+  height: 16px;
+}
+
+/* ===== GRID ===== */
+.grid { display: grid; gap: 16px; }
+.grid-2 { grid-template-columns: repeat(2, 1fr); }
+.grid-3 { grid-template-columns: repeat(3, 1fr); }
+.grid-4 { grid-template-columns: repeat(4, 1fr); }
+.grid-dash { grid-template-columns: 1fr 380px; }
+
+/* ===== TABLE ===== */
+.table-wrap {
+  overflow-x: auto;
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(157,178,191,.15);
+  background: #fff;
+  box-shadow: var(--shadow-sm);
+}
+.tbl { width: 100%; border-collapse: collapse; font-size: 13px; }
+.tbl thead th {
+  text-align: left;
+  padding: 14px 16px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  color: rgba(87,86,86,.6);
+  background: #fafbfc;
+  border-bottom: 1px solid rgba(157,178,191,.15);
+  white-space: nowrap;
+}
+.tbl tbody td {
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(157,178,191,.08);
+  vertical-align: middle;
+}
+.tbl tbody tr:last-child td { border-bottom: none; }
+.tbl tbody tr:nth-child(even) { background: #fafbfc; }
+.tbl tbody tr.clickable { cursor: pointer; transition: background var(--transition); }
+.tbl tbody tr.clickable:hover { background: rgba(94,129,151,.06); }
+.tbl-right { text-align: right; }
+
+/* ===== BADGES ===== */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .3px;
+}
+.badge-green { background: var(--success-bg); color: var(--success); }
+.badge-red { background: var(--error-bg); color: var(--error); }
+.badge-blue { background: var(--info-bg); color: var(--info); }
+.badge-yellow { background: var(--warning-bg); color: #856404; }
+.badge-gray { background: #f0f1f3; color: var(--charcoal); }
+
+/* ===== CONFIDENCE INDICATORS ===== */
+.conf-high, .conf-med, .conf-low {
+  position: relative;
+}
+.conf-high::after, .conf-med::after, .conf-low::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+.conf-high::after { background: var(--success); }
+.conf-med::after { background: var(--warning); box-shadow: 0 0 0 3px rgba(230,161,0,.2); }
+.conf-low::after { background: var(--error); box-shadow: 0 0 0 3px rgba(198,40,40,.2); }
+.conf-high { border-color: var(--success); }
+.conf-med { border-color: var(--warning); background: rgba(230,161,0,.03); }
+.conf-low { border-color: var(--error); background: rgba(198,40,40,.03); }
+
+/* ===== DROPZONE ===== */
+.dropzone {
+  border: 2px dashed rgba(157,178,191,.4);
+  border-radius: var(--radius-lg);
+  padding: 64px 32px;
+  text-align: center;
+  transition: all var(--transition);
+  background: #fff;
+  cursor: pointer;
+}
+.dropzone:hover {
+  border-color: var(--air-force-blue);
+  background: rgba(94,129,151,.03);
+}
+.dropzone.over {
+  border-color: var(--air-force-blue);
+  background: rgba(94,129,151,.06);
+  box-shadow: 0 0 0 4px rgba(94,129,151,.1);
+}
+.dropzone-icon {
+  width: 56px;
+  height: 56px;
+  margin: 0 auto 16px;
+  border-radius: 50%;
+  background: rgba(94,129,151,.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.dropzone-icon svg {
+  width: 28px;
+  height: 28px;
+  stroke: var(--air-force-blue);
+  fill: none;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+@keyframes pulse-border {
+  0%, 100% { border-color: rgba(157,178,191,.4); }
+  50% { border-color: var(--air-force-blue); }
+}
+.dropzone:hover { animation: pulse-border 2s infinite; }
+
+/* ===== TOAST ===== */
+.toast-container {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  pointer-events: none;
+}
+.toast {
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 20px;
+  border-radius: 10px;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 500;
+  box-shadow: var(--shadow-lg);
+  animation: toastSlideIn .35s ease-out;
+  max-width: 420px;
+  min-width: 280px;
+}
+.toast-success { background: var(--success); }
+.toast-error { background: var(--error); }
+.toast-info { background: var(--info); }
+.toast-warning { background: #b8860b; }
+.toast-dismiss {
+  background: none;
+  border: none;
+  color: rgba(255,255,255,.7);
+  cursor: pointer;
+  font-size: 18px;
+  padding: 0 0 0 8px;
+  margin-left: auto;
+  line-height: 1;
+}
+.toast-dismiss:hover { color: #fff; }
+@keyframes toastSlideIn {
+  from { transform: translateX(120%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+@keyframes toastSlideOut {
+  from { transform: translateX(0); opacity: 1; }
+  to { transform: translateX(120%); opacity: 0; }
+}
+
+/* ===== TIMELINE ===== */
+.timeline { position: relative; }
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 15px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: rgba(157,178,191,.2);
+}
+.timeline-item {
+  position: relative;
+  padding: 0 0 20px 44px;
+}
+.timeline-item:last-child { padding-bottom: 0; }
+.timeline-dot {
+  position: absolute;
+  left: 8px;
+  top: 4px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 3px solid #fff;
+  box-shadow: 0 0 0 2px rgba(157,178,191,.3);
+}
+.timeline-dot-green { background: var(--success); box-shadow: 0 0 0 2px rgba(46,125,50,.2); }
+.timeline-dot-blue { background: var(--info); box-shadow: 0 0 0 2px rgba(94,129,151,.2); }
+.timeline-dot-red { background: var(--error); box-shadow: 0 0 0 2px rgba(198,40,40,.2); }
+.timeline-dot-yellow { background: var(--warning); box-shadow: 0 0 0 2px rgba(230,161,0,.2); }
+.timeline-content {
+  font-size: 13px;
+}
+.timeline-time {
+  font-size: 11px;
+  color: rgba(87,86,86,.45);
+  margin-top: 2px;
+}
+
+/* ===== TABS ===== */
+.tabs {
+  display: flex;
+  gap: 0;
+  border-bottom: 2px solid rgba(157,178,191,.15);
+  margin-bottom: 24px;
+}
+.tab-btn {
+  padding: 12px 24px;
+  border: none;
+  background: none;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  color: rgba(87,86,86,.5);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+  transition: all var(--transition);
+}
+.tab-btn:hover { color: var(--charcoal); }
+.tab-btn.active {
+  color: var(--oxblood);
+  border-bottom-color: var(--oxblood);
+}
+
+/* ===== SPINNER ===== */
+.spinner {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(157,178,191,.2);
+  border-top-color: var(--oxblood);
+  border-radius: 50%;
+  animation: spin .6s linear infinite;
+}
+.spinner-lg { width: 36px; height: 36px; border-width: 3px; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.loading-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 64px;
+  color: rgba(87,86,86,.5);
+  gap: 16px;
+  font-size: 13px;
+}
+
+/* ===== EMPTY STATE ===== */
+.empty-state {
+  text-align: center;
+  padding: 48px 24px;
+}
+.empty-state svg {
+  width: 48px;
+  height: 48px;
+  stroke: rgba(157,178,191,.4);
+  fill: none;
+  stroke-width: 1.5;
+  margin-bottom: 16px;
+}
+.empty-state h3 {
+  font-size: 16px;
+  color: var(--charcoal);
+  margin-bottom: 6px;
+}
+.empty-state p {
+  font-size: 13px;
+  color: rgba(87,86,86,.5);
+  margin-bottom: 20px;
+}
+
+/* ===== STICKY BOTTOM BAR ===== */
+.sticky-bottom {
+  position: sticky;
+  bottom: 0;
+  background: #fff;
+  border-top: 1px solid rgba(157,178,191,.15);
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  z-index: 10;
+  box-shadow: 0 -2px 8px rgba(0,0,0,.04);
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+}
+
+/* ===== DETAIL GRID ===== */
+.detail-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+.detail-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  color: rgba(87,86,86,.5);
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+.detail-value {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--charcoal);
+}
+
+/* ===== PAGINATION ===== */
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 16px;
+}
+.page-btn {
+  padding: 6px 12px;
+  border: 1px solid rgba(157,178,191,.25);
+  border-radius: 6px;
+  background: #fff;
+  color: var(--charcoal);
+  font-family: inherit;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+.page-btn:hover { border-color: var(--air-force-blue); color: var(--air-force-blue); }
+.page-btn.active { background: var(--oxblood); color: #fff; border-color: var(--oxblood); }
+
+/* ===== MISC ===== */
+.text-muted { color: rgba(87,86,86,.55); }
+.text-sm { font-size: 13px; }
+.text-xs { font-size: 11px; }
+.text-right { text-align: right; }
+.fw-600 { font-weight: 600; }
+.truncate { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 220px; display: inline-block; vertical-align: middle; }
+.mb-0 { margin-bottom: 0; }
+.mb-2 { margin-bottom: 8px; }
+.mb-3 { margin-bottom: 12px; }
+.mb-4 { margin-bottom: 16px; }
+.mb-6 { margin-bottom: 24px; }
+.mb-8 { margin-bottom: 32px; }
+.mt-4 { margin-top: 16px; }
+.mt-6 { margin-top: 24px; }
+.gap-2 { gap: 8px; }
+.gap-3 { gap: 12px; }
+.gap-4 { gap: 16px; }
+.flex { display: flex; }
+.flex-wrap { flex-wrap: wrap; }
+.flex-1 { flex: 1; }
+.items-center { align-items: center; }
+.justify-between { justify-content: space-between; }
+.justify-center { justify-content: center; }
+.hidden { display: none !important; }
+
+.error-box {
+  padding: 16px 20px;
+  background: var(--error-bg);
+  color: var(--error);
+  border-radius: var(--radius);
+  font-size: 13px;
+  border-left: 3px solid var(--error);
+}
+.success-box {
+  padding: 16px 20px;
+  background: var(--success-bg);
+  color: var(--success);
+  border-radius: var(--radius);
+  font-size: 13px;
+  border-left: 3px solid var(--success);
+}
+
+.progress-bar-track {
+  width: 100%;
+  height: 6px;
+  background: rgba(157,178,191,.15);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--oxblood), var(--air-force-blue));
+  border-radius: 3px;
+  transition: width .4s ease;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1024px) {
+  .grid-4, .detail-grid { grid-template-columns: repeat(2, 1fr); }
+  .grid-dash { grid-template-columns: 1fr; }
+}
+@media (max-width: 768px) {
+  .sidebar {
+    width: var(--sidebar-collapsed);
+  }
+  .sidebar .sidebar-brand-text { display: none; }
+  .sidebar .nav-item span { display: none; }
+  .sidebar .nav-item { justify-content: center; padding: 10px; }
+  .sidebar .sidebar-nav-label { display: none; }
+  .sidebar .sidebar-toggle button span { display: none; }
+  .main-area { margin-left: var(--sidebar-collapsed); }
+  .grid-3, .grid-2 { grid-template-columns: 1fr; }
+  .content { padding: 20px 16px; }
+  .top-header { padding: 0 16px; }
+}
 </style>
 </head>
 <body>
-<div id="app"><div style="display:flex;justify-content:center;align-items:center;height:100vh;font-family:system-ui,sans-serif;color:#575656"><p>Loading...</p></div></div>
+<div id="app">
+  <div style="display:flex;justify-content:center;align-items:center;height:100vh;font-family:system-ui,sans-serif;color:#575656">
+    <div class="loading-state">
+      <div class="spinner spinner-lg"></div>
+      <p>Loading SEZ Ledger...</p>
+    </div>
+  </div>
+</div>
+<div class="toast-container" id="toast-container"></div>
+
 <script>
-const API='/api';
-let currentUser=null,currentPage='dashboard',toastTimer=null,extractionData=null;
+/* ===========================================================
+   SEZ Ledger Automation - Single-file Frontend
+   AMEX Healthcare - Kenya Operations
+   =========================================================== */
 
-// --- API ---
-async function api(path,opts={}){
-  const r=await fetch(API+path,{credentials:'include',headers:{'Content-Type':'application/json',...(opts.headers||{})},...opts});
-  if(!r.ok){const b=await r.json().catch(()=>({detail:r.statusText}));throw new Error(b.detail||'HTTP '+r.status)}
-  if(r.status===204)return null;
-  return r.json();
-}
-async function apiUpload(path,file){
-  const f=new FormData();f.append('file',file);
-  const r=await fetch(API+path,{method:'POST',credentials:'include',body:f});
-  if(!r.ok){const b=await r.json().catch(()=>({detail:r.statusText}));throw new Error(b.detail||'HTTP '+r.status)}
-  return r.json();
-}
+var API = '/api';
+var currentUser = null;
+var currentPage = 'dashboard';
+var extractionData = null;
+var sidebarCollapsed = false;
+var searchPage = 0;
+var searchResults = [];
+var ITEMS_PER_PAGE = 20;
 
-// --- Toast ---
-function showToast(msg,type='info'){
-  const el=document.getElementById('toast');
-  if(!el)return;
-  el.className='toast toast-'+type;el.innerHTML=msg+'<button onclick="hideToast()" style="background:none;border:none;color:#fff;font-size:18px;cursor:pointer;margin-left:8px">&times;</button>';
-  el.style.display='flex';clearTimeout(toastTimer);toastTimer=setTimeout(hideToast,4000);
-}
-function hideToast(){const el=document.getElementById('toast');if(el)el.style.display='none'}
+/* ---- SVG ICONS ---- */
+var ICONS = {
+  dashboard: '<svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>',
+  upload: '<svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>',
+  search: '<svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>',
+  audit: '<svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>',
+  download: '<svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>',
+  admin: '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>',
+  logout: '<svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>',
+  chevronLeft: '<svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>',
+  chevronRight: '<svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>',
+  collapse: '<svg viewBox="0 0 24 24"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>',
+  importBox: '<svg viewBox="0 0 24 24"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0018 9h-1.26A8 8 0 103 16.3"/></svg>',
+  exportBox: '<svg viewBox="0 0 24 24"><polyline points="8 17 12 21 16 17"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.88 18.09A5 5 0 0018 9h-1.26A8 8 0 104.39 17.3"/></svg>',
+  file: '<svg viewBox="0 0 24 24"><path d="M13 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>',
+  users: '<svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>',
+  globe: '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>',
+  box: '<svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>',
+  key: '<svg viewBox="0 0 24 24"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 11-7.778 7.778 5.5 5.5 0 017.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/></svg>',
+  check: '<svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>',
+  alertTriangle: '<svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>',
+  x: '<svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>',
+  trash: '<svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg>',
+  edit: '<svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>',
+  clock: '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>',
+  activity: '<svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>',
+  filter: '<svg viewBox="0 0 24 24"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>',
+  externalLink: '<svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>',
+  zap: '<svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>'
+};
 
-// --- Render ---
-function render(){
-  const app=document.getElementById('app');
-  if(!currentUser){app.innerHTML=renderLogin();return}
-  var adminBtn=currentUser.is_admin?'<button class="'+(currentPage==='admin'?'active':'')+'" onclick="nav(\'admin\')">Admin</button>':'';
-  app.innerHTML='<div class="header"><div class="header-inner">'
-    +'<div class="header-left">'
-    +'<img src="/static/amex-logo.png" alt="AMEX" class="logo">'
-    +'<nav>'
-    +'<button class="'+(currentPage==='dashboard'?'active':'')+'" onclick="nav(\'dashboard\')">Dashboard</button>'
-    +'<button class="'+(currentPage==='search'?'active':'')+'" onclick="nav(\'search\')">Search</button>'
-    +'<button class="'+(currentPage==='audit'?'active':'')+'" onclick="nav(\'audit\')">Audit Log</button>'
-    +'<button class="'+(currentPage==='download'?'active':'')+'" onclick="nav(\'download\')">Download</button>'
-    +adminBtn
-    +'</nav>'
-    +'</div>'
-    +'<div class="header-right">'
-    +'<span class="user">'+currentUser.username+'</span>'
-    +'<button class="logout" onclick="doLogout()">Sign Out</button>'
-    +'</div>'
-    +'</div></div>'
-    +'<main id="page"></main>'
-    +'<footer>SEZ Ledger Automation &mdash; Kenya Operations Track #11 &mdash; AMEX Healthcare Hackathon</footer>'
-    +'<div id="toast" class="toast" style="display:none"></div>';
-  renderPage();
+function esc(str) {
+  if (str == null) return '';
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
-function nav(p){currentPage=p;renderPage()}
-function renderPage(){
-  const el=document.getElementById('page');if(!el)return;
-  switch(currentPage){
-    case 'dashboard':renderDashboard(el);break;
-    case 'upload-import':renderUpload(el,'import');break;
-    case 'upload-export':renderUpload(el,'export');break;
-    case 'review-import':renderImportReview(el);break;
-    case 'review-export':renderExportReview(el);break;
-    case 'search':renderSearch(el);break;
-    case 'audit':renderAudit(el);break;
-    case 'download':renderDownload(el);break;
-    case 'admin':renderAdmin(el);break;
-  }
-}
-
-// --- Login ---
-function renderLogin(){
-  return '<div class="login-wrap"><div class="login-box">'
-    +'<h1>SEZ Ledger</h1>'
-    +'<p class="sub">Kenya Operations Stock Ledger Automation</p>'
-    +'<div class="card login-form">'
-    +'<div class="field"><label>Username</label><input id="lu" autofocus></div>'
-    +'<div class="field"><label>Password</label><input id="lp" type="password"></div>'
-    +'<div id="lerr"></div>'
-    +'<button class="btn btn-primary" style="width:100%;margin-top:8px" onclick="doLogin()">Sign In</button>'
-    +'</div>'
-    +'</div></div>';
-}
-async function doLogin(){
-  const u=document.getElementById('lu').value,p=document.getElementById('lp').value;
-  try{currentUser=await api('/auth/login',{method:'POST',body:JSON.stringify({username:u,password:p})});render()}
-  catch(e){document.getElementById('lerr').innerHTML='<div class="error">'+e.message+'</div>'}
-}
-async function doLogout(){await api('/auth/logout',{method:'POST'}).catch(()=>{});currentUser=null;render()}
-
-// --- Dashboard ---
-async function renderDashboard(el){
-  el.innerHTML='<p class="text-muted">Loading dashboard...</p>';
-  try{
-    const s=await api('/ledger/dashboard');
-    var activityHtml;
-    if(s.recent_activity.length===0){
-      activityHtml='<p class="text-sm text-muted">No recent activity</p>';
-    }else{
-      activityHtml=s.recent_activity.map(function(a){
-        return '<div class="flex items-center justify-between" style="padding:8px 0;border-bottom:1px solid rgba(157,178,191,.1)">'
-          +'<div class="text-sm"><span style="font-weight:500">'+a.change_type+'</span> <span class="text-muted">on '+a.entity_type+' #'+a.entity_id+'</span></div>'
-          +'<span class="text-xs text-muted">'+new Date(a.created_at).toLocaleString()+'</span>'
-          +'</div>';
-      }).join('');
+/* ---- API HELPERS ---- */
+function api(path, opts) {
+  opts = opts || {};
+  var headers = {'Content-Type': 'application/json'};
+  if (opts.headers) {
+    var k;
+    for (k in opts.headers) {
+      if (opts.headers.hasOwnProperty(k)) headers[k] = opts.headers[k];
     }
-    el.innerHTML='<div class="flex items-center justify-between mb8">'
-      +'<div><h2>Dashboard</h2><p class="text-sm text-muted" style="margin-top:4px">SEZ Stock Ledger Overview</p></div>'
-      +'<div class="flex gap3">'
-      +'<button class="btn btn-primary" onclick="nav(\'upload-import\')">Upload Import</button>'
-      +'<button class="btn btn-blue" onclick="nav(\'upload-export\')">Upload Export</button>'
-      +'</div>'
-      +'</div>'
-      +'<div class="grid4 mb8">'
-      +'<div class="card stat-card"><div class="dot" style="background:var(--air-force-blue)"></div><div class="val">'+s.total_import_lines+'</div><div class="lbl">Import Lines</div></div>'
-      +'<div class="card stat-card"><div class="dot" style="background:var(--dusty-olive)"></div><div class="val">'+s.total_export_lines+'</div><div class="lbl">Export Lines</div></div>'
-      +'<div class="card stat-card"><div class="dot" style="background:var(--oxblood)"></div><div class="val">'+s.open_balance_lines+'</div><div class="lbl">Open Balances</div></div>'
-      +'<div class="card stat-card"><div class="dot" style="background:var(--charcoal)"></div><div class="val">'+s.total_documents+'</div><div class="lbl">Documents</div></div>'
-      +'</div>'
-      +'<div class="grid2 mb8">'
-      +'<button class="card" style="text-align:left;cursor:pointer;border:1px solid rgba(157,178,191,.3)" onclick="nav(\'search\')"><h3 style="font-size:16px">Search Ledger</h3><p class="text-sm text-muted" style="margin-top:4px">Find import lines by entry number, HS code, description</p></button>'
-      +'<button class="card" style="text-align:left;cursor:pointer;border:1px solid rgba(157,178,191,.3)" onclick="nav(\'download\')"><h3 style="font-size:16px">Download Ledger</h3><p class="text-sm text-muted" style="margin-top:4px">Export the complete stock ledger as Excel</p></button>'
-      +'</div>'
-      +'<div class="card"><h3 style="font-size:16px;margin-bottom:16px">Recent Activity</h3>'
-      +activityHtml
-      +'</div>';
-  }catch(e){el.innerHTML='<div class="error">'+e.message+'</div>'}
-}
-
-// --- Upload ---
-function renderUpload(el,type){
-  const label=type==='import'?'Import':'Export';
-  el.innerHTML='<div class="flex items-center gap3 mb6">'
-    +'<button class="text-sm" style="color:var(--air-force-blue);border:none;background:none;cursor:pointer" onclick="nav(\'dashboard\')">&larr; Dashboard</button>'
-    +'<h2>Upload '+label+' Document</h2>'
-    +'</div>'
-    +'<div class="dropzone" id="dz" ondragover="event.preventDefault();this.classList.add(\'over\')" ondragleave="this.classList.remove(\'over\')" ondrop="handleDrop(event,\''+type+'\')">'
-    +'<p class="text-muted mb4" id="fname">Drag & drop a PDF file here, or click to select</p>'
-    +'<input type="file" accept=".pdf" id="finput" style="display:none" onchange="handleFile(this.files[0],\''+type+'\')">'
-    +'<button class="btn btn-gray" onclick="document.getElementById(\'finput\').click()">Choose File</button>'
-    +'</div>'
-    +'<div id="upload-actions" class="mt6 hidden"></div>'
-    +'<div id="upload-result" class="mt6"></div>';
-}
-let selectedFile=null;
-function handleDrop(e,type){e.preventDefault();document.getElementById('dz').classList.remove('over');if(e.dataTransfer.files[0])handleFile(e.dataTransfer.files[0],type)}
-function handleFile(f,type){
-  if(!f.name.toLowerCase().endsWith('.pdf')){showToast('Only PDF files accepted','error');return}
-  selectedFile=f;document.getElementById('fname').textContent=f.name;
-  document.getElementById('upload-actions').classList.remove('hidden');
-  document.getElementById('upload-actions').innerHTML='<button class="btn btn-primary" onclick="doUpload(\''+type+'\')">Upload PDF</button>';
-}
-async function doUpload(type){
-  try{
-    const r=await apiUpload('/'+type+'/upload',selectedFile);
-    document.getElementById('upload-actions').innerHTML='';
-    var dotColor=r.duplicate?'#e6b800':'var(--dusty-olive)';
-    document.getElementById('upload-result').innerHTML='<div class="card">'
-      +'<div class="flex items-center gap2 mb4"><div class="dot" style="width:8px;height:8px;border-radius:50%;background:'+dotColor+'"></div><p class="text-sm">'+r.message+'</p></div>'
-      +'<div class="flex gap3 mt4">'
-      +'<button class="btn btn-primary" onclick="doExtract('+r.document_id+',\''+type+'\',false)">Extract with AI</button>'
-      +'<button class="btn btn-gray" onclick="doExtract('+r.document_id+',\''+type+'\',true)">Use Mock Data</button>'
-      +'</div>'
-      +'</div>';
-  }catch(e){showToast(e.message,'error')}
-}
-async function doExtract(docId,type,mock){
-  document.getElementById('upload-result').innerHTML='<p class="text-muted">Extracting data...</p>';
-  try{
-    const r=await api('/'+type+'/extract/'+docId+'?use_mock='+mock,{method:'POST'});
-    if(r.error){showToast(r.error,'error');return}
-    extractionData=r;
-    nav(type==='import'?'review-import':'review-export');
-  }catch(e){showToast(e.message,'error')}
-}
-
-// --- Import Review ---
-function renderImportReview(el){
-  if(!extractionData){nav('dashboard');return}
-  const entries=extractionData.import_entries||[];
-  const fields=[['consignor_exporter','Consignor'],['description','Description'],['import_file_number','File #'],['import_entry_date','Entry Date'],['import_entry_number','Entry #'],['hs_code','HS Code'],['country','Country'],['supplementary_units','Supp Units'],['unit','Unit'],['quantity_imported','Qty Imported'],['customs_value_kes','Customs (KES)'],['bif_value_kes','BIF (KES)']];
-  var itemsHtml=entries.map(function(e,i){
-    var fieldsHtml=fields.map(function(pair){
-      var k=pair[0],l=pair[1];
-      var f=e[k]||{value:null,confidence:1};
-      var cls=f.confidence>=.8?'':f.confidence>=.5?'conf-ring':'conf-ring-low';
-      var titleText='Confidence: '+(f.confidence*100).toFixed(0)+'%'+(f.source_text?' | Source: '+f.source_text:'');
-      return '<div class="field"><label>'+l+'</label><input class="ir '+cls+'" data-i="'+i+'" data-k="'+k+'" value="'+(f.value||'')+'" title="'+titleText+'"></div>';
-    }).join('');
-    return '<div class="card mb4">'
-      +'<div class="flex items-center justify-between mb4"><h3 style="font-size:16px">Item '+(i+1)+'</h3></div>'
-      +'<div class="grid3">'+fieldsHtml+'</div>'
-      +'</div>';
-  }).join('');
-  el.innerHTML='<div class="flex items-center gap3 mb6">'
-    +'<button class="text-sm" style="color:var(--air-force-blue);border:none;background:none;cursor:pointer" onclick="nav(\'upload-import\')">&larr; Back</button>'
-    +'<h2>Review Extracted Import Data</h2>'
-    +'</div>'
-    +'<p class="text-sm text-muted mb4">Review and correct. Yellow border = medium confidence. Red border = low confidence.</p>'
-    +'<div id="review-items">'+itemsHtml+'</div>'
-    +'<div class="flex gap3 mt6" style="justify-content:flex-end">'
-    +'<button class="btn btn-outline" onclick="nav(\'dashboard\')">Cancel</button>'
-    +'<button class="btn btn-primary" onclick="confirmImports()">Confirm '+entries.length+' Item(s)</button>'
-    +'</div>';
-}
-async function confirmImports(){
-  const inputs=document.querySelectorAll('.ir');
-  const items={};
-  inputs.forEach(inp=>{const i=inp.dataset.i,k=inp.dataset.k;if(!items[i])items[i]={};items[i][k]=inp.value||null});
-  const payload=Object.values(items).map(e=>({
-    ...e,
-    quantity_imported:Number(e.quantity_imported)||0,
-    customs_value_kes:Number(e.customs_value_kes)||0,
-    bif_value_kes:e.bif_value_kes?Number(e.bif_value_kes):null,
-    supplementary_units:e.supplementary_units?Number(e.supplementary_units):null
-  }));
-  try{
-    await api('/import/confirm'+(extractionData.document_id?'?source_document_id='+extractionData.document_id:''),{method:'POST',body:JSON.stringify(payload)});
-    showToast(payload.length+' import line(s) confirmed','success');extractionData=null;nav('dashboard');
-  }catch(e){showToast(e.message,'error')}
-}
-
-// --- Export Review ---
-function renderExportReview(el){
-  if(!extractionData){nav('dashboard');return}
-  const entries=extractionData.export_entries||[];
-  const fields=[['customer_name','Customer'],['export_file_number','File #'],['export_entry_date','Entry Date'],['export_entry_number','Entry #'],['ppb_permit','PPB Permit'],['supplementary_units_exported','Supp Units'],['unit','Unit'],['quantity_exported','Qty Exported'],['customs_value_exported','Customs Value'],['bif_value_exported','BIF Value']];
-  var itemsHtml=entries.map(function(e,i){
-    var fieldsHtml=fields.map(function(pair){
-      var k=pair[0],l=pair[1];
-      var f=e[k]||{value:null,confidence:1};
-      return '<div class="field"><label>'+l+'</label><input class="er" data-i="'+i+'" data-k="'+k+'" value="'+(f.value||'')+'"></div>';
-    }).join('');
-    return '<div class="card mb4">'
-      +'<h3 style="font-size:16px;margin-bottom:16px">Export Item '+(i+1)+'</h3>'
-      +'<div class="grid3 mb4">'+fieldsHtml+'</div>'
-      +'<div style="border-top:1px solid rgba(157,178,191,.2);padding-top:16px">'
-      +'<div class="flex items-center gap3 mb4">'
-      +'<span class="text-sm" style="font-weight:500">Matched Import:</span>'
-      +'<span class="text-sm" id="match-'+i+'" style="color:var(--oxblood)">Not selected</span>'
-      +'<input type="hidden" id="matchid-'+i+'" value="">'
-      +'<button class="btn btn-gray" style="padding:4px 12px;font-size:11px" onclick="findMatches('+i+')">Find Matches</button>'
-      +'</div>'
-      +'<div id="candidates-'+i+'"></div>'
-      +'<div id="proration-'+i+'"></div>'
-      +'</div>'
-      +'</div>';
-  }).join('');
-  el.innerHTML='<div class="flex items-center gap3 mb6">'
-    +'<button class="text-sm" style="color:var(--air-force-blue);border:none;background:none;cursor:pointer" onclick="nav(\'upload-export\')">&larr; Back</button>'
-    +'<h2>Review Export & Match to Import</h2>'
-    +'</div>'
-    +'<div id="export-items">'+itemsHtml+'</div>'
-    +'<div class="flex gap3 mt6" style="justify-content:flex-end">'
-    +'<button class="btn btn-outline" onclick="nav(\'dashboard\')">Cancel</button>'
-    +'<button class="btn btn-primary" onclick="confirmExports()">Confirm '+entries.length+' Export(s)</button>'
-    +'</div>';
-}
-async function findMatches(idx){
-  try{
-    const r=await api('/export/match-candidates');
-    const el=document.getElementById('candidates-'+idx);
-    if(r.length===0){el.innerHTML='<p class="text-sm text-muted">No candidates found</p>';return}
-    var candidatesHtml=r.map(function(c){
-      return '<button style="display:block;width:100%;text-align:left;padding:8px 16px;border:none;border-bottom:1px solid rgba(157,178,191,.1);background:none;cursor:pointer;font-family:inherit" onclick="selectMatch('+idx+','+c.id+')">'
-        +'<div class="text-sm"><b>#'+c.id+'</b> '+(c.description||'').substring(0,60)+'</div>'
-        +'<div class="text-xs text-muted">HS:'+(c.hs_code||'-')+' | Bal:'+c.balance_quantity+' '+(c.unit||'')+' | '+(c.consignor_exporter||'').substring(0,40)+'</div>'
-        +'</button>';
-    }).join('');
-    el.innerHTML='<div class="card" style="max-height:200px;overflow-y:auto;padding:0">'+candidatesHtml+'</div>';
-  }catch(e){showToast(e.message,'error')}
-}
-async function selectMatch(idx,importId){
-  document.getElementById('matchid-'+idx).value=importId;
-  document.getElementById('match-'+idx).innerHTML='<span style="color:var(--dusty-olive)">#'+importId+'</span>';
-  document.getElementById('candidates-'+idx).innerHTML='';
-  const qtyInput=document.querySelector('.er[data-i="'+idx+'"][data-k="quantity_exported"]');
-  const qty=Number(qtyInput?.value)||0;
-  if(qty>0){
-    try{
-      const p=await api('/export/preview-proration?import_line_id='+importId+'&quantity_exported='+qty,{method:'POST'});
-      var bgColor=p.overdraft?'rgba(148,22,18,.1)':'rgba(126,148,120,.1)';
-      var overdraftHtml=p.overdraft?'<p class="text-sm" style="font-weight:500;margin-top:4px">'+p.overdraft_message+'</p>':'';
-      document.getElementById('proration-'+idx).innerHTML='<div class="mt4 card" style="background:'+bgColor+'">'
-        +'<p class="text-sm">Prorated Customs: KES '+p.prorated_customs_value.toLocaleString()+'</p>'
-        +'<p class="text-sm">Prorated BIF: KES '+p.prorated_bif_value.toLocaleString()+'</p>'
-        +'<p class="text-sm">Remaining Qty: '+p.remaining_quantity.toLocaleString()+'</p>'
-        +overdraftHtml
-        +'</div>';
-    }catch(e){}
   }
-}
-async function confirmExports(){
-  const inputs=document.querySelectorAll('.er');
-  const items={};
-  inputs.forEach(inp=>{const i=inp.dataset.i,k=inp.dataset.k;if(!items[i])items[i]={};items[i][k]=inp.value||null});
-  const payload=Object.values(items).map((e,i)=>({
-    ...e,import_line_id:Number(document.getElementById('matchid-'+i)?.value)||0,
-    quantity_exported:Number(e.quantity_exported)||0,
-    customs_value_exported:e.customs_value_exported?Number(e.customs_value_exported):null,
-    bif_value_exported:e.bif_value_exported?Number(e.bif_value_exported):null,
-    supplementary_units_exported:e.supplementary_units_exported?Number(e.supplementary_units_exported):null
-  }));
-  if(payload.some(p=>!p.import_line_id)){showToast('Select an import line for each export item','error');return}
-  try{
-    await api('/export/confirm'+(extractionData.document_id?'?source_document_id='+extractionData.document_id:''),{method:'POST',body:JSON.stringify(payload)});
-    showToast(payload.length+' export(s) confirmed','success');extractionData=null;nav('dashboard');
-  }catch(e){showToast(e.message,'error')}
-}
-
-// --- Search ---
-function renderSearch(el){
-  el.innerHTML='<div class="flex items-center gap3 mb6"><button class="text-sm" style="color:var(--air-force-blue);border:none;background:none;cursor:pointer" onclick="nav(\'dashboard\')">&larr; Dashboard</button><h2>Search Ledger</h2></div>'
-    +'<div class="card mb6">'
-    +'<div class="grid3 mb4">'
-    +'<div class="field"><label>Entry Number</label><input id="s_en"></div>'
-    +'<div class="field"><label>File Number</label><input id="s_fn"></div>'
-    +'<div class="field"><label>Description</label><input id="s_desc"></div>'
-    +'<div class="field"><label>Consignor</label><input id="s_con"></div>'
-    +'<div class="field"><label>HS Code</label><input id="s_hs"></div>'
-    +'<div class="field"><label>Country</label><input id="s_co"></div>'
-    +'</div>'
-    +'<div class="flex items-center justify-between">'
-    +'<label style="display:flex;align-items:center;gap:8px;text-transform:none"><input type="checkbox" id="s_ob"> Open balance only</label>'
-    +'<button class="btn btn-primary" onclick="doSearch()">Search</button>'
-    +'</div>'
-    +'</div>'
-    +'<div id="search-results"></div>'
-    +'<div id="search-detail"></div>';
-  document.querySelectorAll('#s_en,#s_fn,#s_desc,#s_con,#s_hs,#s_co').forEach(i=>i.addEventListener('keydown',e=>{if(e.key==='Enter')doSearch()}));
-}
-async function doSearch(){
-  const p=new URLSearchParams();
-  const add=(k,id)=>{const v=document.getElementById(id)?.value;if(v)p.set(k,v)};
-  add('entry_number','s_en');add('file_number','s_fn');add('description','s_desc');add('consignor','s_con');add('hs_code','s_hs');add('country','s_co');
-  if(document.getElementById('s_ob')?.checked)p.set('open_balance_only','true');
-  try{
-    const r=await api('/ledger/search?'+p);
-    if(r.length===0){
-      document.getElementById('search-results').innerHTML='<p class="text-sm text-muted" style="text-align:center;padding:32px">No results</p>';
-    }else{
-      var rowsHtml=r.map(function(i){
-        var balColor=i.balance_quantity>0?'var(--dusty-olive)':'rgba(87,86,86,.5)';
-        var balWeight=i.balance_quantity>0?'500':'400';
-        return '<tr class="clickable" onclick="viewDetail('+i.id+')">'
-          +'<td>'+i.id+'</td><td>'+(i.import_entry_number||'-')+'</td><td class="truncate">'+(i.description||'-')+'</td><td>'+(i.hs_code||'-')+'</td>'
-          +'<td style="text-align:right">'+(i.quantity_imported!=null?i.quantity_imported.toLocaleString():'')+'</td>'
-          +'<td style="text-align:right;color:'+balColor+';font-weight:'+balWeight+'">'+(i.balance_quantity!=null?i.balance_quantity.toLocaleString():'')+'</td>'
-          +'<td style="text-align:right">'+(i.balance_customs_value!=null?i.balance_customs_value.toLocaleString():'')+'</td>'
-          +'</tr>';
-      }).join('');
-      document.getElementById('search-results').innerHTML='<div class="card" style="padding:0;overflow:hidden"><table>'
-        +'<thead><tr><th>ID</th><th>Entry #</th><th>Description</th><th>HS Code</th><th style="text-align:right">Qty</th><th style="text-align:right">Balance</th><th style="text-align:right">Value</th></tr></thead>'
-        +'<tbody>'+rowsHtml+'</tbody></table></div>';
-    }
-  }catch(e){showToast(e.message,'error')}
-}
-async function viewDetail(id){
-  try{
-    const d=await api('/ledger/import-lines/'+id);
-    var fields=[['Consignor',d.consignor_exporter],['Description',d.description],['File #',d.import_file_number],['Entry Date',d.import_entry_date],['Entry #',d.import_entry_number],['HS Code',d.hs_code],['Country',d.country],['Unit',d.unit],['Qty Imported',d.quantity_imported?.toLocaleString()],['Customs','KES '+(d.customs_value_kes?.toLocaleString()||'0')],['BIF',d.bif_value_kes?'KES '+d.bif_value_kes.toLocaleString():'-'],['Balance Qty',d.balance_quantity?.toLocaleString()],['Balance Customs','KES '+(d.balance_customs_value?.toLocaleString()||'0')],['Balance BIF','KES '+(d.balance_bif_value?.toLocaleString()||'0')]];
-    var fieldsHtml=fields.map(function(pair){return '<div><div class="dlbl">'+pair[0]+'</div><div class="dval">'+(pair[1]||'-')+'</div></div>';}).join('');
-    var exportsHtml='';
-    if(d.export_lines&&d.export_lines.length){
-      exportsHtml='<h3 style="font-size:14px;margin-bottom:8px;border-top:1px solid rgba(157,178,191,.2);padding-top:16px">Export History</h3><table><thead><tr><th>ID</th><th>Customer</th><th>Entry #</th><th style="text-align:right">Qty</th><th style="text-align:right">Customs</th><th style="text-align:right">BIF</th><th></th></tr></thead><tbody>';
-      d.export_lines.forEach(function(e){
-        exportsHtml+='<tr><td>'+e.id+'</td><td class="truncate">'+(e.customer_name||'-')+'</td><td>'+(e.export_entry_number||'-')+'</td><td style="text-align:right">'+(e.quantity_exported?.toLocaleString()||'')+'</td><td style="text-align:right">'+(e.customs_value_exported?.toLocaleString()||'')+'</td><td style="text-align:right">'+(e.bif_value_exported?.toLocaleString()||'')+'</td><td><button class="text-xs" style="color:var(--oxblood);border:none;background:none;cursor:pointer" onclick="delExport('+e.id+','+d.id+')">Delete</button></td></tr>';
+  var fetchOpts = {credentials: 'include', headers: headers};
+  if (opts.method) fetchOpts.method = opts.method;
+  if (opts.body) fetchOpts.body = opts.body;
+  return fetch(API + path, fetchOpts).then(function(r) {
+    if (!r.ok) {
+      return r.json().catch(function() { return {detail: r.statusText}; }).then(function(b) {
+        throw new Error(b.detail || 'HTTP ' + r.status);
       });
-      exportsHtml+='</tbody></table>';
     }
-    document.getElementById('search-detail').innerHTML='<div class="card mt6"><h3 style="font-size:16px;margin-bottom:16px">Import Line #'+d.id+'</h3><div class="detail-grid mb6">'+fieldsHtml+'</div>'+exportsHtml+'</div>';
-  }catch(e){showToast(e.message,'error')}
-}
-async function delExport(eid,iid){
-  try{await api('/export/'+eid,{method:'DELETE'});showToast('Export deleted, balance restored','success');viewDetail(iid)}catch(e){showToast(e.message,'error')}
+    if (r.status === 204) return null;
+    return r.json();
+  });
 }
 
-// --- Audit ---
-async function renderAudit(el){
-  el.innerHTML='<div class="flex items-center gap3 mb6"><button class="text-sm" style="color:var(--air-force-blue);border:none;background:none;cursor:pointer" onclick="nav(\'dashboard\')">&larr; Dashboard</button><h2>Audit Log</h2></div>'
-    +'<div class="card mb6 flex items-center gap4">'
-    +'<div class="field" style="margin:0"><label>Entity Type</label><select id="a_et"><option value="">All</option><option value="import_line">Import</option><option value="export_line">Export</option><option value="user">User</option></select></div>'
-    +'<div class="field" style="margin:0"><label>Change Type</label><select id="a_ct"><option value="">All</option><option value="create">Create</option><option value="update">Update</option><option value="delete">Delete</option><option value="override">Override</option></select></div>'
-    +'<button class="btn btn-primary" style="margin-top:14px" onclick="loadAudit()">Filter</button>'
-    +'<button class="btn btn-gray" style="margin-top:14px" onclick="exportAuditCsv()">Export CSV</button>'
-    +'</div>'
-    +'<div id="audit-table"><p class="text-muted text-sm">Loading...</p></div>';
+function apiUpload(path, file) {
+  var f = new FormData();
+  f.append('file', file);
+  return fetch(API + path, {method:'POST', credentials:'include', body:f}).then(function(r) {
+    if (!r.ok) {
+      return r.json().catch(function() { return {detail: r.statusText}; }).then(function(b) {
+        throw new Error(b.detail || 'HTTP ' + r.status);
+      });
+    }
+    return r.json();
+  });
+}
+
+/* ---- TOAST SYSTEM ---- */
+var toastCounter = 0;
+function showToast(msg, type) {
+  type = type || 'info';
+  var container = document.getElementById('toast-container');
+  if (!container) return;
+  var id = 'toast-' + (++toastCounter);
+  var iconSvg = '';
+  if (type === 'success') iconSvg = ICONS.check;
+  else if (type === 'error') iconSvg = ICONS.alertTriangle;
+  else if (type === 'warning') iconSvg = ICONS.alertTriangle;
+  else iconSvg = ICONS.activity;
+  var html = '<div class="toast toast-' + type + '" id="' + id + '">'
+    + '<span style="width:18px;height:18px;display:inline-flex;flex-shrink:0">' + iconSvg + '</span>'
+    + '<span>' + esc(msg) + '</span>'
+    + '<button class="toast-dismiss" onclick="dismissToast(\'' + id + '\')">&times;</button>'
+    + '</div>';
+  container.insertAdjacentHTML('beforeend', html);
+  setTimeout(function() { dismissToast(id); }, 4000);
+}
+
+function dismissToast(id) {
+  var el = document.getElementById(id);
+  if (!el) return;
+  el.style.animation = 'toastSlideOut .3s ease-in forwards';
+  setTimeout(function() { if (el.parentNode) el.parentNode.removeChild(el); }, 300);
+}
+
+/* ---- NAVIGATION ---- */
+function nav(page) {
+  currentPage = page;
+  renderPage();
+  updateActiveNav();
+}
+
+function updateActiveNav() {
+  var items = document.querySelectorAll('.nav-item');
+  for (var i = 0; i < items.length; i++) {
+    var item = items[i];
+    var pg = item.getAttribute('data-page');
+    if (pg === currentPage || (currentPage === 'upload-import' && pg === 'upload')
+        || (currentPage === 'upload-export' && pg === 'upload')
+        || (currentPage === 'review-import' && pg === 'upload')
+        || (currentPage === 'review-export' && pg === 'upload')) {
+      item.classList.add('active');
+    } else {
+      item.classList.remove('active');
+    }
+  }
+}
+
+function toggleSidebar() {
+  sidebarCollapsed = !sidebarCollapsed;
+  var sb = document.getElementById('sidebar');
+  var ma = document.getElementById('main-area');
+  if (sb) sb.classList.toggle('collapsed', sidebarCollapsed);
+  if (ma) ma.classList.toggle('sidebar-collapsed', sidebarCollapsed);
+}
+
+/* ---- MAIN RENDER ---- */
+function render() {
+  var app = document.getElementById('app');
+  if (!currentUser) {
+    app.innerHTML = renderLogin();
+    setTimeout(function() {
+      var inp = document.getElementById('lu');
+      if (inp) inp.focus();
+    }, 100);
+    return;
+  }
+  var initial = currentUser.username ? currentUser.username.charAt(0).toUpperCase() : '?';
+  var adminNav = '';
+  if (currentUser.is_admin) {
+    adminNav = '<button class="nav-item" data-page="admin" onclick="nav(\'admin\')">'
+      + ICONS.admin + '<span>Admin</span></button>';
+  }
+
+  app.innerHTML = '<div class="app-shell">'
+    + '<aside class="sidebar' + (sidebarCollapsed ? ' collapsed' : '') + '" id="sidebar">'
+    + '<div class="sidebar-brand">'
+    + '<img src="/static/amex-logo.png" alt="AMEX Healthcare">'
+    + '<div class="sidebar-brand-text">'
+    + '<h4>SEZ Ledger</h4>'
+    + '<span>Kenya Ops</span>'
+    + '</div>'
+    + '</div>'
+    + '<nav class="sidebar-nav">'
+    + '<div class="sidebar-nav-label">Main</div>'
+    + '<button class="nav-item" data-page="dashboard" onclick="nav(\'dashboard\')">'
+    + ICONS.dashboard + '<span>Dashboard</span></button>'
+    + '<button class="nav-item" data-page="upload" onclick="nav(\'upload-import\')">'
+    + ICONS.upload + '<span>Upload</span></button>'
+    + '<button class="nav-item" data-page="search" onclick="nav(\'search\')">'
+    + ICONS.search + '<span>Search</span></button>'
+    + '<div class="sidebar-nav-label">Records</div>'
+    + '<button class="nav-item" data-page="audit" onclick="nav(\'audit\')">'
+    + ICONS.audit + '<span>Audit Log</span></button>'
+    + '<button class="nav-item" data-page="download" onclick="nav(\'download\')">'
+    + ICONS.download + '<span>Download</span></button>'
+    + (currentUser.is_admin ? '<div class="sidebar-nav-label">System</div>' + adminNav : '')
+    + '</nav>'
+    + '<div class="sidebar-toggle">'
+    + '<button onclick="toggleSidebar()">' + ICONS.collapse + '<span>Collapse</span></button>'
+    + '</div>'
+    + '</aside>'
+    + '<div class="main-area' + (sidebarCollapsed ? ' sidebar-collapsed' : '') + '" id="main-area">'
+    + '<header class="top-header">'
+    + '<div class="top-header-left">'
+    + '<div class="breadcrumb" id="breadcrumb"></div>'
+    + '</div>'
+    + '<div class="top-header-right">'
+    + '<div class="user-badge">'
+    + '<div class="user-avatar">' + esc(initial) + '</div>'
+    + '<div>'
+    + '<div class="user-name">' + esc(currentUser.username) + '</div>'
+    + '<div class="user-role">' + (currentUser.is_admin ? 'Administrator' : 'Operator') + '</div>'
+    + '</div>'
+    + '</div>'
+    + '<button class="signout-btn" onclick="doLogout()">'
+    + ICONS.logout + ' Sign Out'
+    + '</button>'
+    + '</div>'
+    + '</header>'
+    + '<div class="content" id="page"></div>'
+    + '<div class="content-footer">SEZ Ledger Automation &mdash; Kenya Operations Track #11 &mdash; AMEX Healthcare Hackathon</div>'
+    + '</div>'
+    + '</div>';
+
+  renderPage();
+  updateActiveNav();
+}
+
+function setBreadcrumb(parts) {
+  var el = document.getElementById('breadcrumb');
+  if (!el) return;
+  var html = '<a onclick="nav(\'dashboard\')">Home</a>';
+  for (var i = 0; i < parts.length; i++) {
+    html += '<span class="breadcrumb-sep">/</span>';
+    if (i < parts.length - 1 && parts[i].page) {
+      html += '<a onclick="nav(\'' + parts[i].page + '\')">' + esc(parts[i].label) + '</a>';
+    } else {
+      html += '<span>' + esc(parts[i].label) + '</span>';
+    }
+  }
+  el.innerHTML = html;
+}
+
+function renderPage() {
+  var el = document.getElementById('page');
+  if (!el) return;
+  switch (currentPage) {
+    case 'dashboard': renderDashboard(el); break;
+    case 'upload-import': renderUpload(el, 'import'); break;
+    case 'upload-export': renderUpload(el, 'export'); break;
+    case 'review-import': renderImportReview(el); break;
+    case 'review-export': renderExportReview(el); break;
+    case 'search': renderSearch(el); break;
+    case 'audit': renderAudit(el); break;
+    case 'download': renderDownload(el); break;
+    case 'admin': renderAdmin(el); break;
+    default: renderDashboard(el);
+  }
+}
+
+/* ---- LOGIN ---- */
+function renderLogin() {
+  return '<div class="login-page">'
+    + '<div class="login-card">'
+    + '<img src="/static/amex-logo.png" alt="AMEX Healthcare" class="login-logo">'
+    + '<h1 class="login-title">SEZ Ledger Automation</h1>'
+    + '<p class="login-subtitle">Kenya Operations &mdash; Stock Ledger Management</p>'
+    + '<div class="login-divider"></div>'
+    + '<div class="form-group">'
+    + '<label class="form-label">Username</label>'
+    + '<input class="form-input" id="lu" autocomplete="username">'
+    + '</div>'
+    + '<div class="form-group">'
+    + '<label class="form-label">Password</label>'
+    + '<input class="form-input" id="lp" type="password" autocomplete="current-password">'
+    + '</div>'
+    + '<div id="lerr" class="mb-4"></div>'
+    + '<button class="btn btn-primary btn-lg" style="width:100%" onclick="doLogin()">Sign In</button>'
+    + '<p style="text-align:center;margin-top:20px;font-size:11px;color:rgba(87,86,86,.35)">AMEX Healthcare &copy; 2026</p>'
+    + '</div>'
+    + '</div>';
+}
+
+function doLogin() {
+  var uEl = document.getElementById('lu');
+  var pEl = document.getElementById('lp');
+  if (!uEl || !pEl) return;
+  var u = uEl.value;
+  var p = pEl.value;
+  if (!u || !p) {
+    document.getElementById('lerr').innerHTML = '<div class="error-box">Please enter both username and password.</div>';
+    return;
+  }
+  api('/auth/login', {method:'POST', body:JSON.stringify({username:u, password:p})}).then(function(user) {
+    currentUser = user;
+    render();
+  }).catch(function(e) {
+    document.getElementById('lerr').innerHTML = '<div class="error-box">' + esc(e.message) + '</div>';
+  });
+}
+
+function doLogout() {
+  api('/auth/logout', {method:'POST'}).catch(function(){});
+  currentUser = null;
+  render();
+}
+
+/* ---- DASHBOARD ---- */
+function renderDashboard(el) {
+  setBreadcrumb([{label:'Dashboard'}]);
+  el.innerHTML = '<div class="loading-state"><div class="spinner spinner-lg"></div><p>Loading dashboard...</p></div>';
+  api('/ledger/dashboard').then(function(s) {
+    var activityHtml = '';
+    if (!s.recent_activity || s.recent_activity.length === 0) {
+      activityHtml = '<div class="empty-state">'
+        + ICONS.clock
+        + '<h3>No Recent Activity</h3>'
+        + '<p>Activity will appear here as you process documents.</p>'
+        + '</div>';
+    } else {
+      activityHtml = '<div class="timeline">';
+      for (var i = 0; i < s.recent_activity.length && i < 10; i++) {
+        var a = s.recent_activity[i];
+        var dotClass = 'timeline-dot-blue';
+        if (a.change_type === 'create') dotClass = 'timeline-dot-green';
+        else if (a.change_type === 'delete') dotClass = 'timeline-dot-red';
+        else if (a.change_type === 'override') dotClass = 'timeline-dot-yellow';
+        activityHtml += '<div class="timeline-item">'
+          + '<div class="timeline-dot ' + dotClass + '"></div>'
+          + '<div class="timeline-content">'
+          + '<span class="fw-600">' + esc(a.change_type) + '</span>'
+          + ' <span class="text-muted">on ' + esc(a.entity_type) + ' #' + esc(a.entity_id) + '</span>'
+          + '<div class="timeline-time">' + new Date(a.created_at).toLocaleString() + '</div>'
+          + '</div></div>';
+      }
+      activityHtml += '</div>';
+    }
+
+    el.innerHTML = '<div class="flex items-center justify-between mb-8">'
+      + '<div><h2 style="font-size:24px">Dashboard</h2>'
+      + '<p class="text-sm text-muted" style="margin-top:4px">SEZ Stock Ledger Overview</p></div>'
+      + '</div>'
+      /* stat cards */
+      + '<div class="grid grid-4 mb-8">'
+      + '<div class="card stat-card">'
+      + '<div class="stat-card-icon" style="background:rgba(94,129,151,.1);color:var(--air-force-blue)">' + ICONS.importBox + '</div>'
+      + '<div class="stat-val">' + esc(s.total_import_lines) + '</div>'
+      + '<div class="stat-label">Import Lines</div>'
+      + '</div>'
+      + '<div class="card stat-card">'
+      + '<div class="stat-card-icon" style="background:rgba(126,148,120,.1);color:var(--dusty-olive)">' + ICONS.exportBox + '</div>'
+      + '<div class="stat-val">' + esc(s.total_export_lines) + '</div>'
+      + '<div class="stat-label">Export Lines</div>'
+      + '</div>'
+      + '<div class="card stat-card">'
+      + '<div class="stat-card-icon" style="background:rgba(148,22,18,.08);color:var(--oxblood)">' + ICONS.activity + '</div>'
+      + '<div class="stat-val">' + esc(s.open_balance_lines) + '</div>'
+      + '<div class="stat-label">Open Balances</div>'
+      + '</div>'
+      + '<div class="card stat-card">'
+      + '<div class="stat-card-icon" style="background:rgba(87,86,86,.08);color:var(--charcoal)">' + ICONS.file + '</div>'
+      + '<div class="stat-val">' + esc(s.total_documents) + '</div>'
+      + '<div class="stat-label">Documents</div>'
+      + '</div>'
+      + '</div>'
+      /* two-column layout */
+      + '<div class="grid grid-dash mb-8">'
+      + '<div>'
+      /* quick actions */
+      + '<div class="card mb-6">'
+      + '<div class="card-header"><h3>Quick Actions</h3></div>'
+      + '<div class="flex gap-3 flex-wrap">'
+      + '<button class="btn btn-primary" onclick="nav(\'upload-import\')">' + ICONS.importBox + ' New Import</button>'
+      + '<button class="btn btn-blue" onclick="nav(\'upload-export\')">' + ICONS.exportBox + ' New Export</button>'
+      + '<button class="btn btn-outline" onclick="nav(\'search\')">' + ICONS.search + ' Search Ledger</button>'
+      + '</div></div>'
+      /* downloads card */
+      + '<div class="card">'
+      + '<div class="card-header"><h3>Quick Download</h3></div>'
+      + '<p class="text-sm text-muted mb-4">Generate the complete SEZ stock ledger as Excel.</p>'
+      + '<button class="btn btn-outline" onclick="nav(\'download\')">' + ICONS.download + ' Go to Downloads</button>'
+      + '</div>'
+      + '</div>'
+      /* right column: recent activity */
+      + '<div class="card">'
+      + '<div class="card-header"><h3>Recent Activity</h3></div>'
+      + activityHtml
+      + '</div>'
+      + '</div>';
+  }).catch(function(e) {
+    el.innerHTML = '<div class="error-box">' + esc(e.message) + '</div>';
+  });
+}
+
+/* ---- UPLOAD ---- */
+var selectedFile = null;
+
+function renderUpload(el, type) {
+  var label = type === 'import' ? 'Import' : 'Export';
+  setBreadcrumb([{label:'Upload'}, {label:label + ' Document'}]);
+  el.innerHTML = '<div class="flex items-center justify-between mb-6">'
+    + '<h2>Upload ' + label + ' Document</h2>'
+    + '<div class="flex gap-3">'
+    + '<button class="btn ' + (type === 'import' ? 'btn-primary' : 'btn-outline') + '" onclick="nav(\'upload-import\')">Import</button>'
+    + '<button class="btn ' + (type === 'export' ? 'btn-blue' : 'btn-outline') + '" onclick="nav(\'upload-export\')">Export</button>'
+    + '</div></div>'
+    + '<div class="card mb-6">'
+    + '<div class="dropzone" id="dz" onclick="document.getElementById(\'finput\').click()" ondragover="event.preventDefault();this.classList.add(\'over\')" ondragleave="this.classList.remove(\'over\')" ondrop="handleDrop(event,\'' + type + '\')">'
+    + '<div class="dropzone-icon">' + ICONS.upload + '</div>'
+    + '<p class="fw-600 mb-2" id="fname">Drop your PDF file here</p>'
+    + '<p class="text-sm text-muted mb-4">or click to browse your files</p>'
+    + '<input type="file" accept=".pdf" id="finput" style="display:none" onchange="handleFile(this.files[0],\'' + type + '\')">'
+    + '<span class="badge badge-gray">PDF files only</span>'
+    + '</div></div>'
+    + '<div id="file-preview" class="hidden mb-6"></div>'
+    + '<div id="upload-actions" class="hidden mb-6"></div>'
+    + '<div id="upload-result"></div>';
+}
+
+function handleDrop(e, type) {
+  e.preventDefault();
+  var dz = document.getElementById('dz');
+  if (dz) dz.classList.remove('over');
+  if (e.dataTransfer.files[0]) handleFile(e.dataTransfer.files[0], type);
+}
+
+function handleFile(f, type) {
+  if (!f || !f.name.toLowerCase().endsWith('.pdf')) {
+    showToast('Only PDF files are accepted', 'error');
+    return;
+  }
+  selectedFile = f;
+  var sizeKb = (f.size / 1024).toFixed(1);
+  var preview = document.getElementById('file-preview');
+  if (preview) {
+    preview.classList.remove('hidden');
+    preview.innerHTML = '<div class="card card-flat" style="border:1px solid rgba(94,129,151,.2);background:rgba(94,129,151,.03)">'
+      + '<div class="flex items-center gap-4">'
+      + '<div style="width:44px;height:44px;border-radius:10px;background:rgba(94,129,151,.1);display:flex;align-items:center;justify-content:center;color:var(--air-force-blue)">' + ICONS.file + '</div>'
+      + '<div class="flex-1">'
+      + '<div class="fw-600 text-sm">' + esc(f.name) + '</div>'
+      + '<div class="text-xs text-muted">' + sizeKb + ' KB &mdash; PDF Document</div>'
+      + '</div>'
+      + '<button class="btn btn-sm btn-outline" onclick="clearFile(\'' + type + '\')">Remove</button>'
+      + '</div></div>';
+  }
+  var actions = document.getElementById('upload-actions');
+  if (actions) {
+    actions.classList.remove('hidden');
+    actions.innerHTML = '<button class="btn btn-primary btn-lg" onclick="doUpload(\'' + type + '\')">'
+      + ICONS.upload + ' Upload & Process</button>';
+  }
+}
+
+function clearFile(type) {
+  selectedFile = null;
+  var preview = document.getElementById('file-preview');
+  var actions = document.getElementById('upload-actions');
+  if (preview) { preview.classList.add('hidden'); preview.innerHTML = ''; }
+  if (actions) { actions.classList.add('hidden'); actions.innerHTML = ''; }
+}
+
+function doUpload(type) {
+  if (!selectedFile) return;
+  var actions = document.getElementById('upload-actions');
+  if (actions) {
+    actions.innerHTML = '<div class="card card-flat flex items-center gap-4" style="padding:20px">'
+      + '<div class="spinner"></div>'
+      + '<span class="text-sm text-muted">Uploading document...</span>'
+      + '</div>';
+  }
+  apiUpload('/' + type + '/upload', selectedFile).then(function(r) {
+    var statusBadge = r.duplicate ? '<span class="badge badge-yellow">Duplicate Detected</span>' : '<span class="badge badge-green">Upload Successful</span>';
+    var result = document.getElementById('upload-result');
+    if (result) {
+      result.innerHTML = '<div class="card">'
+        + '<div class="flex items-center gap-3 mb-4">'
+        + statusBadge
+        + '<span class="text-sm">' + esc(r.message) + '</span>'
+        + '</div>'
+        + '<p class="text-sm text-muted mb-6">Choose how to extract data from this document:</p>'
+        + '<div class="flex gap-3">'
+        + '<button class="btn btn-primary" onclick="doExtract(' + r.document_id + ',\'' + type + '\',false)">'
+        + ICONS.zap + ' Extract with AI</button>'
+        + '<button class="btn btn-outline" onclick="doExtract(' + r.document_id + ',\'' + type + '\',true)">'
+        + 'Use Mock Data</button>'
+        + '</div></div>';
+    }
+    if (actions) actions.innerHTML = '';
+  }).catch(function(e) {
+    showToast(e.message, 'error');
+    if (actions) actions.innerHTML = '<button class="btn btn-primary btn-lg" onclick="doUpload(\'' + type + '\')">' + ICONS.upload + ' Retry Upload</button>';
+  });
+}
+
+function doExtract(docId, type, mock) {
+  var result = document.getElementById('upload-result');
+  if (result) {
+    result.innerHTML = '<div class="card flex items-center gap-4" style="padding:32px;justify-content:center">'
+      + '<div class="spinner spinner-lg"></div>'
+      + '<div><div class="fw-600">Extracting data...</div>'
+      + '<div class="text-sm text-muted">This may take a moment' + (mock ? '' : ' while AI processes the document') + '.</div></div>'
+      + '</div>';
+  }
+  api('/' + type + '/extract/' + docId + '?use_mock=' + mock, {method:'POST'}).then(function(r) {
+    if (r.error) { showToast(r.error, 'error'); return; }
+    extractionData = r;
+    nav(type === 'import' ? 'review-import' : 'review-export');
+  }).catch(function(e) {
+    showToast(e.message, 'error');
+    if (result) result.innerHTML = '<div class="error-box">' + esc(e.message) + '</div>';
+  });
+}
+
+/* ---- IMPORT REVIEW ---- */
+function renderImportReview(el) {
+  if (!extractionData) { nav('dashboard'); return; }
+  setBreadcrumb([{label:'Upload', page:'upload-import'}, {label:'Review Import Data'}]);
+  var entries = extractionData.import_entries || [];
+  var fields = [
+    ['consignor_exporter','Consignor/Exporter'],
+    ['description','Description'],
+    ['import_file_number','File Number'],
+    ['import_entry_date','Entry Date'],
+    ['import_entry_number','Entry Number'],
+    ['hs_code','HS Code'],
+    ['country','Country'],
+    ['supplementary_units','Supplementary Units'],
+    ['unit','Unit'],
+    ['quantity_imported','Qty Imported'],
+    ['customs_value_kes','Customs Value (KES)'],
+    ['bif_value_kes','BIF Value (KES)']
+  ];
+
+  var itemsHtml = '';
+  for (var idx = 0; idx < entries.length; idx++) {
+    var entry = entries[idx];
+    var fieldsHtml = '';
+    for (var fi = 0; fi < fields.length; fi++) {
+      var k = fields[fi][0];
+      var l = fields[fi][1];
+      var fld = entry[k] || {value: null, confidence: 1};
+      var confVal = fld.confidence != null ? fld.confidence : 1;
+      var confClass = '';
+      if (confVal >= 0.8) confClass = 'conf-high';
+      else if (confVal >= 0.5) confClass = 'conf-med';
+      else confClass = 'conf-low';
+      var confPct = (confVal * 100).toFixed(0);
+      var sourceTitle = 'Confidence: ' + confPct + '%';
+      if (fld.source_text) sourceTitle += ' | Source: ' + fld.source_text;
+      fieldsHtml += '<div class="form-group mb-3">'
+        + '<label class="form-label">' + esc(l) + '</label>'
+        + '<input class="form-input ir ' + confClass + '" data-i="' + idx + '" data-k="' + k + '" value="' + esc(fld.value) + '" title="' + esc(sourceTitle) + '" style="padding-right:28px">'
+        + '</div>';
+    }
+    itemsHtml += '<div class="card mb-4">'
+      + '<div class="flex items-center justify-between mb-4">'
+      + '<h3 style="font-size:16px">Item ' + (idx + 1) + ' of ' + entries.length + '</h3>'
+      + '<span class="badge badge-blue">Import</span>'
+      + '</div>'
+      + '<div class="grid grid-3">' + fieldsHtml + '</div>'
+      + '</div>';
+  }
+
+  el.innerHTML = '<div class="flex items-center justify-between mb-6">'
+    + '<h2>Review Extracted Import Data</h2>'
+    + '<span class="badge badge-gray">' + entries.length + ' item(s)</span>'
+    + '</div>'
+    + '<div class="card card-flat mb-4" style="background:rgba(94,129,151,.04);border:1px solid rgba(94,129,151,.15);padding:14px 20px">'
+    + '<div class="flex items-center gap-3">'
+    + '<span style="color:var(--info);display:inline-flex">' + ICONS.alertTriangle + '</span>'
+    + '<span class="text-sm">Review and correct extracted values. '
+    + '<span style="color:var(--success)">Green</span> = high confidence, '
+    + '<span style="color:var(--warning)">Yellow</span> = medium, '
+    + '<span style="color:var(--error)">Red</span> = low confidence.</span>'
+    + '</div></div>'
+    + '<div id="review-items">' + itemsHtml + '</div>'
+    + '<div class="sticky-bottom">'
+    + '<button class="btn btn-outline" onclick="nav(\'dashboard\')">Cancel</button>'
+    + '<button class="btn btn-primary btn-lg" onclick="confirmImports()">'
+    + ICONS.check + ' Confirm ' + entries.length + ' Item(s)</button>'
+    + '</div>';
+}
+
+function confirmImports() {
+  var inputs = document.querySelectorAll('.ir');
+  var items = {};
+  for (var i = 0; i < inputs.length; i++) {
+    var inp = inputs[i];
+    var idx = inp.getAttribute('data-i');
+    var key = inp.getAttribute('data-k');
+    if (!items[idx]) items[idx] = {};
+    items[idx][key] = inp.value || null;
+  }
+  var keys = Object.keys(items);
+  var payload = [];
+  for (var j = 0; j < keys.length; j++) {
+    var e = items[keys[j]];
+    e.quantity_imported = Number(e.quantity_imported) || 0;
+    e.customs_value_kes = Number(e.customs_value_kes) || 0;
+    e.bif_value_kes = e.bif_value_kes ? Number(e.bif_value_kes) : null;
+    e.supplementary_units = e.supplementary_units ? Number(e.supplementary_units) : null;
+    payload.push(e);
+  }
+  var url = '/import/confirm';
+  if (extractionData.document_id) url += '?source_document_id=' + extractionData.document_id;
+  api(url, {method:'POST', body:JSON.stringify(payload)}).then(function() {
+    showToast(payload.length + ' import line(s) confirmed successfully', 'success');
+    extractionData = null;
+    nav('dashboard');
+  }).catch(function(e) {
+    showToast(e.message, 'error');
+  });
+}
+
+/* ---- EXPORT REVIEW ---- */
+function renderExportReview(el) {
+  if (!extractionData) { nav('dashboard'); return; }
+  setBreadcrumb([{label:'Upload', page:'upload-export'}, {label:'Review Export Data'}]);
+  var entries = extractionData.export_entries || [];
+  var fields = [
+    ['customer_name','Customer Name'],
+    ['export_file_number','File Number'],
+    ['export_entry_date','Entry Date'],
+    ['export_entry_number','Entry Number'],
+    ['ppb_permit','PPB Permit'],
+    ['supplementary_units_exported','Supp Units'],
+    ['unit','Unit'],
+    ['quantity_exported','Qty Exported'],
+    ['customs_value_exported','Customs Value'],
+    ['bif_value_exported','BIF Value']
+  ];
+
+  var itemsHtml = '';
+  for (var idx = 0; idx < entries.length; idx++) {
+    var entry = entries[idx];
+    var fieldsHtml = '';
+    for (var fi = 0; fi < fields.length; fi++) {
+      var k = fields[fi][0];
+      var l = fields[fi][1];
+      var fld = entry[k] || {value: null, confidence: 1};
+      fieldsHtml += '<div class="form-group mb-3">'
+        + '<label class="form-label">' + esc(l) + '</label>'
+        + '<input class="form-input er" data-i="' + idx + '" data-k="' + k + '" value="' + esc(fld.value) + '">'
+        + '</div>';
+    }
+    itemsHtml += '<div class="card mb-6">'
+      + '<div class="flex items-center justify-between mb-4">'
+      + '<h3 style="font-size:16px">Export Item ' + (idx + 1) + ' of ' + entries.length + '</h3>'
+      + '<span class="badge badge-green">Export</span>'
+      + '</div>'
+      + '<div class="grid grid-3 mb-6">' + fieldsHtml + '</div>'
+      + '<div style="border-top:1px solid rgba(157,178,191,.12);padding-top:20px">'
+      + '<div class="flex items-center justify-between mb-4">'
+      + '<div class="flex items-center gap-3">'
+      + '<span class="fw-600 text-sm">Matched Import Line:</span>'
+      + '<span class="text-sm" id="match-' + idx + '"><span class="text-muted">Not selected</span></span>'
+      + '<input type="hidden" id="matchid-' + idx + '" value="">'
+      + '</div>'
+      + '<button class="btn btn-sm btn-outline" onclick="findMatches(' + idx + ')">' + ICONS.search + ' Find Matches</button>'
+      + '</div>'
+      + '<div id="candidates-' + idx + '"></div>'
+      + '<div id="proration-' + idx + '"></div>'
+      + '</div></div>';
+  }
+
+  el.innerHTML = '<div class="flex items-center justify-between mb-6">'
+    + '<h2>Review Export & Match to Import</h2>'
+    + '<span class="badge badge-gray">' + entries.length + ' item(s)</span>'
+    + '</div>'
+    + '<div id="export-items">' + itemsHtml + '</div>'
+    + '<div class="sticky-bottom">'
+    + '<button class="btn btn-outline" onclick="nav(\'dashboard\')">Cancel</button>'
+    + '<button class="btn btn-primary btn-lg" onclick="confirmExports()">'
+    + ICONS.check + ' Confirm ' + entries.length + ' Export(s)</button>'
+    + '</div>';
+}
+
+function findMatches(idx) {
+  var container = document.getElementById('candidates-' + idx);
+  if (!container) return;
+  container.innerHTML = '<div class="flex items-center gap-3" style="padding:12px"><div class="spinner"></div><span class="text-sm text-muted">Searching candidates...</span></div>';
+  api('/export/match-candidates').then(function(r) {
+    if (!r || r.length === 0) {
+      container.innerHTML = '<div class="card card-flat" style="background:#fafbfc;text-align:center;padding:24px">'
+        + '<p class="text-sm text-muted">No match candidates found.</p></div>';
+      return;
+    }
+    var rows = '';
+    for (var i = 0; i < r.length; i++) {
+      var c = r[i];
+      var desc = (c.description || '');
+      if (desc.length > 55) desc = desc.substring(0, 55) + '...';
+      var consignor = (c.consignor_exporter || '');
+      if (consignor.length > 35) consignor = consignor.substring(0, 35) + '...';
+      rows += '<tr class="clickable" onclick="selectMatch(' + idx + ',' + c.id + ')">'
+        + '<td class="fw-600">#' + esc(c.id) + '</td>'
+        + '<td class="text-sm">' + esc(desc) + '</td>'
+        + '<td><span class="badge badge-blue">' + esc(c.hs_code || '-') + '</span></td>'
+        + '<td class="tbl-right fw-600">' + (c.balance_quantity != null ? c.balance_quantity.toLocaleString() : '-') + ' ' + esc(c.unit || '') + '</td>'
+        + '<td class="text-sm text-muted">' + esc(consignor) + '</td>'
+        + '</tr>';
+    }
+    container.innerHTML = '<div class="table-wrap" style="max-height:240px;overflow-y:auto;margin-top:8px">'
+      + '<table class="tbl"><thead><tr>'
+      + '<th>ID</th><th>Description</th><th>HS</th><th class="tbl-right">Balance</th><th>Consignor</th>'
+      + '</tr></thead><tbody>' + rows + '</tbody></table></div>';
+  }).catch(function(e) {
+    showToast(e.message, 'error');
+    container.innerHTML = '';
+  });
+}
+
+function selectMatch(idx, importId) {
+  var matchEl = document.getElementById('match-' + idx);
+  var matchIdEl = document.getElementById('matchid-' + idx);
+  var candidatesEl = document.getElementById('candidates-' + idx);
+  if (matchIdEl) matchIdEl.value = importId;
+  if (matchEl) matchEl.innerHTML = '<span class="badge badge-green">Import Line #' + importId + '</span>';
+  if (candidatesEl) candidatesEl.innerHTML = '';
+
+  var qtyInput = document.querySelector('.er[data-i="' + idx + '"][data-k="quantity_exported"]');
+  var qty = qtyInput ? Number(qtyInput.value) : 0;
+  if (qty > 0) {
+    api('/export/preview-proration?import_line_id=' + importId + '&quantity_exported=' + qty, {method:'POST'}).then(function(p) {
+      var proEl = document.getElementById('proration-' + idx);
+      if (!proEl) return;
+      var bgStyle = p.overdraft ? 'background:var(--error-bg);border-left:3px solid var(--error)' : 'background:var(--success-bg);border-left:3px solid var(--success)';
+      var overdraftHtml = p.overdraft ? '<div class="fw-600 text-sm" style="color:var(--error);margin-top:8px">' + esc(p.overdraft_message) + '</div>' : '';
+      proEl.innerHTML = '<div class="card card-flat mt-4" style="' + bgStyle + ';padding:16px 20px">'
+        + '<div class="text-sm">Prorated Customs: <b>KES ' + p.prorated_customs_value.toLocaleString() + '</b></div>'
+        + '<div class="text-sm">Prorated BIF: <b>KES ' + p.prorated_bif_value.toLocaleString() + '</b></div>'
+        + '<div class="text-sm">Remaining Qty: <b>' + p.remaining_quantity.toLocaleString() + '</b></div>'
+        + overdraftHtml + '</div>';
+    }).catch(function() {});
+  }
+}
+
+function confirmExports() {
+  var inputs = document.querySelectorAll('.er');
+  var items = {};
+  for (var i = 0; i < inputs.length; i++) {
+    var inp = inputs[i];
+    var idx = inp.getAttribute('data-i');
+    var key = inp.getAttribute('data-k');
+    if (!items[idx]) items[idx] = {};
+    items[idx][key] = inp.value || null;
+  }
+  var keys = Object.keys(items);
+  var payload = [];
+  for (var j = 0; j < keys.length; j++) {
+    var e = items[keys[j]];
+    var matchIdEl = document.getElementById('matchid-' + keys[j]);
+    e.import_line_id = matchIdEl ? Number(matchIdEl.value) : 0;
+    e.quantity_exported = Number(e.quantity_exported) || 0;
+    e.customs_value_exported = e.customs_value_exported ? Number(e.customs_value_exported) : null;
+    e.bif_value_exported = e.bif_value_exported ? Number(e.bif_value_exported) : null;
+    e.supplementary_units_exported = e.supplementary_units_exported ? Number(e.supplementary_units_exported) : null;
+    payload.push(e);
+  }
+  for (var pi = 0; pi < payload.length; pi++) {
+    if (!payload[pi].import_line_id) {
+      showToast('Please select an import line for each export item', 'error');
+      return;
+    }
+  }
+  var url = '/export/confirm';
+  if (extractionData.document_id) url += '?source_document_id=' + extractionData.document_id;
+  api(url, {method:'POST', body:JSON.stringify(payload)}).then(function() {
+    showToast(payload.length + ' export(s) confirmed successfully', 'success');
+    extractionData = null;
+    nav('dashboard');
+  }).catch(function(e) {
+    showToast(e.message, 'error');
+  });
+}
+
+/* ---- SEARCH ---- */
+function renderSearch(el) {
+  setBreadcrumb([{label:'Search'}]);
+  el.innerHTML = '<div class="flex items-center justify-between mb-6">'
+    + '<h2>Search Ledger</h2>'
+    + '</div>'
+    + '<div class="card mb-6">'
+    + '<div class="flex items-center gap-3 mb-4">'
+    + '<span style="color:var(--air-force-blue);display:inline-flex">' + ICONS.filter + '</span>'
+    + '<span class="fw-600 text-sm">Search Filters</span>'
+    + '</div>'
+    + '<div class="grid grid-3 mb-4">'
+    + '<div class="form-group mb-0"><label class="form-label">Entry Number</label><input class="form-input" id="s_en"></div>'
+    + '<div class="form-group mb-0"><label class="form-label">File Number</label><input class="form-input" id="s_fn"></div>'
+    + '<div class="form-group mb-0"><label class="form-label">Description</label><input class="form-input" id="s_desc"></div>'
+    + '<div class="form-group mb-0"><label class="form-label">Consignor</label><input class="form-input" id="s_con"></div>'
+    + '<div class="form-group mb-0"><label class="form-label">HS Code</label><input class="form-input" id="s_hs"></div>'
+    + '<div class="form-group mb-0"><label class="form-label">Country</label><input class="form-input" id="s_co"></div>'
+    + '</div>'
+    + '<div class="flex items-center justify-between">'
+    + '<label class="form-check"><input type="checkbox" id="s_ob"> Open balance only</label>'
+    + '<button class="btn btn-primary" onclick="doSearch()">' + ICONS.search + ' Search</button>'
+    + '</div>'
+    + '</div>'
+    + '<div id="search-results"></div>'
+    + '<div id="search-detail"></div>';
+
+  /* Enter key triggers search */
+  var searchInputs = document.querySelectorAll('#s_en, #s_fn, #s_desc, #s_con, #s_hs, #s_co');
+  for (var si = 0; si < searchInputs.length; si++) {
+    searchInputs[si].addEventListener('keydown', function(evt) {
+      if (evt.key === 'Enter') doSearch();
+    });
+  }
+}
+
+function doSearch() {
+  var p = new URLSearchParams();
+  function addParam(k, id) { var v = document.getElementById(id); if (v && v.value) p.set(k, v.value); }
+  addParam('entry_number', 's_en');
+  addParam('file_number', 's_fn');
+  addParam('description', 's_desc');
+  addParam('consignor', 's_con');
+  addParam('hs_code', 's_hs');
+  addParam('country', 's_co');
+  var obEl = document.getElementById('s_ob');
+  if (obEl && obEl.checked) p.set('open_balance_only', 'true');
+
+  var resultsEl = document.getElementById('search-results');
+  var detailEl = document.getElementById('search-detail');
+  if (detailEl) detailEl.innerHTML = '';
+  if (resultsEl) resultsEl.innerHTML = '<div class="loading-state"><div class="spinner"></div><p>Searching...</p></div>';
+
+  api('/ledger/search?' + p).then(function(r) {
+    searchResults = r || [];
+    searchPage = 0;
+    renderSearchResults();
+  }).catch(function(e) {
+    showToast(e.message, 'error');
+    if (resultsEl) resultsEl.innerHTML = '';
+  });
+}
+
+function renderSearchResults() {
+  var resultsEl = document.getElementById('search-results');
+  if (!resultsEl) return;
+  if (searchResults.length === 0) {
+    resultsEl.innerHTML = '<div class="card"><div class="empty-state">'
+      + ICONS.search
+      + '<h3>No Results Found</h3>'
+      + '<p>Try adjusting your search filters or clear them to see all records.</p>'
+      + '</div></div>';
+    return;
+  }
+
+  var totalPages = Math.ceil(searchResults.length / ITEMS_PER_PAGE);
+  var start = searchPage * ITEMS_PER_PAGE;
+  var end = Math.min(start + ITEMS_PER_PAGE, searchResults.length);
+  var pageItems = searchResults.slice(start, end);
+
+  var rows = '';
+  for (var i = 0; i < pageItems.length; i++) {
+    var item = pageItems[i];
+    var balColor = item.balance_quantity > 0 ? 'color:var(--success);font-weight:600' : 'color:var(--charcoal)';
+    rows += '<tr class="clickable" onclick="viewDetail(' + item.id + ')">'
+      + '<td class="fw-600">#' + esc(item.id) + '</td>'
+      + '<td>' + esc(item.import_entry_number || '-') + '</td>'
+      + '<td><span class="truncate">' + esc(item.description || '-') + '</span></td>'
+      + '<td><span class="badge badge-blue">' + esc(item.hs_code || '-') + '</span></td>'
+      + '<td class="tbl-right">' + (item.quantity_imported != null ? item.quantity_imported.toLocaleString() : '-') + '</td>'
+      + '<td class="tbl-right" style="' + balColor + '">' + (item.balance_quantity != null ? item.balance_quantity.toLocaleString() : '-') + '</td>'
+      + '<td class="tbl-right">' + (item.balance_customs_value != null ? item.balance_customs_value.toLocaleString() : '-') + '</td>'
+      + '</tr>';
+  }
+
+  var paginationHtml = '';
+  if (totalPages > 1) {
+    paginationHtml = '<div class="pagination">';
+    paginationHtml += '<button class="page-btn" onclick="searchPageNav(' + (searchPage - 1) + ')"' + (searchPage === 0 ? ' disabled' : '') + '>&laquo; Prev</button>';
+    for (var pg = 0; pg < totalPages; pg++) {
+      paginationHtml += '<button class="page-btn' + (pg === searchPage ? ' active' : '') + '" onclick="searchPageNav(' + pg + ')">' + (pg + 1) + '</button>';
+    }
+    paginationHtml += '<button class="page-btn" onclick="searchPageNav(' + (searchPage + 1) + ')"' + (searchPage >= totalPages - 1 ? ' disabled' : '') + '>Next &raquo;</button>';
+    paginationHtml += '</div>';
+  }
+
+  resultsEl.innerHTML = '<div class="flex items-center justify-between mb-3">'
+    + '<span class="text-sm text-muted">' + searchResults.length + ' result(s) found</span>'
+    + '</div>'
+    + '<div class="table-wrap"><table class="tbl">'
+    + '<thead><tr>'
+    + '<th>ID</th><th>Entry #</th><th>Description</th><th>HS Code</th>'
+    + '<th class="tbl-right">Qty Imported</th><th class="tbl-right">Balance</th><th class="tbl-right">Value (KES)</th>'
+    + '</tr></thead>'
+    + '<tbody>' + rows + '</tbody>'
+    + '</table>'
+    + paginationHtml
+    + '</div>';
+}
+
+function searchPageNav(pg) {
+  var totalPages = Math.ceil(searchResults.length / ITEMS_PER_PAGE);
+  if (pg < 0 || pg >= totalPages) return;
+  searchPage = pg;
+  renderSearchResults();
+}
+
+function viewDetail(id) {
+  var detailEl = document.getElementById('search-detail');
+  if (!detailEl) return;
+  detailEl.innerHTML = '<div class="card mt-6"><div class="loading-state" style="padding:32px"><div class="spinner"></div><p>Loading details...</p></div></div>';
+
+  api('/ledger/import-lines/' + id).then(function(d) {
+    var fieldPairs = [
+      ['Consignor', d.consignor_exporter],
+      ['Description', d.description],
+      ['File #', d.import_file_number],
+      ['Entry Date', d.import_entry_date],
+      ['Entry #', d.import_entry_number],
+      ['HS Code', d.hs_code],
+      ['Country', d.country],
+      ['Unit', d.unit],
+      ['Qty Imported', d.quantity_imported != null ? d.quantity_imported.toLocaleString() : '-'],
+      ['Customs Value', d.customs_value_kes != null ? 'KES ' + d.customs_value_kes.toLocaleString() : '-'],
+      ['BIF Value', d.bif_value_kes ? 'KES ' + d.bif_value_kes.toLocaleString() : '-'],
+      ['Balance Qty', d.balance_quantity != null ? d.balance_quantity.toLocaleString() : '-'],
+      ['Balance Customs', d.balance_customs_value != null ? 'KES ' + d.balance_customs_value.toLocaleString() : '-'],
+      ['Balance BIF', d.balance_bif_value != null ? 'KES ' + d.balance_bif_value.toLocaleString() : '-']
+    ];
+    var fieldsHtml = '';
+    for (var fi = 0; fi < fieldPairs.length; fi++) {
+      fieldsHtml += '<div><div class="detail-label">' + esc(fieldPairs[fi][0]) + '</div>'
+        + '<div class="detail-value">' + esc(fieldPairs[fi][1] || '-') + '</div></div>';
+    }
+
+    var exportsHtml = '';
+    if (d.export_lines && d.export_lines.length > 0) {
+      var expRows = '';
+      for (var ei = 0; ei < d.export_lines.length; ei++) {
+        var ex = d.export_lines[ei];
+        var custName = (ex.customer_name || '-');
+        if (custName.length > 30) custName = custName.substring(0, 30) + '...';
+        var delBtn = '<button class="btn btn-sm btn-danger" onclick="delExport(' + ex.id + ',' + d.id + ')">' + ICONS.trash + '</button>';
+        expRows += '<tr>'
+          + '<td class="fw-600">#' + esc(ex.id) + '</td>'
+          + '<td>' + esc(custName) + '</td>'
+          + '<td>' + esc(ex.export_entry_number || '-') + '</td>'
+          + '<td class="tbl-right">' + (ex.quantity_exported != null ? ex.quantity_exported.toLocaleString() : '-') + '</td>'
+          + '<td class="tbl-right">' + (ex.customs_value_exported != null ? ex.customs_value_exported.toLocaleString() : '-') + '</td>'
+          + '<td class="tbl-right">' + (ex.bif_value_exported != null ? ex.bif_value_exported.toLocaleString() : '-') + '</td>'
+          + '<td class="tbl-right">' + delBtn + '</td>'
+          + '</tr>';
+      }
+      exportsHtml = '<div style="border-top:1px solid rgba(157,178,191,.12);padding-top:20px;margin-top:20px">'
+        + '<h3 style="font-size:14px;margin-bottom:12px">Export History (' + d.export_lines.length + ')</h3>'
+        + '<div class="table-wrap"><table class="tbl"><thead><tr>'
+        + '<th>ID</th><th>Customer</th><th>Entry #</th>'
+        + '<th class="tbl-right">Qty</th><th class="tbl-right">Customs</th><th class="tbl-right">BIF</th><th></th>'
+        + '</tr></thead><tbody>' + expRows + '</tbody></table></div></div>';
+    }
+
+    var balBadge = d.balance_quantity > 0 ? '<span class="badge badge-green">Open</span>' : '<span class="badge badge-gray">Closed</span>';
+
+    detailEl.innerHTML = '<div class="card mt-6">'
+      + '<div class="flex items-center justify-between mb-6">'
+      + '<h3 style="font-size:18px">Import Line #' + esc(d.id) + '</h3>'
+      + balBadge
+      + '</div>'
+      + '<div class="detail-grid mb-6">' + fieldsHtml + '</div>'
+      + exportsHtml
+      + '</div>';
+
+    detailEl.scrollIntoView({behavior: 'smooth', block: 'start'});
+  }).catch(function(e) {
+    showToast(e.message, 'error');
+    detailEl.innerHTML = '';
+  });
+}
+
+function delExport(eid, iid) {
+  if (!confirm('Are you sure you want to delete this export line? The balance will be restored.')) return;
+  api('/export/' + eid, {method:'DELETE'}).then(function() {
+    showToast('Export deleted, balance restored', 'success');
+    viewDetail(iid);
+  }).catch(function(e) {
+    showToast(e.message, 'error');
+  });
+}
+
+/* ---- AUDIT LOG ---- */
+function renderAudit(el) {
+  setBreadcrumb([{label:'Audit Log'}]);
+  el.innerHTML = '<div class="flex items-center justify-between mb-6">'
+    + '<h2>Audit Log</h2>'
+    + '<button class="btn btn-outline" onclick="exportAuditCsv()">' + ICONS.download + ' Export CSV</button>'
+    + '</div>'
+    + '<div class="card mb-6">'
+    + '<div class="flex items-center gap-4 flex-wrap">'
+    + '<div class="form-group mb-0">'
+    + '<label class="form-label">Entity Type</label>'
+    + '<select class="form-input" id="a_et" style="width:160px">'
+    + '<option value="">All Types</option>'
+    + '<option value="import_line">Import</option>'
+    + '<option value="export_line">Export</option>'
+    + '<option value="user">User</option>'
+    + '</select></div>'
+    + '<div class="form-group mb-0">'
+    + '<label class="form-label">Change Type</label>'
+    + '<select class="form-input" id="a_ct" style="width:160px">'
+    + '<option value="">All Changes</option>'
+    + '<option value="create">Create</option>'
+    + '<option value="update">Update</option>'
+    + '<option value="delete">Delete</option>'
+    + '<option value="override">Override</option>'
+    + '</select></div>'
+    + '<button class="btn btn-primary" style="margin-top:18px" onclick="loadAudit()">' + ICONS.filter + ' Apply Filters</button>'
+    + '</div></div>'
+    + '<div id="audit-table"><div class="loading-state"><div class="spinner"></div><p>Loading audit log...</p></div></div>';
   loadAudit();
 }
-async function loadAudit(){
-  const p=new URLSearchParams();const et=document.getElementById('a_et')?.value,ct=document.getElementById('a_ct')?.value;
-  if(et)p.set('entity_type',et);if(ct)p.set('change_type',ct);
-  try{
-    const r=await api('/ledger/audit?'+p);
-    var bodyHtml;
-    if(r.length===0){
-      bodyHtml='<tr><td colspan="7" style="text-align:center;padding:32px" class="text-muted">No entries</td></tr>';
-    }else{
-      bodyHtml=r.map(function(l){
-        var badgeClass=l.change_type==='create'?'badge-green':l.change_type==='delete'?'badge-red':l.change_type==='override'?'badge-yellow':'badge-blue';
-        return '<tr><td class="text-xs text-muted" style="white-space:nowrap">'+new Date(l.created_at).toLocaleString()+'</td><td>'+l.entity_type+' #'+l.entity_id+'</td><td><span class="badge '+badgeClass+'">'+l.change_type+'</span></td><td class="text-muted">'+(l.field_name||'-')+'</td><td class="truncate text-muted">'+(l.old_value||'-')+'</td><td class="truncate text-muted">'+(l.new_value||'-')+'</td><td class="text-muted">'+l.source+'</td></tr>';
-      }).join('');
+
+function loadAudit() {
+  var p = new URLSearchParams();
+  var etEl = document.getElementById('a_et');
+  var ctEl = document.getElementById('a_ct');
+  if (etEl && etEl.value) p.set('entity_type', etEl.value);
+  if (ctEl && ctEl.value) p.set('change_type', ctEl.value);
+
+  api('/ledger/audit?' + p).then(function(r) {
+    var container = document.getElementById('audit-table');
+    if (!container) return;
+
+    if (!r || r.length === 0) {
+      container.innerHTML = '<div class="card"><div class="empty-state">'
+        + ICONS.audit
+        + '<h3>No Audit Entries</h3>'
+        + '<p>Audit events will appear here as changes are made to the ledger.</p>'
+        + '</div></div>';
+      return;
     }
-    document.getElementById('audit-table').innerHTML='<div class="card" style="padding:0;overflow-x:auto"><table>'
-      +'<thead><tr><th>Time</th><th>Entity</th><th>Change</th><th>Field</th><th>Old</th><th>New</th><th>Source</th></tr></thead>'
-      +'<tbody>'+bodyHtml+'</tbody></table></div>';
-  }catch(e){showToast(e.message,'error')}
-}
-async function exportAuditCsv(){
-  const et=document.getElementById('a_et')?.value;
-  const r=await fetch(API+'/ledger/audit/export'+(et?'?entity_type='+et:''),{credentials:'include'});
-  if(!r.ok){showToast('Export failed','error');return}
-  const b=await r.blob();const u=URL.createObjectURL(b);const a=document.createElement('a');a.href=u;a.download='audit_log.csv';a.click();URL.revokeObjectURL(u);
+
+    /* timeline view */
+    var timelineHtml = '<div class="timeline">';
+    for (var i = 0; i < r.length; i++) {
+      var entry = r[i];
+      var dotClass = 'timeline-dot-blue';
+      var badgeClass = 'badge-blue';
+      if (entry.change_type === 'create') { dotClass = 'timeline-dot-green'; badgeClass = 'badge-green'; }
+      else if (entry.change_type === 'delete') { dotClass = 'timeline-dot-red'; badgeClass = 'badge-red'; }
+      else if (entry.change_type === 'override') { dotClass = 'timeline-dot-yellow'; badgeClass = 'badge-yellow'; }
+
+      var detailStr = '';
+      if (entry.field_name) {
+        detailStr = ' &mdash; <span class="text-muted">' + esc(entry.field_name) + '</span>';
+        if (entry.old_value || entry.new_value) {
+          detailStr += ': ';
+          if (entry.old_value) detailStr += '<span style="text-decoration:line-through;color:var(--error)">' + esc(String(entry.old_value).substring(0, 40)) + '</span>';
+          if (entry.old_value && entry.new_value) detailStr += ' &rarr; ';
+          if (entry.new_value) detailStr += '<span style="color:var(--success)">' + esc(String(entry.new_value).substring(0, 40)) + '</span>';
+        }
+      }
+
+      timelineHtml += '<div class="timeline-item">'
+        + '<div class="timeline-dot ' + dotClass + '"></div>'
+        + '<div class="timeline-content">'
+        + '<span class="badge ' + badgeClass + '" style="margin-right:8px">' + esc(entry.change_type) + '</span>'
+        + '<span class="text-sm fw-600">' + esc(entry.entity_type) + ' #' + esc(entry.entity_id) + '</span>'
+        + detailStr
+        + '<span class="text-xs text-muted" style="margin-left:8px">via ' + esc(entry.source) + '</span>'
+        + '<div class="timeline-time">' + new Date(entry.created_at).toLocaleString() + '</div>'
+        + '</div></div>';
+    }
+    timelineHtml += '</div>';
+
+    container.innerHTML = '<div class="card">'
+      + '<div class="flex items-center justify-between mb-4">'
+      + '<span class="text-sm text-muted">' + r.length + ' entries</span>'
+      + '</div>'
+      + timelineHtml + '</div>';
+  }).catch(function(e) {
+    showToast(e.message, 'error');
+  });
 }
 
-// --- Download ---
-function renderDownload(el){
-  var legacyHtml=currentUser.is_admin?'<div class="card">'
-    +'<h3 style="font-size:16px;margin-bottom:16px">Legacy Data Import</h3>'
-    +'<p class="text-sm text-muted mb4">Import data from the original Excel ledger file. Admin only.</p>'
-    +'<button class="btn btn-gray" onclick="legacyImport()">Import Legacy Data</button>'
-    +'<div id="legacy-result" class="mt4"></div>'
-    +'</div>':'';
-  el.innerHTML='<div class="flex items-center gap3 mb6"><button class="text-sm" style="color:var(--air-force-blue);border:none;background:none;cursor:pointer" onclick="nav(\'dashboard\')">&larr; Dashboard</button><h2>Download & Data Management</h2></div>'
-    +'<div class="card mb6">'
-    +'<h3 style="font-size:16px;margin-bottom:16px">Download Stock Ledger</h3>'
-    +'<p class="text-sm text-muted mb4">Generate and download the complete SEZ stock ledger as Excel.</p>'
-    +'<div class="flex gap4 mb6">'
-    +'<label style="display:flex;align-items:center;gap:8px;text-transform:none;cursor:pointer"><input type="radio" name="dl_style" value="blank_continuation" checked> Blank continuation (legacy)</label>'
-    +'<label style="display:flex;align-items:center;gap:8px;text-transform:none;cursor:pointer"><input type="radio" name="dl_style" value="fully_populated"> Fully populated</label>'
-    +'</div>'
-    +'<button class="btn btn-primary" onclick="dlLedger()">Download Excel</button>'
-    +'</div>'
-    +legacyHtml;
-}
-async function dlLedger(){
-  const style=document.querySelector('input[name="dl_style"]:checked')?.value||'blank_continuation';
-  const r=await fetch(API+'/ledger/download?style='+style,{credentials:'include'});
-  if(!r.ok){showToast('Download failed','error');return}
-  const b=await r.blob();const u=URL.createObjectURL(b);const a=document.createElement('a');a.href=u;a.download='SEZ_Stock_Ledger.xlsx';a.click();URL.revokeObjectURL(u);
-  showToast('Ledger downloaded','success');
-}
-async function legacyImport(){
-  try{
-    const r=await api('/ledger/import-legacy',{method:'POST'});
-    var warningsHtml=r.warnings.length?'<br>Warnings: '+r.warnings.join(', '):'';
-    document.getElementById('legacy-result').innerHTML='<div class="success"><b>Import Complete</b><br>Import lines: '+r.import_lines_created+'<br>Export lines: '+r.export_lines_created+'<br>Skipped: '+r.skipped_empty+warningsHtml+'</div>';
-    showToast('Legacy import complete','success');
-  }catch(e){showToast(e.message,'error')}
+function exportAuditCsv() {
+  var etEl = document.getElementById('a_et');
+  var url = API + '/ledger/audit/export';
+  if (etEl && etEl.value) url += '?entity_type=' + etEl.value;
+  fetch(url, {credentials:'include'}).then(function(r) {
+    if (!r.ok) { showToast('Export failed', 'error'); return; }
+    return r.blob();
+  }).then(function(b) {
+    if (!b) return;
+    var u = URL.createObjectURL(b);
+    var a = document.createElement('a');
+    a.href = u;
+    a.download = 'audit_log.csv';
+    a.click();
+    URL.revokeObjectURL(u);
+    showToast('Audit log exported', 'success');
+  });
 }
 
-// --- Admin ---
-async function renderAdmin(el){
-  if(!currentUser.is_admin){nav('dashboard');return}
-  el.innerHTML='<div class="flex items-center gap3 mb6"><button class="text-sm" style="color:var(--air-force-blue);border:none;background:none;cursor:pointer" onclick="nav(\'dashboard\')">&larr; Dashboard</button><h2>Admin Panel</h2></div>'
-    +'<div class="flex gap2 mb6">'
-    +'<button class="btn btn-primary" id="tab-users" onclick="adminTab(\'users\')">Users</button>'
-    +'<button class="btn btn-gray" id="tab-units" onclick="adminTab(\'units\')">Units</button>'
-    +'<button class="btn btn-gray" id="tab-countries" onclick="adminTab(\'countries\')">Countries</button>'
-    +'</div>'
-    +'<div id="admin-content"><p class="text-muted">Loading...</p></div>';
+/* ---- DOWNLOAD ---- */
+function renderDownload(el) {
+  setBreadcrumb([{label:'Download'}]);
+  var legacyHtml = '';
+  if (currentUser.is_admin) {
+    legacyHtml = '<div class="card">'
+      + '<div class="card-header">'
+      + '<h3>Legacy Data Import</h3>'
+      + '<span class="badge badge-yellow">Admin Only</span>'
+      + '</div>'
+      + '<p class="text-sm text-muted mb-6">Import data from the original Excel ledger file. This will populate the database with historical records.</p>'
+      + '<button class="btn btn-outline" onclick="legacyImport()">' + ICONS.upload + ' Import Legacy Data</button>'
+      + '<div id="legacy-result" class="mt-4"></div>'
+      + '</div>';
+  }
+
+  el.innerHTML = '<div class="flex items-center justify-between mb-6">'
+    + '<h2>Download & Data Management</h2>'
+    + '</div>'
+    + '<div class="card mb-6">'
+    + '<div class="card-header">'
+    + '<h3>Download Stock Ledger</h3>'
+    + '<span style="color:var(--air-force-blue);display:inline-flex">' + ICONS.file + '</span>'
+    + '</div>'
+    + '<p class="text-sm text-muted mb-6">Generate and download the complete SEZ stock ledger as an Excel spreadsheet.</p>'
+    + '<div class="mb-6">'
+    + '<label class="form-label mb-3">Download Style</label>'
+    + '<div class="flex gap-4 flex-wrap">'
+    + '<label class="form-check" style="padding:12px 20px;border:1px solid rgba(157,178,191,.25);border-radius:8px;cursor:pointer;transition:all .2s" onmouseenter="this.style.borderColor=\'var(--air-force-blue)\'" onmouseleave="this.style.borderColor=\'rgba(157,178,191,.25)\'">'
+    + '<input type="radio" name="dl_style" value="blank_continuation" checked>'
+    + '<div>'
+    + '<div class="fw-600 text-sm">Blank Continuation</div>'
+    + '<div class="text-xs text-muted">Legacy format with blank continuation rows</div>'
+    + '</div></label>'
+    + '<label class="form-check" style="padding:12px 20px;border:1px solid rgba(157,178,191,.25);border-radius:8px;cursor:pointer;transition:all .2s" onmouseenter="this.style.borderColor=\'var(--air-force-blue)\'" onmouseleave="this.style.borderColor=\'rgba(157,178,191,.25)\'">'
+    + '<input type="radio" name="dl_style" value="fully_populated">'
+    + '<div>'
+    + '<div class="fw-600 text-sm">Fully Populated</div>'
+    + '<div class="text-xs text-muted">All fields populated on every row</div>'
+    + '</div></label>'
+    + '</div></div>'
+    + '<button class="btn btn-primary btn-lg" onclick="dlLedger()">' + ICONS.download + ' Download Excel</button>'
+    + '</div>'
+    + legacyHtml;
+}
+
+function dlLedger() {
+  var checkedRadio = document.querySelector('input[name="dl_style"]:checked');
+  var style = checkedRadio ? checkedRadio.value : 'blank_continuation';
+  fetch(API + '/ledger/download?style=' + style, {credentials:'include'}).then(function(r) {
+    if (!r.ok) { showToast('Download failed', 'error'); return; }
+    return r.blob();
+  }).then(function(b) {
+    if (!b) return;
+    var u = URL.createObjectURL(b);
+    var a = document.createElement('a');
+    a.href = u;
+    a.download = 'SEZ_Stock_Ledger.xlsx';
+    a.click();
+    URL.revokeObjectURL(u);
+    showToast('Ledger downloaded successfully', 'success');
+  });
+}
+
+function legacyImport() {
+  var resultEl = document.getElementById('legacy-result');
+  if (resultEl) resultEl.innerHTML = '<div class="flex items-center gap-3" style="padding:12px"><div class="spinner"></div><span class="text-sm text-muted">Importing legacy data...</span></div>';
+  api('/ledger/import-legacy', {method:'POST'}).then(function(r) {
+    var warningsHtml = '';
+    if (r.warnings && r.warnings.length > 0) {
+      warningsHtml = '<div class="mt-4 text-sm" style="color:var(--warning)"><b>Warnings:</b> ' + esc(r.warnings.join(', ')) + '</div>';
+    }
+    if (resultEl) {
+      resultEl.innerHTML = '<div class="success-box mt-4">'
+        + '<div class="fw-600 mb-2">Legacy Import Complete</div>'
+        + '<div class="text-sm">Import lines created: <b>' + esc(r.import_lines_created) + '</b></div>'
+        + '<div class="text-sm">Export lines created: <b>' + esc(r.export_lines_created) + '</b></div>'
+        + '<div class="text-sm">Skipped (empty): <b>' + esc(r.skipped_empty) + '</b></div>'
+        + warningsHtml + '</div>';
+    }
+    showToast('Legacy import completed successfully', 'success');
+  }).catch(function(e) {
+    showToast(e.message, 'error');
+    if (resultEl) resultEl.innerHTML = '<div class="error-box mt-4">' + esc(e.message) + '</div>';
+  });
+}
+
+/* ---- ADMIN ---- */
+var adminActiveTab = 'users';
+
+function renderAdmin(el) {
+  if (!currentUser.is_admin) { nav('dashboard'); return; }
+  setBreadcrumb([{label:'Admin'}]);
+  el.innerHTML = '<div class="flex items-center justify-between mb-6">'
+    + '<h2>Admin Panel</h2>'
+    + '</div>'
+    + '<div class="tabs" id="admin-tabs">'
+    + '<button class="tab-btn active" data-tab="users" onclick="adminTab(\'users\')">Users</button>'
+    + '<button class="tab-btn" data-tab="units" onclick="adminTab(\'units\')">Units</button>'
+    + '<button class="tab-btn" data-tab="countries" onclick="adminTab(\'countries\')">Countries</button>'
+    + '<button class="tab-btn" data-tab="settings" onclick="adminTab(\'settings\')">Settings</button>'
+    + '</div>'
+    + '<div id="admin-content"><div class="loading-state"><div class="spinner"></div><p>Loading...</p></div></div>';
+  adminActiveTab = 'users';
   adminTab('users');
 }
-async function adminTab(tab){
-  document.querySelectorAll('[id^="tab-"]').forEach(b=>{b.className='btn btn-gray'});
-  const btn=document.getElementById('tab-'+tab);if(btn)btn.className='btn btn-primary';
-  const el=document.getElementById('admin-content');
-  if(tab==='users'){
-    try{
-      const users=await api('/admin/users');
-      el.innerHTML='<div class="card mb6">'
-        +'<h3 style="font-size:14px;margin-bottom:12px">Create User</h3>'
-        +'<div class="flex items-center gap3">'
-        +'<div class="field" style="margin:0"><label>Username</label><input id="nu_u"></div>'
-        +'<div class="field" style="margin:0"><label>Password</label><input id="nu_p" type="password"></div>'
-        +'<label style="display:flex;align-items:center;gap:4px;margin-top:14px;text-transform:none"><input type="checkbox" id="nu_a"> Admin</label>'
-        +'<button class="btn btn-primary" style="margin-top:14px" onclick="createUserAdmin()">Create</button>'
-        +'</div>'
-        +'</div>'
-        +'<div class="card" style="padding:0;overflow:hidden"><table>'
-        +'<thead><tr><th>ID</th><th>Username</th><th>Admin</th><th>Active</th><th>Created</th><th></th></tr></thead>'
-        +'<tbody>'+users.map(function(u){
-          var delBtn=u.id!==currentUser.id?'<button class="text-xs" style="color:var(--oxblood);border:none;background:none;cursor:pointer" onclick="delUser('+u.id+')">Delete</button>':'';
-          return '<tr><td>'+u.id+'</td><td style="font-weight:500">'+u.username+'</td><td><button class="badge '+(u.is_admin?'badge-red':'badge-blue')+'" onclick="toggleAdmin('+u.id+','+(!u.is_admin)+')">'+(u.is_admin?'Yes':'No')+'</button></td><td><button class="badge '+(u.is_active?'badge-green':'badge-red')+'" onclick="toggleActive('+u.id+','+(!u.is_active)+')">'+(u.is_active?'Active':'Inactive')+'</button></td><td class="text-muted">'+new Date(u.created_at).toLocaleDateString()+'</td><td>'+delBtn+'</td></tr>';
-        }).join('')+'</tbody></table></div>';
-    }catch(e){showToast(e.message,'error')}
-  }else if(tab==='units'){
-    try{
-      const units=await api('/admin/units');
-      el.innerHTML='<div class="card mb6">'
-        +'<h3 style="font-size:14px;margin-bottom:12px">Add Unit</h3>'
-        +'<div class="flex items-center gap3">'
-        +'<div class="field" style="margin:0"><label>Code</label><input id="nu_code" style="width:80px" placeholder="KG"></div>'
-        +'<div class="field" style="margin:0"><label>Description</label><input id="nu_desc" placeholder="Kilograms"></div>'
-        +'<button class="btn btn-primary" style="margin-top:14px" onclick="addUnit()">Add</button>'
-        +'</div>'
-        +'</div>'
-        +'<div class="card"><div class="flex" style="flex-wrap:wrap;gap:8px">'+units.map(function(u){return '<span class="badge badge-blue" style="padding:6px 12px"><b>'+u.code+'</b>'+(u.description?' - '+u.description:'')+'</span>';}).join('')+(units.length===0?'<span class="text-muted text-sm">No units configured</span>':'')+'</div></div>';
-    }catch(e){showToast(e.message,'error')}
-  }else{
-    try{
-      const countries=await api('/admin/countries');
-      el.innerHTML='<div class="card mb6">'
-        +'<h3 style="font-size:14px;margin-bottom:12px">Add Country</h3>'
-        +'<div class="flex items-center gap3">'
-        +'<div class="field" style="margin:0"><label>Code (ISO)</label><input id="nc_code" style="width:60px" maxlength="2" placeholder="KE"></div>'
-        +'<div class="field" style="margin:0"><label>Name</label><input id="nc_name" placeholder="Kenya"></div>'
-        +'<button class="btn btn-primary" style="margin-top:14px" onclick="addCountry()">Add</button>'
-        +'</div>'
-        +'</div>'
-        +'<div class="card"><div class="flex" style="flex-wrap:wrap;gap:8px">'+countries.map(function(c){return '<span class="badge badge-blue" style="padding:6px 12px"><b>'+c.code+'</b> - '+c.name+'</span>';}).join('')+(countries.length===0?'<span class="text-muted text-sm">No countries configured</span>':'')+'</div></div>';
-    }catch(e){showToast(e.message,'error')}
+
+function adminTab(tab) {
+  adminActiveTab = tab;
+  /* update tab buttons */
+  var btns = document.querySelectorAll('#admin-tabs .tab-btn');
+  for (var i = 0; i < btns.length; i++) {
+    btns[i].classList.toggle('active', btns[i].getAttribute('data-tab') === tab);
+  }
+  var el = document.getElementById('admin-content');
+  if (!el) return;
+
+  if (tab === 'users') {
+    renderAdminUsers(el);
+  } else if (tab === 'units') {
+    renderAdminUnits(el);
+  } else if (tab === 'countries') {
+    renderAdminCountries(el);
+  } else if (tab === 'settings') {
+    renderAdminSettings(el);
   }
 }
-async function createUserAdmin(){
-  try{await api('/admin/users',{method:'POST',body:JSON.stringify({username:document.getElementById('nu_u').value,password:document.getElementById('nu_p').value,is_admin:document.getElementById('nu_a').checked})});showToast('User created','success');adminTab('users')}catch(e){showToast(e.message,'error')}
-}
-async function toggleAdmin(id,val){try{await api('/admin/users/'+id,{method:'PUT',body:JSON.stringify({is_admin:val})});adminTab('users')}catch(e){showToast(e.message,'error')}}
-async function toggleActive(id,val){try{await api('/admin/users/'+id,{method:'PUT',body:JSON.stringify({is_active:val})});adminTab('users')}catch(e){showToast(e.message,'error')}}
-async function delUser(id){try{await api('/admin/users/'+id,{method:'DELETE'});showToast('User deleted','success');adminTab('users')}catch(e){showToast(e.message,'error')}}
-async function addUnit(){try{await api('/admin/units',{method:'POST',body:JSON.stringify({code:document.getElementById('nu_code').value.toUpperCase(),description:document.getElementById('nu_desc').value})});showToast('Unit added','success');adminTab('units')}catch(e){showToast(e.message,'error')}}
-async function addCountry(){try{await api('/admin/countries',{method:'POST',body:JSON.stringify({code:document.getElementById('nc_code').value.toUpperCase(),name:document.getElementById('nc_name').value})});showToast('Country added','success');adminTab('countries')}catch(e){showToast(e.message,'error')}}
 
-// --- Init ---
-document.addEventListener('keydown',e=>{if(e.key==='Enter'&&!currentUser){doLogin()}});
-api('/auth/me').then(u=>{currentUser=u;render()}).catch(()=>{currentUser=null;render()});
+function renderAdminUsers(el) {
+  el.innerHTML = '<div class="loading-state"><div class="spinner"></div><p>Loading users...</p></div>';
+  api('/admin/users').then(function(users) {
+    var rows = '';
+    for (var i = 0; i < users.length; i++) {
+      var u = users[i];
+      var adminBadge = u.is_admin ? '<span class="badge badge-red">Admin</span>' : '<span class="badge badge-gray">User</span>';
+      var activeBadge = u.is_active ? '<span class="badge badge-green">Active</span>' : '<span class="badge badge-red">Inactive</span>';
+      var toggleAdminLabel = u.is_admin ? 'Demote' : 'Promote';
+      var toggleActiveLabel = u.is_active ? 'Deactivate' : 'Activate';
+      var actions = '';
+      if (u.id !== currentUser.id) {
+        actions = '<div class="flex gap-2">'
+          + '<button class="btn btn-sm btn-outline" onclick="toggleAdmin(' + u.id + ',' + (!u.is_admin) + ')">' + toggleAdminLabel + '</button>'
+          + '<button class="btn btn-sm btn-outline" onclick="toggleActive(' + u.id + ',' + (!u.is_active) + ')">' + toggleActiveLabel + '</button>'
+          + '<button class="btn btn-sm btn-danger" onclick="delUser(' + u.id + ')">' + ICONS.trash + '</button>'
+          + '</div>';
+      } else {
+        actions = '<span class="text-xs text-muted">Current User</span>';
+      }
+      rows += '<tr>'
+        + '<td class="fw-600">' + esc(u.id) + '</td>'
+        + '<td class="fw-600">' + esc(u.username) + '</td>'
+        + '<td>' + adminBadge + '</td>'
+        + '<td>' + activeBadge + '</td>'
+        + '<td class="text-sm text-muted">' + new Date(u.created_at).toLocaleDateString() + '</td>'
+        + '<td>' + actions + '</td>'
+        + '</tr>';
+    }
+
+    el.innerHTML = '<div class="card mb-6" id="create-user-card">'
+      + '<div class="card-header">'
+      + '<h3>Create New User</h3>'
+      + '</div>'
+      + '<div class="grid grid-3" style="grid-template-columns:1fr 1fr auto auto">'
+      + '<div class="form-group mb-0"><label class="form-label">Username</label><input class="form-input" id="nu_u" placeholder="Enter username"></div>'
+      + '<div class="form-group mb-0"><label class="form-label">Password</label><input class="form-input" id="nu_p" type="password" placeholder="Enter password"></div>'
+      + '<label class="form-check" style="margin-top:22px"><input type="checkbox" id="nu_a"> Admin</label>'
+      + '<button class="btn btn-primary" style="margin-top:18px" onclick="createUserAdmin()">' + ICONS.users + ' Create</button>'
+      + '</div></div>'
+      + '<div class="table-wrap"><table class="tbl"><thead><tr>'
+      + '<th>ID</th><th>Username</th><th>Role</th><th>Status</th><th>Created</th><th>Actions</th>'
+      + '</tr></thead><tbody>' + rows + '</tbody></table></div>';
+  }).catch(function(e) {
+    showToast(e.message, 'error');
+    el.innerHTML = '<div class="error-box">' + esc(e.message) + '</div>';
+  });
+}
+
+function renderAdminUnits(el) {
+  el.innerHTML = '<div class="loading-state"><div class="spinner"></div><p>Loading units...</p></div>';
+  api('/admin/units').then(function(units) {
+    var badgesHtml = '';
+    if (units.length === 0) {
+      badgesHtml = '<div class="empty-state"><p class="text-muted text-sm">No units configured yet.</p></div>';
+    } else {
+      badgesHtml = '<div class="flex flex-wrap gap-3" style="padding:8px 0">';
+      for (var i = 0; i < units.length; i++) {
+        var desc = units[i].description ? ' - ' + units[i].description : '';
+        badgesHtml += '<span class="badge badge-blue" style="padding:8px 16px;font-size:13px">' + esc(units[i].code) + esc(desc) + '</span>';
+      }
+      badgesHtml += '</div>';
+    }
+
+    el.innerHTML = '<div class="card mb-6">'
+      + '<div class="card-header"><h3>Add Unit of Measure</h3></div>'
+      + '<div class="flex items-center gap-3">'
+      + '<div class="form-group mb-0"><label class="form-label">Code</label><input class="form-input" id="nu_code" style="width:100px" placeholder="KG"></div>'
+      + '<div class="form-group mb-0"><label class="form-label">Description</label><input class="form-input" id="nu_desc" placeholder="Kilograms"></div>'
+      + '<button class="btn btn-primary" style="margin-top:18px" onclick="addUnit()">Add Unit</button>'
+      + '</div></div>'
+      + '<div class="card"><div class="card-header"><h3>Configured Units (' + units.length + ')</h3></div>'
+      + badgesHtml + '</div>';
+  }).catch(function(e) {
+    showToast(e.message, 'error');
+  });
+}
+
+function renderAdminCountries(el) {
+  el.innerHTML = '<div class="loading-state"><div class="spinner"></div><p>Loading countries...</p></div>';
+  api('/admin/countries').then(function(countries) {
+    var badgesHtml = '';
+    if (countries.length === 0) {
+      badgesHtml = '<div class="empty-state"><p class="text-muted text-sm">No countries configured yet.</p></div>';
+    } else {
+      badgesHtml = '<div class="flex flex-wrap gap-3" style="padding:8px 0">';
+      for (var i = 0; i < countries.length; i++) {
+        badgesHtml += '<span class="badge badge-blue" style="padding:8px 16px;font-size:13px">' + esc(countries[i].code) + ' - ' + esc(countries[i].name) + '</span>';
+      }
+      badgesHtml += '</div>';
+    }
+
+    el.innerHTML = '<div class="card mb-6">'
+      + '<div class="card-header"><h3>Add Country</h3></div>'
+      + '<div class="flex items-center gap-3">'
+      + '<div class="form-group mb-0"><label class="form-label">ISO Code</label><input class="form-input" id="nc_code" style="width:80px" maxlength="2" placeholder="KE"></div>'
+      + '<div class="form-group mb-0"><label class="form-label">Country Name</label><input class="form-input" id="nc_name" placeholder="Kenya"></div>'
+      + '<button class="btn btn-primary" style="margin-top:18px" onclick="addCountry()">Add Country</button>'
+      + '</div></div>'
+      + '<div class="card"><div class="card-header"><h3>Configured Countries (' + countries.length + ')</h3></div>'
+      + badgesHtml + '</div>';
+  }).catch(function(e) {
+    showToast(e.message, 'error');
+  });
+}
+
+function renderAdminSettings(el) {
+  el.innerHTML = '<div class="loading-state"><div class="spinner"></div><p>Loading settings...</p></div>';
+  api('/admin/settings').then(function(settings) {
+    var apiKeyDisplay = '(not set)';
+    var currentModel = '';
+    if (settings) {
+      if (settings.api_key) {
+        var keyStr = String(settings.api_key);
+        if (keyStr.length > 8) {
+          apiKeyDisplay = '***' + keyStr.substring(keyStr.length - 8);
+        } else {
+          apiKeyDisplay = '***' + keyStr;
+        }
+      }
+      currentModel = settings.model || '';
+    }
+
+    el.innerHTML = '<div class="card mb-6">'
+      + '<div class="card-header">'
+      + '<h3>API Configuration</h3>'
+      + '<span style="color:var(--air-force-blue);display:inline-flex">' + ICONS.key + '</span>'
+      + '</div>'
+      + '<div class="form-group">'
+      + '<label class="form-label">API Key</label>'
+      + '<div class="flex items-center gap-3">'
+      + '<div class="flex-1" style="position:relative">'
+      + '<input class="form-input" id="settings_api_key" type="password" placeholder="Enter new API key" value="">'
+      + '<div class="text-xs text-muted" style="margin-top:4px">Current: <code style="background:#f0f1f3;padding:2px 6px;border-radius:4px">' + esc(apiKeyDisplay) + '</code></div>'
+      + '</div>'
+      + '<button class="btn btn-outline" style="margin-top:-14px" onclick="updateSetting(\'api_key\', document.getElementById(\'settings_api_key\').value)">Update Key</button>'
+      + '</div></div>'
+      + '<div class="form-group mb-0">'
+      + '<label class="form-label">AI Model</label>'
+      + '<div class="flex items-center gap-3">'
+      + '<select class="form-input" id="settings_model" style="width:340px">'
+      + '<option value="claude-sonnet-4-20250514"' + (currentModel === 'claude-sonnet-4-20250514' ? ' selected' : '') + '>Claude Sonnet 4 (2025-05-14)</option>'
+      + '<option value="claude-opus-4-20250514"' + (currentModel === 'claude-opus-4-20250514' ? ' selected' : '') + '>Claude Opus 4 (2025-05-14)</option>'
+      + '<option value="claude-sonnet-4-5-20250514"' + (currentModel === 'claude-sonnet-4-5-20250514' ? ' selected' : '') + '>Claude Sonnet 4.5 (2025-05-14)</option>'
+      + '</select>'
+      + '<button class="btn btn-primary" onclick="updateSetting(\'model\', document.getElementById(\'settings_model\').value)">Save Model</button>'
+      + '</div></div>'
+      + '</div>';
+  }).catch(function(e) {
+    /* If settings endpoint doesn't exist yet, show form anyway */
+    el.innerHTML = '<div class="card mb-6">'
+      + '<div class="card-header">'
+      + '<h3>API Configuration</h3>'
+      + '<span style="color:var(--air-force-blue);display:inline-flex">' + ICONS.key + '</span>'
+      + '</div>'
+      + '<div class="form-group">'
+      + '<label class="form-label">API Key</label>'
+      + '<div class="flex items-center gap-3">'
+      + '<input class="form-input flex-1" id="settings_api_key" type="password" placeholder="Enter API key">'
+      + '<button class="btn btn-outline" onclick="updateSetting(\'api_key\', document.getElementById(\'settings_api_key\').value)">Update Key</button>'
+      + '</div></div>'
+      + '<div class="form-group mb-0">'
+      + '<label class="form-label">AI Model</label>'
+      + '<div class="flex items-center gap-3">'
+      + '<select class="form-input" id="settings_model" style="width:340px">'
+      + '<option value="claude-sonnet-4-20250514">Claude Sonnet 4 (2025-05-14)</option>'
+      + '<option value="claude-opus-4-20250514">Claude Opus 4 (2025-05-14)</option>'
+      + '<option value="claude-sonnet-4-5-20250514">Claude Sonnet 4.5 (2025-05-14)</option>'
+      + '</select>'
+      + '<button class="btn btn-primary" onclick="updateSetting(\'model\', document.getElementById(\'settings_model\').value)">Save Model</button>'
+      + '</div></div>'
+      + '</div>';
+  });
+}
+
+function updateSetting(key, value) {
+  if (!value) {
+    showToast('Please enter a value', 'warning');
+    return;
+  }
+  api('/admin/settings/' + key, {method:'PUT', body:JSON.stringify({value:value})}).then(function() {
+    showToast('Setting "' + key + '" updated successfully', 'success');
+    if (key === 'api_key') {
+      var inputEl = document.getElementById('settings_api_key');
+      if (inputEl) inputEl.value = '';
+      adminTab('settings'); /* refresh to show masked key */
+    }
+  }).catch(function(e) {
+    showToast(e.message, 'error');
+  });
+}
+
+/* Admin CRUD helpers */
+function createUserAdmin() {
+  var uEl = document.getElementById('nu_u');
+  var pEl = document.getElementById('nu_p');
+  var aEl = document.getElementById('nu_a');
+  if (!uEl || !pEl || !uEl.value || !pEl.value) {
+    showToast('Username and password are required', 'warning');
+    return;
+  }
+  api('/admin/users', {method:'POST', body:JSON.stringify({
+    username: uEl.value,
+    password: pEl.value,
+    is_admin: aEl ? aEl.checked : false
+  })}).then(function() {
+    showToast('User created successfully', 'success');
+    adminTab('users');
+  }).catch(function(e) {
+    showToast(e.message, 'error');
+  });
+}
+
+function toggleAdmin(id, val) {
+  api('/admin/users/' + id, {method:'PUT', body:JSON.stringify({is_admin:val})}).then(function() {
+    adminTab('users');
+  }).catch(function(e) {
+    showToast(e.message, 'error');
+  });
+}
+
+function toggleActive(id, val) {
+  api('/admin/users/' + id, {method:'PUT', body:JSON.stringify({is_active:val})}).then(function() {
+    adminTab('users');
+  }).catch(function(e) {
+    showToast(e.message, 'error');
+  });
+}
+
+function delUser(id) {
+  if (!confirm('Are you sure you want to delete this user?')) return;
+  api('/admin/users/' + id, {method:'DELETE'}).then(function() {
+    showToast('User deleted', 'success');
+    adminTab('users');
+  }).catch(function(e) {
+    showToast(e.message, 'error');
+  });
+}
+
+function addUnit() {
+  var codeEl = document.getElementById('nu_code');
+  var descEl = document.getElementById('nu_desc');
+  if (!codeEl || !codeEl.value) { showToast('Unit code is required', 'warning'); return; }
+  api('/admin/units', {method:'POST', body:JSON.stringify({
+    code: codeEl.value.toUpperCase(),
+    description: descEl ? descEl.value : ''
+  })}).then(function() {
+    showToast('Unit added successfully', 'success');
+    adminTab('units');
+  }).catch(function(e) {
+    showToast(e.message, 'error');
+  });
+}
+
+function addCountry() {
+  var codeEl = document.getElementById('nc_code');
+  var nameEl = document.getElementById('nc_name');
+  if (!codeEl || !codeEl.value || !nameEl || !nameEl.value) {
+    showToast('Both code and name are required', 'warning');
+    return;
+  }
+  api('/admin/countries', {method:'POST', body:JSON.stringify({
+    code: codeEl.value.toUpperCase(),
+    name: nameEl.value
+  })}).then(function() {
+    showToast('Country added successfully', 'success');
+    adminTab('countries');
+  }).catch(function(e) {
+    showToast(e.message, 'error');
+  });
+}
+
+/* ---- INIT ---- */
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Enter' && !currentUser) {
+    doLogin();
+  }
+});
+
+api('/auth/me').then(function(u) {
+  currentUser = u;
+  render();
+}).catch(function() {
+  currentUser = null;
+  render();
+});
 </script>
 </body>
 </html>

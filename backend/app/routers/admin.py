@@ -6,7 +6,7 @@ from sqlalchemy.orm import Session
 from app.auth import hash_password
 from app.deps import get_db, require_admin
 from app.models.audit_log import AuditLog
-from app.models.config import AllowedCountry, AllowedUnit
+from app.models.config import AllowedCountry, AllowedUnit, AppSetting
 from app.models.user import User
 from app.schemas.config import (
     AllowedCountryCreate,
@@ -160,3 +160,66 @@ def create_country(
     db.commit()
     db.refresh(country)
     return country
+
+
+# --- Settings (API key) -------------------------------------------------------
+
+
+@router.get("/settings")
+def get_settings(db: Session = Depends(get_db)):
+    """Get app settings (masks API key for security)."""
+    settings = db.query(AppSetting).all()
+    result = {}
+    for s in settings:
+        if "key" in s.key.lower() or "secret" in s.key.lower():
+            # Mask sensitive values - show only last 8 chars
+            result[s.key] = {
+                "value": "***" + s.value[-8:] if len(s.value) > 8 else "***",
+                "updated_at": s.updated_at.isoformat() if s.updated_at else None,
+            }
+        else:
+            result[s.key] = {
+                "value": s.value,
+                "updated_at": s.updated_at.isoformat() if s.updated_at else None,
+            }
+    return result
+
+
+@router.put("/settings/{key}")
+def update_setting(
+    key: str,
+    payload: dict,
+    db: Session = Depends(get_db),
+    admin: User = Depends(require_admin),
+):
+    """Update an app setting. Admin only."""
+    value = payload.get("value", "")
+    setting = db.query(AppSetting).filter(AppSetting.key == key).first()
+    if setting:
+        old_masked = "***" + setting.value[-8:] if len(setting.value) > 8 else "***"
+        setting.value = value
+        _log(
+            db,
+            admin,
+            "app_setting",
+            setting.id,
+            "update",
+            field_name=key,
+            old_value=old_masked,
+            new_value="***" + value[-8:] if len(value) > 8 else "***",
+        )
+    else:
+        setting = AppSetting(key=key, value=value)
+        db.add(setting)
+        db.flush()
+        _log(
+            db,
+            admin,
+            "app_setting",
+            setting.id,
+            "create",
+            field_name=key,
+            new_value="(set)",
+        )
+    db.commit()
+    return {"status": "ok"}

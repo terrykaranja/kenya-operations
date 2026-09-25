@@ -1,6 +1,7 @@
+from datetime import datetime
 from typing import Optional
 
-from sqlalchemy import Boolean, String
+from sqlalchemy import Boolean, DateTime, String, func
 from sqlalchemy.orm import Mapped, mapped_column
 
 from app.db import Base
@@ -26,3 +27,19 @@ class AllowedCountry(Base):
     code: Mapped[str] = mapped_column(String(2), unique=True, nullable=False)
     name: Mapped[str] = mapped_column(String(128), nullable=False)
     active: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
+
+
+class AppSetting(Base):
+    """Key-value store for application settings like API keys."""
+
+    __tablename__ = "app_settings"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    key: Mapped[str] = mapped_column(String(100), unique=True, nullable=False)
+    value: Mapped[str] = mapped_column(String(2000), nullable=False)
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        server_default=func.now(),
+        onupdate=func.now(),
+        nullable=False,
+    )
