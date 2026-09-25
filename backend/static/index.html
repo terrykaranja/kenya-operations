@@ -2394,19 +2394,11 @@ function renderAdminCountries(el) {
 function renderAdminSettings(el) {
   el.innerHTML = '<div class="loading-state"><div class="spinner"></div><p>Loading settings...</p></div>';
   api('/admin/settings').then(function(settings) {
-    var apiKeyDisplay = '(not set)';
-    var currentModel = '';
-    if (settings) {
-      if (settings.api_key) {
-        var keyStr = String(settings.api_key);
-        if (keyStr.length > 8) {
-          apiKeyDisplay = '***' + keyStr.substring(keyStr.length - 8);
-        } else {
-          apiKeyDisplay = '***' + keyStr;
-        }
-      }
-      currentModel = settings.model || '';
-    }
+    /* GET /admin/settings returns {key: {value, updated_at}} -- the API
+       key's value already comes back pre-masked ("***xxxxxxxx") from the
+       backend, so just display it as-is rather than re-deriving it here. */
+    var apiKeyDisplay = (settings && settings.anthropic_api_key && settings.anthropic_api_key.value) || '(not set)';
+    var currentModel = (settings && settings.model && settings.model.value) || '';
 
     el.innerHTML = '<div class="card mb-6">'
       + '<div class="card-header">'
@@ -2420,7 +2412,7 @@ function renderAdminSettings(el) {
       + '<input class="form-input" id="settings_api_key" type="password" placeholder="Enter new API key" value="">'
       + '<div class="text-xs text-muted" style="margin-top:4px">Current: <code style="background:#f0f1f3;padding:2px 6px;border-radius:4px">' + esc(apiKeyDisplay) + '</code></div>'
       + '</div>'
-      + '<button class="btn btn-outline" style="margin-top:-14px" onclick="updateSetting(\'api_key\', document.getElementById(\'settings_api_key\').value)">Update Key</button>'
+      + '<button class="btn btn-outline" style="margin-top:-14px" onclick="updateSetting(\'anthropic_api_key\', document.getElementById(\'settings_api_key\').value)">Update Key</button>'
       + '</div></div>'
       + '<div class="form-group mb-0">'
       + '<label class="form-label">AI Model</label>'
@@ -2444,7 +2436,7 @@ function renderAdminSettings(el) {
       + '<label class="form-label">API Key</label>'
       + '<div class="flex items-center gap-3">'
       + '<input class="form-input flex-1" id="settings_api_key" type="password" placeholder="Enter API key">'
-      + '<button class="btn btn-outline" onclick="updateSetting(\'api_key\', document.getElementById(\'settings_api_key\').value)">Update Key</button>'
+      + '<button class="btn btn-outline" onclick="updateSetting(\'anthropic_api_key\', document.getElementById(\'settings_api_key\').value)">Update Key</button>'
       + '</div></div>'
       + '<div class="form-group mb-0">'
       + '<label class="form-label">AI Model</label>'
@@ -2467,7 +2459,7 @@ function updateSetting(key, value) {
   }
   api('/admin/settings/' + key, {method:'PUT', body:JSON.stringify({value:value})}).then(function() {
     showToast('Setting "' + key + '" updated successfully', 'success');
-    if (key === 'api_key') {
+    if (key === 'anthropic_api_key') {
       var inputEl = document.getElementById('settings_api_key');
       if (inputEl) inputEl.value = '';
       adminTab('settings'); /* refresh to show masked key */
