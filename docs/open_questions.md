@@ -34,16 +34,26 @@ Updated as each phase of the [project plan](../README.md) progresses.
 - Login/admin-user-management responses never return `password_hash`; only
   `UserOut` (id, username, is_admin, is_active, created_at) is exposed.
 
+## PDF Extraction (Phase 4)
+
+- **No sample import/export PDFs** exist in `/resources` yet. The extraction
+  layer includes both a real Claude API extractor (`app/extraction/extractor.py`)
+  and a mock extractor for development/testing. The mock extractor can be
+  triggered via `?use_mock=true` on extraction endpoints. Real Claude-extraction
+  accuracy can't be validated until sample PDFs are provided.
+- **Claude model** defaults to `claude-sonnet-4-20250514` but is configurable
+  via `ANTHROPIC_MODEL` in `.env`.
+
+## Proration logic (Phase 6)
+
+- **Proration formulas**: U = K * T / J, V = L * T / J, R = H * T / J.
+  If customs or BIF values are not provided on export confirmation, they
+  are auto-calculated using the proration formula.
+- **Overdraft protection**: Exports that would make `balance_quantity` negative
+  are blocked unless `admin_override=true` is passed with a mandatory `override_reason`.
+  The override is logged in the audit trail.
+
 ## Not yet available
 
-- **No sample import/export PDFs** exist in `/resources` yet, so Phase 4
-  (extraction layer) will initially only be testable against the
-  `MockExtractor` and fixture data derived from `docs/ledger_analysis.md`.
-  Real Claude-extraction accuracy can't be validated until sample PDFs are
-  provided.
-- **No local Docker** in the current dev sandbox — backend code is being
-  sanity-tested against a local Python 3.14 venv with unpinned latest
-  dependency versions (not committed), since the pinned `requirements.txt`
-  versions target `python:3.11-slim` per the Dockerfile and don't have
-  prebuilt wheels for 3.14. The pinned versions are unchanged for the real
-  Docker-based dev/prod path.
+- **No local Docker** in the current dev sandbox — backend code should be
+  tested inside Docker or with Python 3.11 as specified in the Dockerfile.
