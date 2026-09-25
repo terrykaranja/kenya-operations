@@ -9,11 +9,16 @@ should live in the top-level `/resources` folder and be loaded through
 """
 
 import os
+from pathlib import Path
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 
 from app.routers import admin, auth, exports, imports, ledger
+
+STATIC_DIR = Path(__file__).resolve().parent.parent / "static"
 
 app = FastAPI(
     title="SEZ Ledger Automation API",
@@ -23,7 +28,7 @@ app = FastAPI(
 
 # Cookie-based auth needs an explicit origin list (not "*") so the browser
 # will actually send/accept the session cookie cross-origin in dev.
-_cors_origins = os.getenv("CORS_ORIGINS", "http://localhost:5173").split(",")
+_cors_origins = os.getenv("CORS_ORIGINS", "http://localhost:5173,http://localhost:8000").split(",")
 
 app.add_middleware(
     CORSMiddleware,
@@ -44,3 +49,14 @@ app.include_router(ledger.router)
 def health_check() -> dict:
     """Simple liveness check used by the frontend and CI."""
     return {"status": "ok"}
+
+
+# Serve the frontend SPA at root
+@app.get("/", include_in_schema=False)
+def serve_frontend():
+    """Serve the standalone HTML frontend."""
+    return FileResponse(STATIC_DIR / "index.html")
+
+
+# Mount static assets (images, etc.) at /static
+app.mount("/static", StaticFiles(directory=str(STATIC_DIR)), name="static")

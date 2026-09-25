@@ -10,8 +10,7 @@ from pathlib import Path
 
 from sqlalchemy.orm import Session
 
-from app.db import SessionLocal, engine
-from app.models import Base
+from app.db import Base, SessionLocal, engine
 from app.models.audit_log import AuditLog
 from app.models.export_line import ExportLine
 from app.models.import_line import ImportLine
