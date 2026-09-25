@@ -5,7 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SEZ Ledger Automation</title>
 <link rel="icon" href="/static/amex-logo.png">
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Merriweather:wght@300;400;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Merriweather:wght@300;400;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Merriweather:wght@300;400;700&display=swap" rel="stylesheet"></noscript>
 <style>
 :root{--oxblood:#941612;--oxblood-dark:#6e0f0c;--charcoal:#575656;--brand-white:#fefdfd;--air-force-blue:#5e8197;--cool-steel:#9db2bf;--dusty-olive:#7e9478}
 *{margin:0;padding:0;box-sizing:border-box}
@@ -80,7 +82,7 @@ tr.clickable:hover{background:rgba(94,129,151,.05);cursor:pointer}
 </style>
 </head>
 <body>
-<div id="app"></div>
+<div id="app"><div style="display:flex;justify-content:center;align-items:center;height:100vh;font-family:system-ui,sans-serif;color:#575656"><p>Loading...</p></div></div>
 <script>
 const API='/api';
 let currentUser=null,currentPage='dashboard',toastTimer=null,extractionData=null;
@@ -112,27 +114,26 @@ function hideToast(){const el=document.getElementById('toast');if(el)el.style.di
 function render(){
   const app=document.getElementById('app');
   if(!currentUser){app.innerHTML=renderLogin();return}
-  app.innerHTML=`
-    <div class="header"><div class="header-inner">
-      <div class="header-left">
-        <img src="/static/amex-logo.png" alt="AMEX" class="logo">
-        <nav>
-          <button class="${currentPage==='dashboard'?'active':''}" onclick="nav('dashboard')">Dashboard</button>
-          <button class="${currentPage==='search'?'active':''}" onclick="nav('search')">Search</button>
-          <button class="${currentPage==='audit'?'active':''}" onclick="nav('audit')">Audit Log</button>
-          <button class="${currentPage==='download'?'active':''}" onclick="nav('download')">Download</button>
-          ${currentUser.is_admin?`<button class="${currentPage==='admin'?'active':''}" onclick="nav('admin')">Admin</button>`:''}
-        </nav>
-      </div>
-      <div class="header-right">
-        <span class="user">${currentUser.username}</span>
-        <button class="logout" onclick="doLogout()">Sign Out</button>
-      </div>
-    </div></div>
-    <main id="page"></main>
-    <footer>SEZ Ledger Automation &mdash; Kenya Operations Track #11 &mdash; AMEX Healthcare Hackathon</footer>
-    <div id="toast" class="toast" style="display:none"></div>
-  `;
+  var adminBtn=currentUser.is_admin?'<button class="'+(currentPage==='admin'?'active':'')+'" onclick="nav(\'admin\')">Admin</button>':'';
+  app.innerHTML='<div class="header"><div class="header-inner">'
+    +'<div class="header-left">'
+    +'<img src="/static/amex-logo.png" alt="AMEX" class="logo">'
+    +'<nav>'
+    +'<button class="'+(currentPage==='dashboard'?'active':'')+'" onclick="nav(\'dashboard\')">Dashboard</button>'
+    +'<button class="'+(currentPage==='search'?'active':'')+'" onclick="nav(\'search\')">Search</button>'
+    +'<button class="'+(currentPage==='audit'?'active':'')+'" onclick="nav(\'audit\')">Audit Log</button>'
+    +'<button class="'+(currentPage==='download'?'active':'')+'" onclick="nav(\'download\')">Download</button>'
+    +adminBtn
+    +'</nav>'
+    +'</div>'
+    +'<div class="header-right">'
+    +'<span class="user">'+currentUser.username+'</span>'
+    +'<button class="logout" onclick="doLogout()">Sign Out</button>'
+    +'</div>'
+    +'</div></div>'
+    +'<main id="page"></main>'
+    +'<footer>SEZ Ledger Automation &mdash; Kenya Operations Track #11 &mdash; AMEX Healthcare Hackathon</footer>'
+    +'<div id="toast" class="toast" style="display:none"></div>';
   renderPage();
 }
 
@@ -154,21 +155,21 @@ function renderPage(){
 
 // --- Login ---
 function renderLogin(){
-  return `<div class="login-wrap"><div class="login-box">
-    <h1>SEZ Ledger</h1>
-    <p class="sub">Kenya Operations Stock Ledger Automation</p>
-    <div class="card login-form">
-      <div class="field"><label>Username</label><input id="lu" autofocus></div>
-      <div class="field"><label>Password</label><input id="lp" type="password"></div>
-      <div id="lerr"></div>
-      <button class="btn btn-primary" style="width:100%;margin-top:8px" onclick="doLogin()">Sign In</button>
-    </div>
-  </div></div>`;
+  return '<div class="login-wrap"><div class="login-box">'
+    +'<h1>SEZ Ledger</h1>'
+    +'<p class="sub">Kenya Operations Stock Ledger Automation</p>'
+    +'<div class="card login-form">'
+    +'<div class="field"><label>Username</label><input id="lu" autofocus></div>'
+    +'<div class="field"><label>Password</label><input id="lp" type="password"></div>'
+    +'<div id="lerr"></div>'
+    +'<button class="btn btn-primary" style="width:100%;margin-top:8px" onclick="doLogin()">Sign In</button>'
+    +'</div>'
+    +'</div></div>';
 }
 async function doLogin(){
   const u=document.getElementById('lu').value,p=document.getElementById('lp').value;
   try{currentUser=await api('/auth/login',{method:'POST',body:JSON.stringify({username:u,password:p})});render()}
-  catch(e){document.getElementById('lerr').innerHTML=`<div class="error">${e.message}</div>`}
+  catch(e){document.getElementById('lerr').innerHTML='<div class="error">'+e.message+'</div>'}
 }
 async function doLogout(){await api('/auth/logout',{method:'POST'}).catch(()=>{});currentUser=null;render()}
 
@@ -177,49 +178,54 @@ async function renderDashboard(el){
   el.innerHTML='<p class="text-muted">Loading dashboard...</p>';
   try{
     const s=await api('/ledger/dashboard');
-    el.innerHTML=`
-      <div class="flex items-center justify-between mb8">
-        <div><h2>Dashboard</h2><p class="text-sm text-muted" style="margin-top:4px">SEZ Stock Ledger Overview</p></div>
-        <div class="flex gap3">
-          <button class="btn btn-primary" onclick="nav('upload-import')">Upload Import</button>
-          <button class="btn btn-blue" onclick="nav('upload-export')">Upload Export</button>
-        </div>
-      </div>
-      <div class="grid4 mb8">
-        <div class="card stat-card"><div class="dot" style="background:var(--air-force-blue)"></div><div class="val">${s.total_import_lines}</div><div class="lbl">Import Lines</div></div>
-        <div class="card stat-card"><div class="dot" style="background:var(--dusty-olive)"></div><div class="val">${s.total_export_lines}</div><div class="lbl">Export Lines</div></div>
-        <div class="card stat-card"><div class="dot" style="background:var(--oxblood)"></div><div class="val">${s.open_balance_lines}</div><div class="lbl">Open Balances</div></div>
-        <div class="card stat-card"><div class="dot" style="background:var(--charcoal)"></div><div class="val">${s.total_documents}</div><div class="lbl">Documents</div></div>
-      </div>
-      <div class="grid2 mb8">
-        <button class="card" style="text-align:left;cursor:pointer;border:1px solid rgba(157,178,191,.3)" onclick="nav('search')"><h3 style="font-size:16px">Search Ledger</h3><p class="text-sm text-muted" style="margin-top:4px">Find import lines by entry number, HS code, description</p></button>
-        <button class="card" style="text-align:left;cursor:pointer;border:1px solid rgba(157,178,191,.3)" onclick="nav('download')"><h3 style="font-size:16px">Download Ledger</h3><p class="text-sm text-muted" style="margin-top:4px">Export the complete stock ledger as Excel</p></button>
-      </div>
-      <div class="card"><h3 style="font-size:16px;margin-bottom:16px">Recent Activity</h3>
-        ${s.recent_activity.length===0?'<p class="text-sm text-muted">No recent activity</p>':
-          s.recent_activity.map(a=>`<div class="flex items-center justify-between" style="padding:8px 0;border-bottom:1px solid rgba(157,178,191,.1)">
-            <div class="text-sm"><span style="font-weight:500">${a.change_type}</span> <span class="text-muted">on ${a.entity_type} #${a.entity_id}</span></div>
-            <span class="text-xs text-muted">${new Date(a.created_at).toLocaleString()}</span>
-          </div>`).join('')}
-      </div>`;
-  }catch(e){el.innerHTML=`<div class="error">${e.message}</div>`}
+    var activityHtml;
+    if(s.recent_activity.length===0){
+      activityHtml='<p class="text-sm text-muted">No recent activity</p>';
+    }else{
+      activityHtml=s.recent_activity.map(function(a){
+        return '<div class="flex items-center justify-between" style="padding:8px 0;border-bottom:1px solid rgba(157,178,191,.1)">'
+          +'<div class="text-sm"><span style="font-weight:500">'+a.change_type+'</span> <span class="text-muted">on '+a.entity_type+' #'+a.entity_id+'</span></div>'
+          +'<span class="text-xs text-muted">'+new Date(a.created_at).toLocaleString()+'</span>'
+          +'</div>';
+      }).join('');
+    }
+    el.innerHTML='<div class="flex items-center justify-between mb8">'
+      +'<div><h2>Dashboard</h2><p class="text-sm text-muted" style="margin-top:4px">SEZ Stock Ledger Overview</p></div>'
+      +'<div class="flex gap3">'
+      +'<button class="btn btn-primary" onclick="nav(\'upload-import\')">Upload Import</button>'
+      +'<button class="btn btn-blue" onclick="nav(\'upload-export\')">Upload Export</button>'
+      +'</div>'
+      +'</div>'
+      +'<div class="grid4 mb8">'
+      +'<div class="card stat-card"><div class="dot" style="background:var(--air-force-blue)"></div><div class="val">'+s.total_import_lines+'</div><div class="lbl">Import Lines</div></div>'
+      +'<div class="card stat-card"><div class="dot" style="background:var(--dusty-olive)"></div><div class="val">'+s.total_export_lines+'</div><div class="lbl">Export Lines</div></div>'
+      +'<div class="card stat-card"><div class="dot" style="background:var(--oxblood)"></div><div class="val">'+s.open_balance_lines+'</div><div class="lbl">Open Balances</div></div>'
+      +'<div class="card stat-card"><div class="dot" style="background:var(--charcoal)"></div><div class="val">'+s.total_documents+'</div><div class="lbl">Documents</div></div>'
+      +'</div>'
+      +'<div class="grid2 mb8">'
+      +'<button class="card" style="text-align:left;cursor:pointer;border:1px solid rgba(157,178,191,.3)" onclick="nav(\'search\')"><h3 style="font-size:16px">Search Ledger</h3><p class="text-sm text-muted" style="margin-top:4px">Find import lines by entry number, HS code, description</p></button>'
+      +'<button class="card" style="text-align:left;cursor:pointer;border:1px solid rgba(157,178,191,.3)" onclick="nav(\'download\')"><h3 style="font-size:16px">Download Ledger</h3><p class="text-sm text-muted" style="margin-top:4px">Export the complete stock ledger as Excel</p></button>'
+      +'</div>'
+      +'<div class="card"><h3 style="font-size:16px;margin-bottom:16px">Recent Activity</h3>'
+      +activityHtml
+      +'</div>';
+  }catch(e){el.innerHTML='<div class="error">'+e.message+'</div>'}
 }
 
 // --- Upload ---
 function renderUpload(el,type){
   const label=type==='import'?'Import':'Export';
-  el.innerHTML=`
-    <div class="flex items-center gap3 mb6">
-      <button class="text-sm" style="color:var(--air-force-blue);border:none;background:none;cursor:pointer" onclick="nav('dashboard')">&larr; Dashboard</button>
-      <h2>Upload ${label} Document</h2>
-    </div>
-    <div class="dropzone" id="dz" ondragover="event.preventDefault();this.classList.add('over')" ondragleave="this.classList.remove('over')" ondrop="handleDrop(event,'${type}')">
-      <p class="text-muted mb4" id="fname">Drag & drop a PDF file here, or click to select</p>
-      <input type="file" accept=".pdf" id="finput" style="display:none" onchange="handleFile(this.files[0],'${type}')">
-      <button class="btn btn-gray" onclick="document.getElementById('finput').click()">Choose File</button>
-    </div>
-    <div id="upload-actions" class="mt6 hidden"></div>
-    <div id="upload-result" class="mt6"></div>`;
+  el.innerHTML='<div class="flex items-center gap3 mb6">'
+    +'<button class="text-sm" style="color:var(--air-force-blue);border:none;background:none;cursor:pointer" onclick="nav(\'dashboard\')">&larr; Dashboard</button>'
+    +'<h2>Upload '+label+' Document</h2>'
+    +'</div>'
+    +'<div class="dropzone" id="dz" ondragover="event.preventDefault();this.classList.add(\'over\')" ondragleave="this.classList.remove(\'over\')" ondrop="handleDrop(event,\''+type+'\')">'
+    +'<p class="text-muted mb4" id="fname">Drag & drop a PDF file here, or click to select</p>'
+    +'<input type="file" accept=".pdf" id="finput" style="display:none" onchange="handleFile(this.files[0],\''+type+'\')">'
+    +'<button class="btn btn-gray" onclick="document.getElementById(\'finput\').click()">Choose File</button>'
+    +'</div>'
+    +'<div id="upload-actions" class="mt6 hidden"></div>'
+    +'<div id="upload-result" class="mt6"></div>';
 }
 let selectedFile=null;
 function handleDrop(e,type){e.preventDefault();document.getElementById('dz').classList.remove('over');if(e.dataTransfer.files[0])handleFile(e.dataTransfer.files[0],type)}
@@ -227,26 +233,26 @@ function handleFile(f,type){
   if(!f.name.toLowerCase().endsWith('.pdf')){showToast('Only PDF files accepted','error');return}
   selectedFile=f;document.getElementById('fname').textContent=f.name;
   document.getElementById('upload-actions').classList.remove('hidden');
-  document.getElementById('upload-actions').innerHTML=`<button class="btn btn-primary" onclick="doUpload('${type}')">Upload PDF</button>`;
+  document.getElementById('upload-actions').innerHTML='<button class="btn btn-primary" onclick="doUpload(\''+type+'\')">Upload PDF</button>';
 }
 async function doUpload(type){
   try{
-    const r=await apiUpload(`/${type}/upload`,selectedFile);
+    const r=await apiUpload('/'+type+'/upload',selectedFile);
     document.getElementById('upload-actions').innerHTML='';
-    document.getElementById('upload-result').innerHTML=`
-      <div class="card">
-        <div class="flex items-center gap2 mb4"><div class="dot" style="width:8px;height:8px;border-radius:50%;background:${r.duplicate?'#e6b800':'var(--dusty-olive)'}"></div><p class="text-sm">${r.message}</p></div>
-        <div class="flex gap3 mt4">
-          <button class="btn btn-primary" onclick="doExtract(${r.document_id},'${type}',false)">Extract with AI</button>
-          <button class="btn btn-gray" onclick="doExtract(${r.document_id},'${type}',true)">Use Mock Data</button>
-        </div>
-      </div>`;
+    var dotColor=r.duplicate?'#e6b800':'var(--dusty-olive)';
+    document.getElementById('upload-result').innerHTML='<div class="card">'
+      +'<div class="flex items-center gap2 mb4"><div class="dot" style="width:8px;height:8px;border-radius:50%;background:'+dotColor+'"></div><p class="text-sm">'+r.message+'</p></div>'
+      +'<div class="flex gap3 mt4">'
+      +'<button class="btn btn-primary" onclick="doExtract('+r.document_id+',\''+type+'\',false)">Extract with AI</button>'
+      +'<button class="btn btn-gray" onclick="doExtract('+r.document_id+',\''+type+'\',true)">Use Mock Data</button>'
+      +'</div>'
+      +'</div>';
   }catch(e){showToast(e.message,'error')}
 }
 async function doExtract(docId,type,mock){
   document.getElementById('upload-result').innerHTML='<p class="text-muted">Extracting data...</p>';
   try{
-    const r=await api(`/${type}/extract/${docId}?use_mock=${mock}`,{method:'POST'});
+    const r=await api('/'+type+'/extract/'+docId+'?use_mock='+mock,{method:'POST'});
     if(r.error){showToast(r.error,'error');return}
     extractionData=r;
     nav(type==='import'?'review-import':'review-export');
@@ -258,25 +264,29 @@ function renderImportReview(el){
   if(!extractionData){nav('dashboard');return}
   const entries=extractionData.import_entries||[];
   const fields=[['consignor_exporter','Consignor'],['description','Description'],['import_file_number','File #'],['import_entry_date','Entry Date'],['import_entry_number','Entry #'],['hs_code','HS Code'],['country','Country'],['supplementary_units','Supp Units'],['unit','Unit'],['quantity_imported','Qty Imported'],['customs_value_kes','Customs (KES)'],['bif_value_kes','BIF (KES)']];
-  el.innerHTML=`
-    <div class="flex items-center gap3 mb6">
-      <button class="text-sm" style="color:var(--air-force-blue);border:none;background:none;cursor:pointer" onclick="nav('upload-import')">&larr; Back</button>
-      <h2>Review Extracted Import Data</h2>
-    </div>
-    <p class="text-sm text-muted mb4">Review and correct. Yellow border = medium confidence. Red border = low confidence.</p>
-    <div id="review-items">${entries.map((e,i)=>`
-      <div class="card mb4">
-        <div class="flex items-center justify-between mb4"><h3 style="font-size:16px">Item ${i+1}</h3></div>
-        <div class="grid3">${fields.map(([k,l])=>{
-          const f=e[k]||{value:null,confidence:1};
-          const cls=f.confidence>=.8?'':f.confidence>=.5?'conf-ring':'conf-ring-low';
-          return `<div class="field"><label>${l}</label><input class="ir ${cls}" data-i="${i}" data-k="${k}" value="${f.value||''}" title="Confidence: ${(f.confidence*100).toFixed(0)}%${f.source_text?' | Source: '+f.source_text:''}"></div>`;
-        }).join('')}</div>
-      </div>`).join('')}</div>
-    <div class="flex gap3 mt6" style="justify-content:flex-end">
-      <button class="btn btn-outline" onclick="nav('dashboard')">Cancel</button>
-      <button class="btn btn-primary" onclick="confirmImports()">Confirm ${entries.length} Item(s)</button>
-    </div>`;
+  var itemsHtml=entries.map(function(e,i){
+    var fieldsHtml=fields.map(function(pair){
+      var k=pair[0],l=pair[1];
+      var f=e[k]||{value:null,confidence:1};
+      var cls=f.confidence>=.8?'':f.confidence>=.5?'conf-ring':'conf-ring-low';
+      var titleText='Confidence: '+(f.confidence*100).toFixed(0)+'%'+(f.source_text?' | Source: '+f.source_text:'');
+      return '<div class="field"><label>'+l+'</label><input class="ir '+cls+'" data-i="'+i+'" data-k="'+k+'" value="'+(f.value||'')+'" title="'+titleText+'"></div>';
+    }).join('');
+    return '<div class="card mb4">'
+      +'<div class="flex items-center justify-between mb4"><h3 style="font-size:16px">Item '+(i+1)+'</h3></div>'
+      +'<div class="grid3">'+fieldsHtml+'</div>'
+      +'</div>';
+  }).join('');
+  el.innerHTML='<div class="flex items-center gap3 mb6">'
+    +'<button class="text-sm" style="color:var(--air-force-blue);border:none;background:none;cursor:pointer" onclick="nav(\'upload-import\')">&larr; Back</button>'
+    +'<h2>Review Extracted Import Data</h2>'
+    +'</div>'
+    +'<p class="text-sm text-muted mb4">Review and correct. Yellow border = medium confidence. Red border = low confidence.</p>'
+    +'<div id="review-items">'+itemsHtml+'</div>'
+    +'<div class="flex gap3 mt6" style="justify-content:flex-end">'
+    +'<button class="btn btn-outline" onclick="nav(\'dashboard\')">Cancel</button>'
+    +'<button class="btn btn-primary" onclick="confirmImports()">Confirm '+entries.length+' Item(s)</button>'
+    +'</div>';
 }
 async function confirmImports(){
   const inputs=document.querySelectorAll('.ir');
@@ -290,8 +300,8 @@ async function confirmImports(){
     supplementary_units:e.supplementary_units?Number(e.supplementary_units):null
   }));
   try{
-    await api(`/import/confirm${extractionData.document_id?'?source_document_id='+extractionData.document_id:''}`,{method:'POST',body:JSON.stringify(payload)});
-    showToast(`${payload.length} import line(s) confirmed`,'success');extractionData=null;nav('dashboard');
+    await api('/import/confirm'+(extractionData.document_id?'?source_document_id='+extractionData.document_id:''),{method:'POST',body:JSON.stringify(payload)});
+    showToast(payload.length+' import line(s) confirmed','success');extractionData=null;nav('dashboard');
   }catch(e){showToast(e.message,'error')}
 }
 
@@ -300,61 +310,68 @@ function renderExportReview(el){
   if(!extractionData){nav('dashboard');return}
   const entries=extractionData.export_entries||[];
   const fields=[['customer_name','Customer'],['export_file_number','File #'],['export_entry_date','Entry Date'],['export_entry_number','Entry #'],['ppb_permit','PPB Permit'],['supplementary_units_exported','Supp Units'],['unit','Unit'],['quantity_exported','Qty Exported'],['customs_value_exported','Customs Value'],['bif_value_exported','BIF Value']];
-  el.innerHTML=`
-    <div class="flex items-center gap3 mb6">
-      <button class="text-sm" style="color:var(--air-force-blue);border:none;background:none;cursor:pointer" onclick="nav('upload-export')">&larr; Back</button>
-      <h2>Review Export & Match to Import</h2>
-    </div>
-    <div id="export-items">${entries.map((e,i)=>`
-      <div class="card mb4">
-        <h3 style="font-size:16px;margin-bottom:16px">Export Item ${i+1}</h3>
-        <div class="grid3 mb4">${fields.map(([k,l])=>{
-          const f=e[k]||{value:null,confidence:1};
-          return `<div class="field"><label>${l}</label><input class="er" data-i="${i}" data-k="${k}" value="${f.value||''}"></div>`;
-        }).join('')}</div>
-        <div style="border-top:1px solid rgba(157,178,191,.2);padding-top:16px">
-          <div class="flex items-center gap3 mb4">
-            <span class="text-sm" style="font-weight:500">Matched Import:</span>
-            <span class="text-sm" id="match-${i}" style="color:var(--oxblood)">Not selected</span>
-            <input type="hidden" id="matchid-${i}" value="">
-            <button class="btn btn-gray" style="padding:4px 12px;font-size:11px" onclick="findMatches(${i})">Find Matches</button>
-          </div>
-          <div id="candidates-${i}"></div>
-          <div id="proration-${i}"></div>
-        </div>
-      </div>`).join('')}</div>
-    <div class="flex gap3 mt6" style="justify-content:flex-end">
-      <button class="btn btn-outline" onclick="nav('dashboard')">Cancel</button>
-      <button class="btn btn-primary" onclick="confirmExports()">Confirm ${entries.length} Export(s)</button>
-    </div>`;
+  var itemsHtml=entries.map(function(e,i){
+    var fieldsHtml=fields.map(function(pair){
+      var k=pair[0],l=pair[1];
+      var f=e[k]||{value:null,confidence:1};
+      return '<div class="field"><label>'+l+'</label><input class="er" data-i="'+i+'" data-k="'+k+'" value="'+(f.value||'')+'"></div>';
+    }).join('');
+    return '<div class="card mb4">'
+      +'<h3 style="font-size:16px;margin-bottom:16px">Export Item '+(i+1)+'</h3>'
+      +'<div class="grid3 mb4">'+fieldsHtml+'</div>'
+      +'<div style="border-top:1px solid rgba(157,178,191,.2);padding-top:16px">'
+      +'<div class="flex items-center gap3 mb4">'
+      +'<span class="text-sm" style="font-weight:500">Matched Import:</span>'
+      +'<span class="text-sm" id="match-'+i+'" style="color:var(--oxblood)">Not selected</span>'
+      +'<input type="hidden" id="matchid-'+i+'" value="">'
+      +'<button class="btn btn-gray" style="padding:4px 12px;font-size:11px" onclick="findMatches('+i+')">Find Matches</button>'
+      +'</div>'
+      +'<div id="candidates-'+i+'"></div>'
+      +'<div id="proration-'+i+'"></div>'
+      +'</div>'
+      +'</div>';
+  }).join('');
+  el.innerHTML='<div class="flex items-center gap3 mb6">'
+    +'<button class="text-sm" style="color:var(--air-force-blue);border:none;background:none;cursor:pointer" onclick="nav(\'upload-export\')">&larr; Back</button>'
+    +'<h2>Review Export & Match to Import</h2>'
+    +'</div>'
+    +'<div id="export-items">'+itemsHtml+'</div>'
+    +'<div class="flex gap3 mt6" style="justify-content:flex-end">'
+    +'<button class="btn btn-outline" onclick="nav(\'dashboard\')">Cancel</button>'
+    +'<button class="btn btn-primary" onclick="confirmExports()">Confirm '+entries.length+' Export(s)</button>'
+    +'</div>';
 }
 async function findMatches(idx){
   try{
     const r=await api('/export/match-candidates');
     const el=document.getElementById('candidates-'+idx);
     if(r.length===0){el.innerHTML='<p class="text-sm text-muted">No candidates found</p>';return}
-    el.innerHTML=`<div class="card" style="max-height:200px;overflow-y:auto;padding:0">${r.map(c=>
-      `<button style="display:block;width:100%;text-align:left;padding:8px 16px;border:none;border-bottom:1px solid rgba(157,178,191,.1);background:none;cursor:pointer;font-family:inherit" onclick="selectMatch(${idx},${c.id})">
-        <div class="text-sm"><b>#${c.id}</b> ${(c.description||'').substring(0,60)}</div>
-        <div class="text-xs text-muted">HS:${c.hs_code||'-'} | Bal:${c.balance_quantity} ${c.unit||''} | ${(c.consignor_exporter||'').substring(0,40)}</div>
-      </button>`).join('')}</div>`;
+    var candidatesHtml=r.map(function(c){
+      return '<button style="display:block;width:100%;text-align:left;padding:8px 16px;border:none;border-bottom:1px solid rgba(157,178,191,.1);background:none;cursor:pointer;font-family:inherit" onclick="selectMatch('+idx+','+c.id+')">'
+        +'<div class="text-sm"><b>#'+c.id+'</b> '+(c.description||'').substring(0,60)+'</div>'
+        +'<div class="text-xs text-muted">HS:'+(c.hs_code||'-')+' | Bal:'+c.balance_quantity+' '+(c.unit||'')+' | '+(c.consignor_exporter||'').substring(0,40)+'</div>'
+        +'</button>';
+    }).join('');
+    el.innerHTML='<div class="card" style="max-height:200px;overflow-y:auto;padding:0">'+candidatesHtml+'</div>';
   }catch(e){showToast(e.message,'error')}
 }
 async function selectMatch(idx,importId){
   document.getElementById('matchid-'+idx).value=importId;
-  document.getElementById('match-'+idx).innerHTML=`<span style="color:var(--dusty-olive)">#${importId}</span>`;
+  document.getElementById('match-'+idx).innerHTML='<span style="color:var(--dusty-olive)">#'+importId+'</span>';
   document.getElementById('candidates-'+idx).innerHTML='';
-  const qtyInput=document.querySelector(`.er[data-i="${idx}"][data-k="quantity_exported"]`);
+  const qtyInput=document.querySelector('.er[data-i="'+idx+'"][data-k="quantity_exported"]');
   const qty=Number(qtyInput?.value)||0;
   if(qty>0){
     try{
-      const p=await api(`/export/preview-proration?import_line_id=${importId}&quantity_exported=${qty}`,{method:'POST'});
-      document.getElementById('proration-'+idx).innerHTML=`<div class="mt4 card" style="background:${p.overdraft?'rgba(148,22,18,.1)':'rgba(126,148,120,.1)'}">
-        <p class="text-sm">Prorated Customs: KES ${p.prorated_customs_value.toLocaleString()}</p>
-        <p class="text-sm">Prorated BIF: KES ${p.prorated_bif_value.toLocaleString()}</p>
-        <p class="text-sm">Remaining Qty: ${p.remaining_quantity.toLocaleString()}</p>
-        ${p.overdraft?`<p class="text-sm" style="font-weight:500;margin-top:4px">${p.overdraft_message}</p>`:''}
-      </div>`;
+      const p=await api('/export/preview-proration?import_line_id='+importId+'&quantity_exported='+qty,{method:'POST'});
+      var bgColor=p.overdraft?'rgba(148,22,18,.1)':'rgba(126,148,120,.1)';
+      var overdraftHtml=p.overdraft?'<p class="text-sm" style="font-weight:500;margin-top:4px">'+p.overdraft_message+'</p>':'';
+      document.getElementById('proration-'+idx).innerHTML='<div class="mt4 card" style="background:'+bgColor+'">'
+        +'<p class="text-sm">Prorated Customs: KES '+p.prorated_customs_value.toLocaleString()+'</p>'
+        +'<p class="text-sm">Prorated BIF: KES '+p.prorated_bif_value.toLocaleString()+'</p>'
+        +'<p class="text-sm">Remaining Qty: '+p.remaining_quantity.toLocaleString()+'</p>'
+        +overdraftHtml
+        +'</div>';
     }catch(e){}
   }
 }
@@ -371,31 +388,30 @@ async function confirmExports(){
   }));
   if(payload.some(p=>!p.import_line_id)){showToast('Select an import line for each export item','error');return}
   try{
-    await api(`/export/confirm${extractionData.document_id?'?source_document_id='+extractionData.document_id:''}`,{method:'POST',body:JSON.stringify(payload)});
-    showToast(`${payload.length} export(s) confirmed`,'success');extractionData=null;nav('dashboard');
+    await api('/export/confirm'+(extractionData.document_id?'?source_document_id='+extractionData.document_id:''),{method:'POST',body:JSON.stringify(payload)});
+    showToast(payload.length+' export(s) confirmed','success');extractionData=null;nav('dashboard');
   }catch(e){showToast(e.message,'error')}
 }
 
 // --- Search ---
 function renderSearch(el){
-  el.innerHTML=`
-    <div class="flex items-center gap3 mb6"><button class="text-sm" style="color:var(--air-force-blue);border:none;background:none;cursor:pointer" onclick="nav('dashboard')">&larr; Dashboard</button><h2>Search Ledger</h2></div>
-    <div class="card mb6">
-      <div class="grid3 mb4">
-        <div class="field"><label>Entry Number</label><input id="s_en"></div>
-        <div class="field"><label>File Number</label><input id="s_fn"></div>
-        <div class="field"><label>Description</label><input id="s_desc"></div>
-        <div class="field"><label>Consignor</label><input id="s_con"></div>
-        <div class="field"><label>HS Code</label><input id="s_hs"></div>
-        <div class="field"><label>Country</label><input id="s_co"></div>
-      </div>
-      <div class="flex items-center justify-between">
-        <label style="display:flex;align-items:center;gap:8px;text-transform:none"><input type="checkbox" id="s_ob"> Open balance only</label>
-        <button class="btn btn-primary" onclick="doSearch()">Search</button>
-      </div>
-    </div>
-    <div id="search-results"></div>
-    <div id="search-detail"></div>`;
+  el.innerHTML='<div class="flex items-center gap3 mb6"><button class="text-sm" style="color:var(--air-force-blue);border:none;background:none;cursor:pointer" onclick="nav(\'dashboard\')">&larr; Dashboard</button><h2>Search Ledger</h2></div>'
+    +'<div class="card mb6">'
+    +'<div class="grid3 mb4">'
+    +'<div class="field"><label>Entry Number</label><input id="s_en"></div>'
+    +'<div class="field"><label>File Number</label><input id="s_fn"></div>'
+    +'<div class="field"><label>Description</label><input id="s_desc"></div>'
+    +'<div class="field"><label>Consignor</label><input id="s_con"></div>'
+    +'<div class="field"><label>HS Code</label><input id="s_hs"></div>'
+    +'<div class="field"><label>Country</label><input id="s_co"></div>'
+    +'</div>'
+    +'<div class="flex items-center justify-between">'
+    +'<label style="display:flex;align-items:center;gap:8px;text-transform:none"><input type="checkbox" id="s_ob"> Open balance only</label>'
+    +'<button class="btn btn-primary" onclick="doSearch()">Search</button>'
+    +'</div>'
+    +'</div>'
+    +'<div id="search-results"></div>'
+    +'<div id="search-detail"></div>';
   document.querySelectorAll('#s_en,#s_fn,#s_desc,#s_con,#s_hs,#s_co').forEach(i=>i.addEventListener('keydown',e=>{if(e.key==='Enter')doSearch()}));
 }
 async function doSearch(){
@@ -405,30 +421,39 @@ async function doSearch(){
   if(document.getElementById('s_ob')?.checked)p.set('open_balance_only','true');
   try{
     const r=await api('/ledger/search?'+p);
-    document.getElementById('search-results').innerHTML=r.length===0?'<p class="text-sm text-muted" style="text-align:center;padding:32px">No results</p>':`
-      <div class="card" style="padding:0;overflow:hidden"><table>
-        <thead><tr><th>ID</th><th>Entry #</th><th>Description</th><th>HS Code</th><th style="text-align:right">Qty</th><th style="text-align:right">Balance</th><th style="text-align:right">Value</th></tr></thead>
-        <tbody>${r.map(i=>`<tr class="clickable" onclick="viewDetail(${i.id})">
-          <td>${i.id}</td><td>${i.import_entry_number||'-'}</td><td class="truncate">${i.description||'-'}</td><td>${i.hs_code||'-'}</td>
-          <td style="text-align:right">${i.quantity_imported?.toLocaleString()}</td>
-          <td style="text-align:right;color:${i.balance_quantity>0?'var(--dusty-olive)':'rgba(87,86,86,.5)};font-weight:${i.balance_quantity>0?'500':'400'}">${i.balance_quantity?.toLocaleString()}</td>
-          <td style="text-align:right">${i.balance_customs_value?.toLocaleString()}</td>
-        </tr>`).join('')}</tbody></table></div>`;
+    if(r.length===0){
+      document.getElementById('search-results').innerHTML='<p class="text-sm text-muted" style="text-align:center;padding:32px">No results</p>';
+    }else{
+      var rowsHtml=r.map(function(i){
+        var balColor=i.balance_quantity>0?'var(--dusty-olive)':'rgba(87,86,86,.5)';
+        var balWeight=i.balance_quantity>0?'500':'400';
+        return '<tr class="clickable" onclick="viewDetail('+i.id+')">'
+          +'<td>'+i.id+'</td><td>'+(i.import_entry_number||'-')+'</td><td class="truncate">'+(i.description||'-')+'</td><td>'+(i.hs_code||'-')+'</td>'
+          +'<td style="text-align:right">'+(i.quantity_imported!=null?i.quantity_imported.toLocaleString():'')+'</td>'
+          +'<td style="text-align:right;color:'+balColor+';font-weight:'+balWeight+'">'+(i.balance_quantity!=null?i.balance_quantity.toLocaleString():'')+'</td>'
+          +'<td style="text-align:right">'+(i.balance_customs_value!=null?i.balance_customs_value.toLocaleString():'')+'</td>'
+          +'</tr>';
+      }).join('');
+      document.getElementById('search-results').innerHTML='<div class="card" style="padding:0;overflow:hidden"><table>'
+        +'<thead><tr><th>ID</th><th>Entry #</th><th>Description</th><th>HS Code</th><th style="text-align:right">Qty</th><th style="text-align:right">Balance</th><th style="text-align:right">Value</th></tr></thead>'
+        +'<tbody>'+rowsHtml+'</tbody></table></div>';
+    }
   }catch(e){showToast(e.message,'error')}
 }
 async function viewDetail(id){
   try{
     const d=await api('/ledger/import-lines/'+id);
-    document.getElementById('search-detail').innerHTML=`
-      <div class="card mt6">
-        <h3 style="font-size:16px;margin-bottom:16px">Import Line #${d.id}</h3>
-        <div class="detail-grid mb6">
-          ${[['Consignor',d.consignor_exporter],['Description',d.description],['File #',d.import_file_number],['Entry Date',d.import_entry_date],['Entry #',d.import_entry_number],['HS Code',d.hs_code],['Country',d.country],['Unit',d.unit],['Qty Imported',d.quantity_imported?.toLocaleString()],['Customs',`KES ${d.customs_value_kes?.toLocaleString()}`],['BIF',d.bif_value_kes?`KES ${d.bif_value_kes.toLocaleString()}`:'-'],['Balance Qty',d.balance_quantity?.toLocaleString()],['Balance Customs',`KES ${d.balance_customs_value?.toLocaleString()}`],['Balance BIF',`KES ${d.balance_bif_value?.toLocaleString()}`]].map(([l,v])=>`<div><div class="dlbl">${l}</div><div class="dval">${v||'-'}</div></div>`).join('')}
-        </div>
-        ${d.export_lines?.length?`<h3 style="font-size:14px;margin-bottom:8px;border-top:1px solid rgba(157,178,191,.2);padding-top:16px">Export History</h3>
-        <table><thead><tr><th>ID</th><th>Customer</th><th>Entry #</th><th style="text-align:right">Qty</th><th style="text-align:right">Customs</th><th style="text-align:right">BIF</th><th></th></tr></thead>
-        <tbody>${d.export_lines.map(e=>`<tr><td>${e.id}</td><td class="truncate">${e.customer_name||'-'}</td><td>${e.export_entry_number||'-'}</td><td style="text-align:right">${e.quantity_exported?.toLocaleString()}</td><td style="text-align:right">${e.customs_value_exported?.toLocaleString()}</td><td style="text-align:right">${e.bif_value_exported?.toLocaleString()}</td><td><button class="text-xs" style="color:var(--oxblood);border:none;background:none;cursor:pointer" onclick="delExport(${e.id},${d.id})">Delete</button></td></tr>`).join('')}</tbody></table>`:''}
-      </div>`;
+    var fields=[['Consignor',d.consignor_exporter],['Description',d.description],['File #',d.import_file_number],['Entry Date',d.import_entry_date],['Entry #',d.import_entry_number],['HS Code',d.hs_code],['Country',d.country],['Unit',d.unit],['Qty Imported',d.quantity_imported?.toLocaleString()],['Customs','KES '+(d.customs_value_kes?.toLocaleString()||'0')],['BIF',d.bif_value_kes?'KES '+d.bif_value_kes.toLocaleString():'-'],['Balance Qty',d.balance_quantity?.toLocaleString()],['Balance Customs','KES '+(d.balance_customs_value?.toLocaleString()||'0')],['Balance BIF','KES '+(d.balance_bif_value?.toLocaleString()||'0')]];
+    var fieldsHtml=fields.map(function(pair){return '<div><div class="dlbl">'+pair[0]+'</div><div class="dval">'+(pair[1]||'-')+'</div></div>';}).join('');
+    var exportsHtml='';
+    if(d.export_lines&&d.export_lines.length){
+      exportsHtml='<h3 style="font-size:14px;margin-bottom:8px;border-top:1px solid rgba(157,178,191,.2);padding-top:16px">Export History</h3><table><thead><tr><th>ID</th><th>Customer</th><th>Entry #</th><th style="text-align:right">Qty</th><th style="text-align:right">Customs</th><th style="text-align:right">BIF</th><th></th></tr></thead><tbody>';
+      d.export_lines.forEach(function(e){
+        exportsHtml+='<tr><td>'+e.id+'</td><td class="truncate">'+(e.customer_name||'-')+'</td><td>'+(e.export_entry_number||'-')+'</td><td style="text-align:right">'+(e.quantity_exported?.toLocaleString()||'')+'</td><td style="text-align:right">'+(e.customs_value_exported?.toLocaleString()||'')+'</td><td style="text-align:right">'+(e.bif_value_exported?.toLocaleString()||'')+'</td><td><button class="text-xs" style="color:var(--oxblood);border:none;background:none;cursor:pointer" onclick="delExport('+e.id+','+d.id+')">Delete</button></td></tr>';
+      });
+      exportsHtml+='</tbody></table>';
+    }
+    document.getElementById('search-detail').innerHTML='<div class="card mt6"><h3 style="font-size:16px;margin-bottom:16px">Import Line #'+d.id+'</h3><div class="detail-grid mb6">'+fieldsHtml+'</div>'+exportsHtml+'</div>';
   }catch(e){showToast(e.message,'error')}
 }
 async function delExport(eid,iid){
@@ -437,15 +462,14 @@ async function delExport(eid,iid){
 
 // --- Audit ---
 async function renderAudit(el){
-  el.innerHTML=`
-    <div class="flex items-center gap3 mb6"><button class="text-sm" style="color:var(--air-force-blue);border:none;background:none;cursor:pointer" onclick="nav('dashboard')">&larr; Dashboard</button><h2>Audit Log</h2></div>
-    <div class="card mb6 flex items-center gap4">
-      <div class="field" style="margin:0"><label>Entity Type</label><select id="a_et"><option value="">All</option><option value="import_line">Import</option><option value="export_line">Export</option><option value="user">User</option></select></div>
-      <div class="field" style="margin:0"><label>Change Type</label><select id="a_ct"><option value="">All</option><option value="create">Create</option><option value="update">Update</option><option value="delete">Delete</option><option value="override">Override</option></select></div>
-      <button class="btn btn-primary" style="margin-top:14px" onclick="loadAudit()">Filter</button>
-      <button class="btn btn-gray" style="margin-top:14px" onclick="exportAuditCsv()">Export CSV</button>
-    </div>
-    <div id="audit-table"><p class="text-muted text-sm">Loading...</p></div>`;
+  el.innerHTML='<div class="flex items-center gap3 mb6"><button class="text-sm" style="color:var(--air-force-blue);border:none;background:none;cursor:pointer" onclick="nav(\'dashboard\')">&larr; Dashboard</button><h2>Audit Log</h2></div>'
+    +'<div class="card mb6 flex items-center gap4">'
+    +'<div class="field" style="margin:0"><label>Entity Type</label><select id="a_et"><option value="">All</option><option value="import_line">Import</option><option value="export_line">Export</option><option value="user">User</option></select></div>'
+    +'<div class="field" style="margin:0"><label>Change Type</label><select id="a_ct"><option value="">All</option><option value="create">Create</option><option value="update">Update</option><option value="delete">Delete</option><option value="override">Override</option></select></div>'
+    +'<button class="btn btn-primary" style="margin-top:14px" onclick="loadAudit()">Filter</button>'
+    +'<button class="btn btn-gray" style="margin-top:14px" onclick="exportAuditCsv()">Export CSV</button>'
+    +'</div>'
+    +'<div id="audit-table"><p class="text-muted text-sm">Loading...</p></div>';
   loadAudit();
 }
 async function loadAudit(){
@@ -453,11 +477,18 @@ async function loadAudit(){
   if(et)p.set('entity_type',et);if(ct)p.set('change_type',ct);
   try{
     const r=await api('/ledger/audit?'+p);
-    document.getElementById('audit-table').innerHTML=`<div class="card" style="padding:0;overflow-x:auto"><table>
-      <thead><tr><th>Time</th><th>Entity</th><th>Change</th><th>Field</th><th>Old</th><th>New</th><th>Source</th></tr></thead>
-      <tbody>${r.length===0?'<tr><td colspan="7" style="text-align:center;padding:32px" class="text-muted">No entries</td></tr>':
-        r.map(l=>`<tr><td class="text-xs text-muted" style="white-space:nowrap">${new Date(l.created_at).toLocaleString()}</td><td>${l.entity_type} #${l.entity_id}</td><td><span class="badge ${l.change_type==='create'?'badge-green':l.change_type==='delete'?'badge-red':l.change_type==='override'?'badge-yellow':'badge-blue'}">${l.change_type}</span></td><td class="text-muted">${l.field_name||'-'}</td><td class="truncate text-muted">${l.old_value||'-'}</td><td class="truncate text-muted">${l.new_value||'-'}</td><td class="text-muted">${l.source}</td></tr>`).join('')}
-      </tbody></table></div>`;
+    var bodyHtml;
+    if(r.length===0){
+      bodyHtml='<tr><td colspan="7" style="text-align:center;padding:32px" class="text-muted">No entries</td></tr>';
+    }else{
+      bodyHtml=r.map(function(l){
+        var badgeClass=l.change_type==='create'?'badge-green':l.change_type==='delete'?'badge-red':l.change_type==='override'?'badge-yellow':'badge-blue';
+        return '<tr><td class="text-xs text-muted" style="white-space:nowrap">'+new Date(l.created_at).toLocaleString()+'</td><td>'+l.entity_type+' #'+l.entity_id+'</td><td><span class="badge '+badgeClass+'">'+l.change_type+'</span></td><td class="text-muted">'+(l.field_name||'-')+'</td><td class="truncate text-muted">'+(l.old_value||'-')+'</td><td class="truncate text-muted">'+(l.new_value||'-')+'</td><td class="text-muted">'+l.source+'</td></tr>';
+      }).join('');
+    }
+    document.getElementById('audit-table').innerHTML='<div class="card" style="padding:0;overflow-x:auto"><table>'
+      +'<thead><tr><th>Time</th><th>Entity</th><th>Change</th><th>Field</th><th>Old</th><th>New</th><th>Source</th></tr></thead>'
+      +'<tbody>'+bodyHtml+'</tbody></table></div>';
   }catch(e){showToast(e.message,'error')}
 }
 async function exportAuditCsv(){
@@ -469,23 +500,23 @@ async function exportAuditCsv(){
 
 // --- Download ---
 function renderDownload(el){
-  el.innerHTML=`
-    <div class="flex items-center gap3 mb6"><button class="text-sm" style="color:var(--air-force-blue);border:none;background:none;cursor:pointer" onclick="nav('dashboard')">&larr; Dashboard</button><h2>Download & Data Management</h2></div>
-    <div class="card mb6">
-      <h3 style="font-size:16px;margin-bottom:16px">Download Stock Ledger</h3>
-      <p class="text-sm text-muted mb4">Generate and download the complete SEZ stock ledger as Excel.</p>
-      <div class="flex gap4 mb6">
-        <label style="display:flex;align-items:center;gap:8px;text-transform:none;cursor:pointer"><input type="radio" name="dl_style" value="blank_continuation" checked> Blank continuation (legacy)</label>
-        <label style="display:flex;align-items:center;gap:8px;text-transform:none;cursor:pointer"><input type="radio" name="dl_style" value="fully_populated"> Fully populated</label>
-      </div>
-      <button class="btn btn-primary" onclick="dlLedger()">Download Excel</button>
-    </div>
-    ${currentUser.is_admin?`<div class="card">
-      <h3 style="font-size:16px;margin-bottom:16px">Legacy Data Import</h3>
-      <p class="text-sm text-muted mb4">Import data from the original Excel ledger file. Admin only.</p>
-      <button class="btn btn-gray" onclick="legacyImport()">Import Legacy Data</button>
-      <div id="legacy-result" class="mt4"></div>
-    </div>`:''}`;
+  var legacyHtml=currentUser.is_admin?'<div class="card">'
+    +'<h3 style="font-size:16px;margin-bottom:16px">Legacy Data Import</h3>'
+    +'<p class="text-sm text-muted mb4">Import data from the original Excel ledger file. Admin only.</p>'
+    +'<button class="btn btn-gray" onclick="legacyImport()">Import Legacy Data</button>'
+    +'<div id="legacy-result" class="mt4"></div>'
+    +'</div>':'';
+  el.innerHTML='<div class="flex items-center gap3 mb6"><button class="text-sm" style="color:var(--air-force-blue);border:none;background:none;cursor:pointer" onclick="nav(\'dashboard\')">&larr; Dashboard</button><h2>Download & Data Management</h2></div>'
+    +'<div class="card mb6">'
+    +'<h3 style="font-size:16px;margin-bottom:16px">Download Stock Ledger</h3>'
+    +'<p class="text-sm text-muted mb4">Generate and download the complete SEZ stock ledger as Excel.</p>'
+    +'<div class="flex gap4 mb6">'
+    +'<label style="display:flex;align-items:center;gap:8px;text-transform:none;cursor:pointer"><input type="radio" name="dl_style" value="blank_continuation" checked> Blank continuation (legacy)</label>'
+    +'<label style="display:flex;align-items:center;gap:8px;text-transform:none;cursor:pointer"><input type="radio" name="dl_style" value="fully_populated"> Fully populated</label>'
+    +'</div>'
+    +'<button class="btn btn-primary" onclick="dlLedger()">Download Excel</button>'
+    +'</div>'
+    +legacyHtml;
 }
 async function dlLedger(){
   const style=document.querySelector('input[name="dl_style"]:checked')?.value||'blank_continuation';
@@ -497,7 +528,8 @@ async function dlLedger(){
 async function legacyImport(){
   try{
     const r=await api('/ledger/import-legacy',{method:'POST'});
-    document.getElementById('legacy-result').innerHTML=`<div class="success"><b>Import Complete</b><br>Import lines: ${r.import_lines_created}<br>Export lines: ${r.export_lines_created}<br>Skipped: ${r.skipped_empty}${r.warnings.length?'<br>Warnings: '+r.warnings.join(', '):''}</div>`;
+    var warningsHtml=r.warnings.length?'<br>Warnings: '+r.warnings.join(', '):'';
+    document.getElementById('legacy-result').innerHTML='<div class="success"><b>Import Complete</b><br>Import lines: '+r.import_lines_created+'<br>Export lines: '+r.export_lines_created+'<br>Skipped: '+r.skipped_empty+warningsHtml+'</div>';
     showToast('Legacy import complete','success');
   }catch(e){showToast(e.message,'error')}
 }
@@ -505,14 +537,13 @@ async function legacyImport(){
 // --- Admin ---
 async function renderAdmin(el){
   if(!currentUser.is_admin){nav('dashboard');return}
-  el.innerHTML=`
-    <div class="flex items-center gap3 mb6"><button class="text-sm" style="color:var(--air-force-blue);border:none;background:none;cursor:pointer" onclick="nav('dashboard')">&larr; Dashboard</button><h2>Admin Panel</h2></div>
-    <div class="flex gap2 mb6">
-      <button class="btn btn-primary" id="tab-users" onclick="adminTab('users')">Users</button>
-      <button class="btn btn-gray" id="tab-units" onclick="adminTab('units')">Units</button>
-      <button class="btn btn-gray" id="tab-countries" onclick="adminTab('countries')">Countries</button>
-    </div>
-    <div id="admin-content"><p class="text-muted">Loading...</p></div>`;
+  el.innerHTML='<div class="flex items-center gap3 mb6"><button class="text-sm" style="color:var(--air-force-blue);border:none;background:none;cursor:pointer" onclick="nav(\'dashboard\')">&larr; Dashboard</button><h2>Admin Panel</h2></div>'
+    +'<div class="flex gap2 mb6">'
+    +'<button class="btn btn-primary" id="tab-users" onclick="adminTab(\'users\')">Users</button>'
+    +'<button class="btn btn-gray" id="tab-units" onclick="adminTab(\'units\')">Units</button>'
+    +'<button class="btn btn-gray" id="tab-countries" onclick="adminTab(\'countries\')">Countries</button>'
+    +'</div>'
+    +'<div id="admin-content"><p class="text-muted">Loading...</p></div>';
   adminTab('users');
 }
 async function adminTab(tab){
@@ -522,52 +553,47 @@ async function adminTab(tab){
   if(tab==='users'){
     try{
       const users=await api('/admin/users');
-      el.innerHTML=`
-        <div class="card mb6">
-          <h3 style="font-size:14px;margin-bottom:12px">Create User</h3>
-          <div class="flex items-center gap3">
-            <div class="field" style="margin:0"><label>Username</label><input id="nu_u"></div>
-            <div class="field" style="margin:0"><label>Password</label><input id="nu_p" type="password"></div>
-            <label style="display:flex;align-items:center;gap:4px;margin-top:14px;text-transform:none"><input type="checkbox" id="nu_a"> Admin</label>
-            <button class="btn btn-primary" style="margin-top:14px" onclick="createUserAdmin()">Create</button>
-          </div>
-        </div>
-        <div class="card" style="padding:0;overflow:hidden"><table>
-          <thead><tr><th>ID</th><th>Username</th><th>Admin</th><th>Active</th><th>Created</th><th></th></tr></thead>
-          <tbody>${users.map(u=>`<tr><td>${u.id}</td><td style="font-weight:500">${u.username}</td>
-            <td><button class="badge ${u.is_admin?'badge-red':'badge-blue'}" onclick="toggleAdmin(${u.id},${!u.is_admin})">${u.is_admin?'Yes':'No'}</button></td>
-            <td><button class="badge ${u.is_active?'badge-green':'badge-red'}" onclick="toggleActive(${u.id},${!u.is_active})">${u.is_active?'Active':'Inactive'}</button></td>
-            <td class="text-muted">${new Date(u.created_at).toLocaleDateString()}</td>
-            <td>${u.id!==currentUser.id?`<button class="text-xs" style="color:var(--oxblood);border:none;background:none;cursor:pointer" onclick="delUser(${u.id})">Delete</button>`:''}</td>
-          </tr>`).join('')}</tbody></table></div>`;
+      el.innerHTML='<div class="card mb6">'
+        +'<h3 style="font-size:14px;margin-bottom:12px">Create User</h3>'
+        +'<div class="flex items-center gap3">'
+        +'<div class="field" style="margin:0"><label>Username</label><input id="nu_u"></div>'
+        +'<div class="field" style="margin:0"><label>Password</label><input id="nu_p" type="password"></div>'
+        +'<label style="display:flex;align-items:center;gap:4px;margin-top:14px;text-transform:none"><input type="checkbox" id="nu_a"> Admin</label>'
+        +'<button class="btn btn-primary" style="margin-top:14px" onclick="createUserAdmin()">Create</button>'
+        +'</div>'
+        +'</div>'
+        +'<div class="card" style="padding:0;overflow:hidden"><table>'
+        +'<thead><tr><th>ID</th><th>Username</th><th>Admin</th><th>Active</th><th>Created</th><th></th></tr></thead>'
+        +'<tbody>'+users.map(function(u){
+          var delBtn=u.id!==currentUser.id?'<button class="text-xs" style="color:var(--oxblood);border:none;background:none;cursor:pointer" onclick="delUser('+u.id+')">Delete</button>':'';
+          return '<tr><td>'+u.id+'</td><td style="font-weight:500">'+u.username+'</td><td><button class="badge '+(u.is_admin?'badge-red':'badge-blue')+'" onclick="toggleAdmin('+u.id+','+(!u.is_admin)+')">'+(u.is_admin?'Yes':'No')+'</button></td><td><button class="badge '+(u.is_active?'badge-green':'badge-red')+'" onclick="toggleActive('+u.id+','+(!u.is_active)+')">'+(u.is_active?'Active':'Inactive')+'</button></td><td class="text-muted">'+new Date(u.created_at).toLocaleDateString()+'</td><td>'+delBtn+'</td></tr>';
+        }).join('')+'</tbody></table></div>';
     }catch(e){showToast(e.message,'error')}
   }else if(tab==='units'){
     try{
       const units=await api('/admin/units');
-      el.innerHTML=`
-        <div class="card mb6">
-          <h3 style="font-size:14px;margin-bottom:12px">Add Unit</h3>
-          <div class="flex items-center gap3">
-            <div class="field" style="margin:0"><label>Code</label><input id="nu_code" style="width:80px" placeholder="KG"></div>
-            <div class="field" style="margin:0"><label>Description</label><input id="nu_desc" placeholder="Kilograms"></div>
-            <button class="btn btn-primary" style="margin-top:14px" onclick="addUnit()">Add</button>
-          </div>
-        </div>
-        <div class="card"><div class="flex" style="flex-wrap:wrap;gap:8px">${units.map(u=>`<span class="badge badge-blue" style="padding:6px 12px"><b>${u.code}</b>${u.description?' - '+u.description:''}</span>`).join('')}${units.length===0?'<span class="text-muted text-sm">No units configured</span>':''}</div></div>`;
+      el.innerHTML='<div class="card mb6">'
+        +'<h3 style="font-size:14px;margin-bottom:12px">Add Unit</h3>'
+        +'<div class="flex items-center gap3">'
+        +'<div class="field" style="margin:0"><label>Code</label><input id="nu_code" style="width:80px" placeholder="KG"></div>'
+        +'<div class="field" style="margin:0"><label>Description</label><input id="nu_desc" placeholder="Kilograms"></div>'
+        +'<button class="btn btn-primary" style="margin-top:14px" onclick="addUnit()">Add</button>'
+        +'</div>'
+        +'</div>'
+        +'<div class="card"><div class="flex" style="flex-wrap:wrap;gap:8px">'+units.map(function(u){return '<span class="badge badge-blue" style="padding:6px 12px"><b>'+u.code+'</b>'+(u.description?' - '+u.description:'')+'</span>';}).join('')+(units.length===0?'<span class="text-muted text-sm">No units configured</span>':'')+'</div></div>';
     }catch(e){showToast(e.message,'error')}
   }else{
     try{
       const countries=await api('/admin/countries');
-      el.innerHTML=`
-        <div class="card mb6">
-          <h3 style="font-size:14px;margin-bottom:12px">Add Country</h3>
-          <div class="flex items-center gap3">
-            <div class="field" style="margin:0"><label>Code (ISO)</label><input id="nc_code" style="width:60px" maxlength="2" placeholder="KE"></div>
-            <div class="field" style="margin:0"><label>Name</label><input id="nc_name" placeholder="Kenya"></div>
-            <button class="btn btn-primary" style="margin-top:14px" onclick="addCountry()">Add</button>
-          </div>
-        </div>
-        <div class="card"><div class="flex" style="flex-wrap:wrap;gap:8px">${countries.map(c=>`<span class="badge badge-blue" style="padding:6px 12px"><b>${c.code}</b> - ${c.name}</span>`).join('')}${countries.length===0?'<span class="text-muted text-sm">No countries configured</span>':''}</div></div>`;
+      el.innerHTML='<div class="card mb6">'
+        +'<h3 style="font-size:14px;margin-bottom:12px">Add Country</h3>'
+        +'<div class="flex items-center gap3">'
+        +'<div class="field" style="margin:0"><label>Code (ISO)</label><input id="nc_code" style="width:60px" maxlength="2" placeholder="KE"></div>'
+        +'<div class="field" style="margin:0"><label>Name</label><input id="nc_name" placeholder="Kenya"></div>'
+        +'<button class="btn btn-primary" style="margin-top:14px" onclick="addCountry()">Add</button>'
+        +'</div>'
+        +'</div>'
+        +'<div class="card"><div class="flex" style="flex-wrap:wrap;gap:8px">'+countries.map(function(c){return '<span class="badge badge-blue" style="padding:6px 12px"><b>'+c.code+'</b> - '+c.name+'</span>';}).join('')+(countries.length===0?'<span class="text-muted text-sm">No countries configured</span>':'')+'</div></div>';
     }catch(e){showToast(e.message,'error')}
   }
 }
@@ -582,7 +608,7 @@ async function addCountry(){try{await api('/admin/countries',{method:'POST',body
 
 // --- Init ---
 document.addEventListener('keydown',e=>{if(e.key==='Enter'&&!currentUser){doLogin()}});
-api('/auth/me').then(u=>{currentUser=u;render()}).catch(()=>render());
+api('/auth/me').then(u=>{currentUser=u;render()}).catch(()=>{currentUser=null;render()});
 </script>
 </body>
 </html>
